@@ -1,22 +1,8 @@
 import pygame, sys
+import Obstacle
 pygame.init()
 
-class obstacle:
-    posX = 0
-    posY = 0
-    s = False
-    img = pygame.image.load("cible.png")
-    obrect = img.get_rect()
-    def __init__(self,x,y):
-        self.posX = x
-        self.posY = y
-    def estTouche(self,x,y):
-        if x > self.posX and x < self.posX+self.obrect.right and y > self.posY and y < self.posY+self.obrect.bottom:
-            return True 
-        else:
-            return False
-    def getPos(self):
-        return (self.posX,self.posY)
+
 
 class shot:
     posX = 0
@@ -51,7 +37,7 @@ class ship:
     # prend en param les 2 fichiers reacteurs alumes
     #
     def bouge(self,file0,file1):
-        accel=1.5
+        accel=0.8
         if self.monte == True:
             if self.posY-2 >= 0:
                 self.posY+=self.speed
@@ -103,7 +89,7 @@ monVaisseau.setImg("pinkship.png")
 monJet = ship()
 monJet.setImg("jetpack.png")
 
-cible = obstacle(400,200)
+cible = Obstacle.obstacle(400,200)
 
 missiles = []
 obstacles = []
@@ -159,8 +145,8 @@ while 1:
     screen.blit(monVaisseau.img,monVaisseau.getPos())
     screen.blit(monJet.img,monJet.getPos())
 
-    ob1 = obstacle(400,200)
-    ob2 = obstacle(400,300)
+    ob1 = Obstacle.obstacle(400,200)
+    ob2 = Obstacle.obstacle(400,300)
 
     for monMissile in missiles:
         screen.blit(monMissile.img,monMissile.getPos())
