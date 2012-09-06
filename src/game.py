@@ -3,6 +3,7 @@ import sys
 import Obstacle
 import Shot
 import Ship
+import Player
 pygame.init()
 
 
@@ -20,6 +21,7 @@ stones = pygame.image.load("stones.png")
 i=j=k=t=0
 
 
+monPlayer = Player.player('Jean')
 monVaisseau = Ship.ship()
 #monVaisseau.setImg("ship.png")
 #monVaisseau.setImg("chasseur.png")
@@ -91,6 +93,7 @@ while 1:
         screen.blit(monMissile.img,monMissile.getPos())
         for testObstacle in obstacles:
             if testObstacle.estTouche(monMissile.posX,monMissile.posY):
+                monPlayer.raiseScore(1)                
                 missiles.remove(monMissile)
                 obstacles.remove(testObstacle)
                 if s==1:
@@ -103,5 +106,10 @@ while 1:
 
     for monObstacle in obstacles:
         screen.blit(monObstacle.img,monObstacle.getPos())
+
+	police = pygame.font.Font(None, 180)
+	texte = police.render(str(monPlayer.getScore()),1,(254,0,0))
+	screen.blit(texte,(550,300))
+
 
     pygame.display.flip()

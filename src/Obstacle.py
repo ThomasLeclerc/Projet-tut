@@ -1,4 +1,6 @@
-import pygame, sys
+import pygame
+import sys
+
 
 class obstacle:
     posX = 0
