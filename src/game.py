@@ -1,23 +1,10 @@
 import pygame, sys
-import Obstacle
+import Obstacle, Shot
 pygame.init()
 
 
 
-class shot:
-    posX = 0
-    posY = 0
-    img = pygame.image.load("rocket.png")
-    def setPos(self,x,y):
-        self.posX=x+20
-        self.posY=y+20
-    def bouge(self):
-        self.posX+=15
-        if self.posX>width:
-            missiles.remove(self)
-    def getPos(self):
-        return (self.posX,self.posY)
-#fin classe shot
+
 
 class ship:
     monte = False
@@ -104,7 +91,7 @@ while 1:
             elif event.key == pygame.K_UP:
                 monVaisseau.monte=True
             elif event.key == pygame.K_SPACE:
-                monMissile=shot()
+                monMissile=Shot.shot()
                 monMissile.setPos(monVaisseau.posX, monVaisseau.posY)
                 missiles.append(monMissile)
         elif event.type == pygame.KEYUP:
