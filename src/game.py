@@ -1,5 +1,8 @@
-import pygame, sys
-import Obstacle, Shot, Ship
+import pygame
+import sys
+import Obstacle
+import Shot
+import Ship
 pygame.init()
 
 
