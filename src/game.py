@@ -22,7 +22,7 @@ monVaisseau = Ship.ship()
 #monVaisseau.setImg("chasseur.png")
 monVaisseau.setImg("pinkship.png")
 
-monJet = ship()
+monJet = Ship.ship()
 monJet.setImg("jetpack.png")
 
 cible = Obstacle.obstacle(400,200)
@@ -72,11 +72,11 @@ while 1:
 
     #monVaisseau.bouge("ship0.png","ship1.png")
     #monVaisseau.bouge("chasseur0.png","chasseur1.png")
-    monVaisseau.bouge("pinkship0.png","pinkship1.png")
+    monVaisseau.bouge("pinkship0.png","pinkship1.png", height)
 
-    monJet.bouge("jetpack0.png","jetpack1.png")
+    monJet.bouge("jetpack0.png","jetpack1.png", height)
     for monMissile in missiles:
-        monMissile.bouge()
+        monMissile.bouge(width, missiles)
             
     screen.blit(monVaisseau.img,monVaisseau.getPos())
     screen.blit(monJet.img,monJet.getPos())

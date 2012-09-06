@@ -17,7 +17,7 @@ class ship:
     # deplace le vaisseau,   
     # prend en param les 2 fichiers reacteurs alumes
     #
-    def bouge(self,file0,file1):
+    def bouge(self,file0,file1, height):
         accel=0.8
         if self.monte == True:
             if self.posY-2 >= 0:

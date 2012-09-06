@@ -7,7 +7,7 @@ class shot:
     def setPos(self,x,y):
         self.posX=x+20
         self.posY=y+20
-    def bouge(self):
+    def bouge(self, width, missiles):
         self.posX+=15
         if self.posX>width:
             missiles.remove(self)
