@@ -107,7 +107,7 @@ while 1:
     for monObstacle in obstacles:
         screen.blit(monObstacle.img,monObstacle.getPos())
 
-	police = pygame.font.Font(None, 180)
+	police = pygame.font.Font(None, 80)
 	texte = police.render(str(monPlayer.getScore()),1,(254,0,0))
 	screen.blit(texte,(550,300))
 
