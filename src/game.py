@@ -30,12 +30,19 @@ monVaisseau.setImg("pinkship.png")
 monJet = Ship.ship()
 monJet.setImg("jetpack.png")
 
-cible = Obstacle.obstacle(400,200)
+ob1 = Obstacle.obstacle(width,40)
+ob2 = Obstacle.obstacle(width,40)
+ob3 = Obstacle.obstacle(width,40)
+ob4 = Obstacle.obstacle(width,40)
 
 missiles = []
 obstacles = []
-obstacles.append(cible)
-s=1
+obstacles.append(Obstacle.obstacle(width,40))
+obstacles.append(Obstacle.obstacle(width,40))
+obstacles.append(Obstacle.obstacle(width,40))
+obstacles.append(Obstacle.obstacle(width,40))
+
+
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
@@ -74,21 +81,31 @@ while 1:
         j=0
     if k > width:
         k=0
-
     #monVaisseau.bouge("ship0.png","ship1.png")
     #monVaisseau.bouge("chasseur0.png","chasseur1.png")
     monVaisseau.bouge("pinkship0.png","pinkship1.png", height)
 
+    
+    if len(obstacles)==1:
+        obstacles[0].moveFirst()
+    elif len(obstacles) > 1:
+        obstacles[0].moveFirst()
+        for m in [1,len(obstacles)-1]:
+            obstacles[m].move(obstacles[m-1])
+    else:
+        obstacles.append(Obstacle.obstacle(width,40))
+        obstacles.append(Obstacle.obstacle(width,40))
+        obstacles.append(Obstacle.obstacle(width,40))
+        obstacles.append(Obstacle.obstacle(width,40))
+    
     monJet.bouge("jetpack0.png","jetpack1.png", height)
     for monMissile in missiles:
         monMissile.bouge(width, missiles)
             
     screen.blit(monVaisseau.img,monVaisseau.getPos())
     screen.blit(monJet.img,monJet.getPos())
-
-    ob1 = Obstacle.obstacle(400,200)
-    ob2 = Obstacle.obstacle(400,300)
-
+	
+    
     for monMissile in missiles:
         screen.blit(monMissile.img,monMissile.getPos())
         for testObstacle in obstacles:
@@ -96,12 +113,9 @@ while 1:
                 monPlayer.raiseScore(1)                
                 missiles.remove(monMissile)
                 obstacles.remove(testObstacle)
-                if s==1:
-                    obstacles.append(ob1)
-                    s=0
-                else:
-                    obstacles.append(ob2)
-                    s=1                  
+                #ob = Obstacle.obstacle(width+40,)
+                #obstacles.append(ob)
+                                     
         
 
     for monObstacle in obstacles:
