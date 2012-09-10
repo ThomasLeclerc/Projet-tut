@@ -1,5 +1,4 @@
 import pygame
-import sys
 
 class ship:
     monte = False
@@ -10,8 +9,8 @@ class ship:
     switch=0
     def getPos(self):
         return (self.posX,self.posY)
-    def setImg(self, file):
-        self.img = pygame.image.load(file)
+    def setImg(self, image):
+        self.img = pygame.image.load(image)
         self.shiprect = self.img.get_rect()
 
     #

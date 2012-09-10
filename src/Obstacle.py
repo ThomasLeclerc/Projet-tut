@@ -1,6 +1,5 @@
 import pygame
-import sys
-from math import *
+from math import sin
 
 
 class obstacle:

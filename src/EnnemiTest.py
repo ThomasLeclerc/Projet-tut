@@ -1,1 +1,4 @@
-haha
+import pygame
+
+class EnnemiTest:
+    
