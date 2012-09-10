@@ -18,9 +18,7 @@ pygame.init()
 ##### PARAMETRES DE LA FENETRE #####
 size = width, height = 640, 400
 screen = pygame.display.set_mode(size)
-clock = pygame.time.Clock()
-FRAMES_PER_SECOND = 30
-deltat = clock.tick(FRAMES_PER_SECOND)
+
 
 ##### IMAGES DU BACKGROUND #####
 background = pygame.image.load("night.jpg")
@@ -57,6 +55,11 @@ obstacles.append(Obstacle.obstacle(width,40))
 ''    (img par img)
 '''
 while 1:
+    
+    ''' VITESSE D'AFFICHAGE '''    
+    clock = pygame.time.Clock()
+    FRAMES_PER_SECOND = 30
+    deltat = clock.tick(FRAMES_PER_SECOND)
     
     ''' COMMANDES CLAVIER '''
     for event in pygame.event.get():
