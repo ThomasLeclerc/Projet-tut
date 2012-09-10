@@ -1,71 +1,84 @@
+'''
+'  game.py
+'    Moteur de jeu
+'''
+
+##### IMPORTS #####
 import pygame
 import sys
 import Obstacle
 import Shot
 import Ship
 import Player
+
+
 pygame.init()
 
 
-
+##### PARAMETRES DE LA FENETRE #####
 size = width, height = 640, 400
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 FRAMES_PER_SECOND = 30
 deltat = clock.tick(FRAMES_PER_SECOND)
 
-
+##### IMAGES DU BACKGROUND #####
 background = pygame.image.load("night.jpg")
 asteroid = pygame.image.load("asteroid.png")
 stones = pygame.image.load("stones.png")
 i=j=k=t=0
 
-
+##### JOUEUR #####
 monPlayer = Player.player('Jean')
 monVaisseau = Ship.ship()
-#monVaisseau.setImg("ship.png")
-#monVaisseau.setImg("chasseur.png")
 monVaisseau.setImg("pinkship.png")
 
-monJet = Ship.ship()
-monJet.setImg("jetpack.png")
-
+''''''
 ob1 = Obstacle.obstacle(width,40)
 ob2 = Obstacle.obstacle(width,40)
 ob3 = Obstacle.obstacle(width,40)
 ob4 = Obstacle.obstacle(width,40)
-
+''''''
+##### LISTES #####
 missiles = []
 obstacles = []
+ennemy = []
+
+''''''
 obstacles.append(Obstacle.obstacle(width,40))
 obstacles.append(Obstacle.obstacle(width,40))
 obstacles.append(Obstacle.obstacle(width,40))
 obstacles.append(Obstacle.obstacle(width,40))
+''''''
 
 
+'''
+'' BOUCLE DE JEU
+''    (img par img)
+'''
 while 1:
+    
+    ''' COMMANDES CLAVIER '''
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
+        ##### APPUI SUR TOUCHE #####
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_z:
-                monJet.monte=True
-            elif event.key == pygame.K_UP:
+            # HAUT
+            if event.key == pygame.K_UP:
                 monVaisseau.monte=True
+            # ESPACE
             elif event.key == pygame.K_SPACE:
                 monMissile=Shot.shot()
                 monMissile.setPos(monVaisseau.posX, monVaisseau.posY)
                 missiles.append(monMissile)
+        ##### RELACHE TOUCHE #####
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_z:
-                monJet.monte=False
-                monJet.setImg("jetpack.png")
-            elif event.key == pygame.K_UP:
+            # HAUT
+            if event.key == pygame.K_UP:
                 monVaisseau.monte=False
-                #monVaisseau.setImg("ship.png")
-                #monVaisseau.setImg("chasseur.png")
                 monVaisseau.setImg("pinkship.png")
 
-    # Background            
+    ##### BACKGROUND #####            
     screen.blit(background, (-i,0))
     screen.blit(background, (width-i,0))
     screen.blit(asteroid, (-j,0))
@@ -81,11 +94,11 @@ while 1:
         j=0
     if k > width:
         k=0
-    #monVaisseau.bouge("ship0.png","ship1.png")
-    #monVaisseau.bouge("chasseur0.png","chasseur1.png")
+
+    ##### MOUVEMENT JOUEUR #####
     monVaisseau.bouge("pinkship0.png","pinkship1.png", height)
 
-    
+    ''''''
     if len(obstacles)==1:
         obstacles[0].moveFirst()
     elif len(obstacles) > 1:
@@ -97,17 +110,22 @@ while 1:
         obstacles.append(Obstacle.obstacle(width,40))
         obstacles.append(Obstacle.obstacle(width,40))
         obstacles.append(Obstacle.obstacle(width,40))
-    
-    monJet.bouge("jetpack0.png","jetpack1.png", height)
+    ''''''
+
+    ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
         monMissile.bouge(width, missiles)
-            
+
+    '''
+    ''    BLITS (deplacements)
+    '''        
+    #blit joueur    
     screen.blit(monVaisseau.img,monVaisseau.getPos())
-    screen.blit(monJet.img,monJet.getPos())
-	
     
+    #blits missiles
     for monMissile in missiles:
         screen.blit(monMissile.img,monMissile.getPos())
+        #test des obstacles
         for testObstacle in obstacles:
             if testObstacle.estTouche(monMissile.posX,monMissile.posY):
                 monPlayer.raiseScore(1)                
@@ -116,14 +134,14 @@ while 1:
                 #ob = Obstacle.obstacle(width+40,)
                 #obstacles.append(ob)
                                      
-        
-
+    #blits obstacles
     for monObstacle in obstacles:
         screen.blit(monObstacle.img,monObstacle.getPos())
 
-	police = pygame.font.Font(None, 80)
-	texte = police.render(str(monPlayer.getScore()),1,(254,0,0))
-	screen.blit(texte,(550,300))
+    #blits score
+    police = pygame.font.Font(None, 80)
+    texte = police.render(str(monPlayer.getScore()),1,(254,0,0))
+    screen.blit(texte,(550,300))
 
 
     pygame.display.flip()
