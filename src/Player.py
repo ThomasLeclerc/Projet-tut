@@ -5,7 +5,7 @@ class player:
 	score = 0
 	def __init__(self,name):
 		self.name = name
-    
+
 	def raiseScore(self, nombre):
 		self.score += nombre
 

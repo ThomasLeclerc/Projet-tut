@@ -3,7 +3,7 @@ import pygame, sys
 class shot:
     posX = 0
     posY = 0
-    img = pygame.image.load("rocket.png")
+    img = pygame.image.load("images/rocket.png")
     def setPos(self,x,y):
         self.posX=x+20
         self.posY=y+20

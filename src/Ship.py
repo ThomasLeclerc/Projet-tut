@@ -17,7 +17,7 @@ class ship:
     #
     # deplace le vaisseau,   
     # prend en param les 2 fichiers reacteurs alumes, et la largeur
-	# de la	fenetre
+    # de la	fenetre
     #
     def bouge(self,file0,file1, height):
         accel=0.8

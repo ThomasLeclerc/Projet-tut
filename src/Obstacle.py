@@ -9,7 +9,7 @@ class obstacle:
     coef = 0
     angleRotation = 160 #true si on monte et false si on descend
     versLeHaut = True
-    img = pygame.image.load("./ship1.png")
+    img = pygame.image.load("./images/ship1.png")
     img = pygame.transform.rotate(img,angleRotation)
     obrect = img.get_rect()
     def __init__(self,x,y):
@@ -29,7 +29,7 @@ class obstacle:
             self.posY += (sin(self.coef)*17)
             
             
-            self.img = pygame.image.load("./ship1.png")
+            self.img = pygame.image.load("./images/ship1.png")
             if self.angleRotation == 20:
                 self.versLeHaut = False
                 self.angleRotation +=5
@@ -54,7 +54,7 @@ class obstacle:
         self.coef += 0.12
         self.posX -= 3
         self.posY += (sin(self.coef)*17)
-        self.img = pygame.image.load("./ship1.png")
+        self.img = pygame.image.load("./images/ship1.png")
         if self.angleRotation == 20:
             self.versLeHaut = False
             self.angleRotation +=5
@@ -64,12 +64,12 @@ class obstacle:
             self.angleRotation -= 5
             self.img = pygame.transform.rotate(self.img,self.angleRotation)
         else:
-           if self.versLeHaut == True:
+            if self.versLeHaut == True:
                 self.angleRotation -= 5
                 self.img = pygame.transform.rotate(self.img,self.angleRotation)
-           else :
-               self.angleRotation += 5
-               self.img = pygame.transform.rotate(self.img,self.angleRotation)  
+            else :
+                self.angleRotation += 5
+                self.img = pygame.transform.rotate(self.img,self.angleRotation)  
         
         
     

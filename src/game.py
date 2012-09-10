@@ -21,15 +21,15 @@ screen = pygame.display.set_mode(size)
 
 
 ##### IMAGES DU BACKGROUND #####
-background = pygame.image.load("night.jpg")
-asteroid = pygame.image.load("asteroid.png")
-stones = pygame.image.load("stones.png")
+background = pygame.image.load("images/night.jpg")
+asteroid = pygame.image.load("images/asteroid.png")
+stones = pygame.image.load("images/stones.png")
 i=j=k=t=0
 
 ##### JOUEUR #####
 monPlayer = Player.player('Jean')
 monVaisseau = Ship.ship()
-monVaisseau.setImg("pinkship.png")
+monVaisseau.setImg("images/pinkship.png")
 
 ''''''
 ob1 = Obstacle.obstacle(width,40)
@@ -79,7 +79,7 @@ while 1:
             # HAUT
             if event.key == pygame.K_UP:
                 monVaisseau.monte=False
-                monVaisseau.setImg("pinkship.png")
+                monVaisseau.setImg("images/pinkship.png")
 
     ##### BACKGROUND #####            
     screen.blit(background, (-i,0))
@@ -99,7 +99,7 @@ while 1:
         k=0
 
     ##### MOUVEMENT JOUEUR #####
-    monVaisseau.bouge("pinkship0.png","pinkship1.png", height)
+    monVaisseau.bouge("images/pinkship0.png","images/pinkship1.png", height)
 
     ''''''
     if len(obstacles)==1:
