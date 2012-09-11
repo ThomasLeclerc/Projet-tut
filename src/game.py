@@ -6,7 +6,7 @@
 ##### IMPORTS #####
 import pygame
 import sys
-import Obstacle
+import Ennemi
 import Shot
 import Ship
 import Player
@@ -36,14 +36,14 @@ monVaisseau.setImg("images/pinkship.png")
 
 ##### LISTES #####
 missiles = []
-obstacles = []
+snakes = []
 ennemy = []
 
 ''''''
-obstacles.append(Obstacle.obstacle(width,40))
-obstacles.append(Obstacle.obstacle(width,40))
-obstacles.append(Obstacle.obstacle(width,40))
-obstacles.append(Obstacle.obstacle(width,40))
+snakes.append(Ennemi.Snake(width+80,80))
+snakes.append(Ennemi.Snake(width+80,80))
+snakes.append(Ennemi.Snake(width+80,80))
+snakes.append(Ennemi.Snake(width+80,80))
 ''''''
 
 
@@ -101,17 +101,17 @@ while 1:
     monVaisseau.bouge("images/pinkship0.png","images/pinkship1.png", height)
 
     ''''''
-    if len(obstacles)==1:
-        obstacles[0].moveFirst()
-    elif len(obstacles) > 1:
-        obstacles[0].moveFirst()
-        for m in [1,len(obstacles)-1]:
-            obstacles[m].move(obstacles[m-1])
+    if len(snakes)==1:
+        snakes[0].moveFirst()
+    elif len(snakes) > 1:
+        snakes[0].moveFirst()
+        for m in [1,len(snakes)-1]:
+            snakes[m].move(snakes[m-1])
     else:
-        obstacles.append(Obstacle.obstacle(width,40))
-        obstacles.append(Obstacle.obstacle(width,40))
-        obstacles.append(Obstacle.obstacle(width,40))
-        obstacles.append(Obstacle.obstacle(width,40))
+        snakes.append(Ennemi.Snake(width+80,40))
+        snakes.append(Ennemi.Snake(width+80,40))
+        snakes.append(Ennemi.Snake(width+80,40))
+        snakes.append(Ennemi.Snake(width+80,40))
     ''''''
 
     ##### MOUVEMENT MISSILES #####        
@@ -128,17 +128,17 @@ while 1:
     for monMissile in missiles:
         screen.blit(monMissile.img,monMissile.getPos())
         #test des obstacles
-        for testObstacle in obstacles:
-            if testObstacle.estTouche(monMissile.posX,monMissile.posY):
+        for snakeTemp in snakes:
+            if snakeTemp.estTouche(monMissile.posX,monMissile.posY):
                 monPlayer.raiseScore(1)                
                 missiles.remove(monMissile)
-                obstacles.remove(testObstacle)
+                snakes.remove(snakeTemp)
                 #ob = Obstacle.obstacle(width+40,)
                 #obstacles.append(ob)
                                      
     #blits obstacles
-    for monObstacle in obstacles:
-        screen.blit(monObstacle.img,monObstacle.getPos())
+    for snakeTemp in snakes:
+        screen.blit(snakeTemp.img,snakeTemp.getPos())
 
     #blits score
     police = pygame.font.Font(None, 80)

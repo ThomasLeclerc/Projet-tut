@@ -1,7 +1,5 @@
 import pygame
-import sys
-from math import *
-
+import math
 
 
 class ennemy:
@@ -17,76 +15,54 @@ class ennemy:
         return (self.posX,self.posY)
     
     def setImg(self, image):
-        self.img = pygame.image.load(file)
+        self.img = pygame.image.load(image)
         self.ennemyRect = self.img.get_rect()
 
 
 
 
 class Snake(ennemy):
-
-    coef = 0
     angleRotation = 160 #true si on monte et false si on descend
     versLeHaut = True
     ## setImg('src/images/ship1.png')      # fait par __init__
     ## self.ennemyRect = img.get_rect()    #
     def __init__(self,x,y):
-        ennemy.__init__(self,x,y)
+        ennemy.__init__(self,x,y, "images/chasseur.png")
     def estTouche(self,x,y):
-        if x > self.posX and x < self.posX+self.obrect.right and y > self.posY and y < self.posY+self.obrect.bottom:
+        if x > self.posX and x < self.posX+self.ennemyRect.right and y > self.posY and y < self.posY+self.ennemyRect.bottom:
             return True 
         else:
             return False
     
     def move(self, previousObstacle):
         (poPosX,_) = previousObstacle.getPos()
-        if self.posX-poPosX >= 50:
-            self.posX -= 3    
-            self.coef += 0.12
-            self.posY += (sin(self.coef)*17)
+        if self.posX-poPosX >= 30:
+            self.posX -= 3
+            self.posY =  math.asin(math.sin(self.posX*0.03))*80+150
+            if self.posY >= 270:    
+                self.img = pygame.image.load("images/chasseur.png")
+                self.img = pygame.transform.rotate(self.img,-75)
+            if self.posY <= 36:
+                self.img = pygame.image.load("images/chasseur.png")
+                self.img = pygame.transform.rotate(self.img,75)
+                    
             
-            
-            self.img = pygame.image.load("ship.png")
-            if self.angleRotation == 20:
-                self.versLeHaut = False
-                self.angleRotation +=5
-                self.img = pygame.transform.rotate(self.img,self.angleRotation)                               
-            elif self.angleRotation == 160:
-                self.versLeHaut = True
-                self.angleRotation -= 5
-                self.img = pygame.transform.rotate(self.img,self.angleRotation)
-            else:
-                if self.versLeHaut == True:
-                    self.angleRotation -= 5
-                    self.img = pygame.transform.rotate(self.img,self.angleRotation)
-                else :
-                    self.angleRotation += 5
-                    self.img = pygame.transform.rotate(self.img,self.angleRotation)  
                           
                 
             
 
         
     def moveFirst(self):    
-        self.coef += 0.12
         self.posX -= 3
-        self.posY += (sin(self.coef)*17)
-        self.img = pygame.image.load("ship.png")
-        if self.angleRotation == 20:
-            self.versLeHaut = False
-            self.angleRotation +=5
-            self.img = pygame.transform.rotate(self.img,self.angleRotation)                               
-        elif self.angleRotation == 160:
-            self.versLeHaut = True
-            self.angleRotation -= 5
-            self.img = pygame.transform.rotate(self.img,self.angleRotation)
-        else:
-            if self.versLeHaut == True:
-                self.angleRotation -= 5
-                self.img = pygame.transform.rotate(self.img,self.angleRotation)
-            else :
-                self.angleRotation += 5
-                self.img = pygame.transform.rotate(self.img,self.angleRotation)  
+        self.posY =  math.asin(math.sin(self.posX*0.03))*80+150
+        if self.posY >= 270:    
+            self.img = pygame.image.load("images/chasseur.png")
+            self.img = pygame.transform.rotate(self.img,-75)
+        if self.posY <= 36:
+            self.img = pygame.image.load("images/chasseur.png")
+            self.img = pygame.transform.rotate(self.img,75)
+     
+    
         
         
 
