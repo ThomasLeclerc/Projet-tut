@@ -7,6 +7,9 @@ class ship:
     posY = 0
     speed=0
     switch=0
+    chaleurMax=100
+    chaleur=0
+    
     def getPos(self):
         return (self.posX,self.posY)
     def setImg(self, image):
@@ -47,6 +50,11 @@ class ship:
         elif self.posY > height-(self.shiprect).bottom:
             self.posY = height-(self.shiprect).bottom
             self.speed = 0
+
+        '''
+        '    lance-missile refroidit
+        '''
+        self.chaleur-=1
     #fin fonction bouge()
 #fin classe ship
 

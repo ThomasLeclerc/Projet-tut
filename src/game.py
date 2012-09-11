@@ -71,9 +71,11 @@ while 1:
                 monVaisseau.monte=True
             # ESPACE
             elif event.key == pygame.K_SPACE:
-                monMissile=Shot.shot()
-                monMissile.setPos(monVaisseau.posX, monVaisseau.posY)
-                missiles.append(monMissile)
+                if((monVaisseau.chaleur+33)<(monVaisseau.chaleurMax)):
+                    monMissile=Shot.shot()
+                    monMissile.setPos(monVaisseau.posX, monVaisseau.posY)
+                    missiles.append(monMissile)
+                    monVaisseau.chaleur+=33
         ##### RELACHE TOUCHE #####
         elif event.type == pygame.KEYUP:
             # HAUT
