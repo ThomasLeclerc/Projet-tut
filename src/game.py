@@ -150,13 +150,10 @@ while 1:
     
     #blits jauge chaleur
     img = pygame.image.load("images/rocket.png")
-    police = pygame.font.Font(None,80)
-    txt = police.render(str(monVaisseau.chaleur),1,(254,0,0))
-    for i in range(2-((monVaisseau.chaleur)/33)):
-        screen.blit(img,(10*(i+1),10))
+    for l in range(2-((monVaisseau.chaleur)/33)):
+        screen.blit(img,(10*(l+1),10))
     if(monVaisseau.chaleur==0):
-        screen.blit(img,(10*(i+2),10))
-    screen.blit(txt,(10,40))
+        screen.blit(img,(10*(l+2),10))
 
 
     pygame.display.flip()
