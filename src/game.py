@@ -17,7 +17,8 @@ pygame.init()
 
 ##### PARAMETRES DE LA FENETRE #####
 size = width, height = 640, 400
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+
 
 
 ##### IMAGES DU BACKGROUND #####
@@ -39,12 +40,15 @@ missiles = []
 snakes = []
 ennemy = []
 
+<<<<<<< HEAD
 ''''''
 snakes.append(Ennemi.Snake(width+80,80))
 snakes.append(Ennemi.Snake(width+80,80))
 snakes.append(Ennemi.Snake(width+80,80))
 snakes.append(Ennemi.Snake(width+80,80))
 ''''''
+=======
+>>>>>>> 3fb9c9cba393f83e269ff13f230b7ecd388330bc
 
 
 '''
@@ -72,7 +76,13 @@ while 1:
                     monMissile=Shot.shot()
                     monMissile.setPos(monVaisseau.posX, monVaisseau.posY)
                     missiles.append(monMissile)
-                    monVaisseau.chaleur+=33
+                    if(monVaisseau.chaleur+33<100):
+                        monVaisseau.chaleur+=33
+                    else:
+                        monVaisseau.chaleur=100
+            # ECHAPE
+            elif event.key == pygame.K_ESCAPE:
+                sys.exit()
         ##### RELACHE TOUCHE #####
         elif event.type == pygame.KEYUP:
             # HAUT
@@ -100,6 +110,7 @@ while 1:
     ##### MOUVEMENT JOUEUR #####
     monVaisseau.bouge("images/pinkship0.png","images/pinkship1.png", height)
 
+<<<<<<< HEAD
     ''''''
     if len(snakes)==1:
         snakes[0].moveFirst()
@@ -113,6 +124,8 @@ while 1:
         snakes.append(Ennemi.Snake(width+80,40))
         snakes.append(Ennemi.Snake(width+80,40))
     ''''''
+=======
+>>>>>>> 3fb9c9cba393f83e269ff13f230b7ecd388330bc
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
@@ -144,6 +157,13 @@ while 1:
     police = pygame.font.Font(None, 80)
     texte = police.render(str(monPlayer.getScore()),1,(254,0,0))
     screen.blit(texte,(550,300))
+    
+    #blits jauge chaleur
+    img = pygame.image.load("images/rocket.png")
+    for l in range(2-((monVaisseau.chaleur)/33)):
+        screen.blit(img,(10*(l+1),10))
+    if(monVaisseau.chaleur==0):
+        screen.blit(img,(10*(l+2),10))
 
 
     pygame.display.flip()
