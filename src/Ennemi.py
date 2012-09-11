@@ -81,12 +81,12 @@ class Snake(ennemy):
             self.angleRotation -= 5
             self.img = pygame.transform.rotate(self.img,self.angleRotation)
         else:
-           if self.versLeHaut == True:
+            if self.versLeHaut == True:
                 self.angleRotation -= 5
                 self.img = pygame.transform.rotate(self.img,self.angleRotation)
-           else :
-               self.angleRotation += 5
-               self.img = pygame.transform.rotate(self.img,self.angleRotation)  
+            else :
+                self.angleRotation += 5
+                self.img = pygame.transform.rotate(self.img,self.angleRotation)  
         
         
 

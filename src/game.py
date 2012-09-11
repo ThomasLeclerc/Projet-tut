@@ -1,6 +1,6 @@
 '''
 '  game.py
-'    Moteur de jeu
+'    Moteur de Jeu 
 '''
 
 ##### IMPORTS #####
