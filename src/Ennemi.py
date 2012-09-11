@@ -27,24 +27,23 @@ class Snake(ennemy):
     ## setImg('src/images/ship1.png')      # fait par __init__
     ## self.ennemyRect = img.get_rect()    #
     def __init__(self,x,y):
-        ennemy.__init__(self,x,y, "images/chasseur.png")
+        ennemy.__init__(self,x,y, "images/chasseur1.png")
+        self.img = pygame.transform.rotate(self.img,-75)
     def estTouche(self,x,y):
         if x > self.posX and x < self.posX+self.ennemyRect.right and y > self.posY and y < self.posY+self.ennemyRect.bottom:
             return True 
         else:
             return False
     
-    def move(self, previousObstacle):
-        (poPosX,_) = previousObstacle.getPos()
-        if self.posX-poPosX >= 30:
-            self.posX -= 3
-            self.posY =  math.asin(math.sin(self.posX*0.03))*80+150
-            if self.posY >= 270:    
-                self.img = pygame.image.load("images/chasseur.png")
-                self.img = pygame.transform.rotate(self.img,-75)
-            if self.posY <= 36:
-                self.img = pygame.image.load("images/chasseur.png")
-                self.img = pygame.transform.rotate(self.img,75)
+    def move(self,):
+        self.posX -= 3
+        self.posY =  math.asin(math.sin(self.posX*0.03))*80+150
+        if self.posY >= 270:    
+            self.img = pygame.image.load("images/chasseur1.png")
+            self.img = pygame.transform.rotate(self.img,-75)
+        if self.posY <= 36:
+            self.img = pygame.image.load("images/chasseur0.png")
+            self.img = pygame.transform.rotate(self.img,75)
                     
             
                           
@@ -52,15 +51,7 @@ class Snake(ennemy):
             
 
         
-    def moveFirst(self):    
-        self.posX -= 3
-        self.posY =  math.asin(math.sin(self.posX*0.03))*80+150
-        if self.posY >= 270:    
-            self.img = pygame.image.load("images/chasseur.png")
-            self.img = pygame.transform.rotate(self.img,-75)
-        if self.posY <= 36:
-            self.img = pygame.image.load("images/chasseur.png")
-            self.img = pygame.transform.rotate(self.img,75)
+   
      
     
         

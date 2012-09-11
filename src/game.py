@@ -40,15 +40,13 @@ missiles = []
 snakes = []
 ennemy = []
 
-<<<<<<< HEAD
 ''''''
-snakes.append(Ennemi.Snake(width+80,80))
-snakes.append(Ennemi.Snake(width+80,80))
-snakes.append(Ennemi.Snake(width+80,80))
-snakes.append(Ennemi.Snake(width+80,80))
+snakes.append(Ennemi.Snake(width-20,80))
+snakes.append(Ennemi.Snake(width-10,80))
+snakes.append(Ennemi.Snake(width,80))
+snakes.append(Ennemi.Snake(width+10,80))
 ''''''
-=======
->>>>>>> 3fb9c9cba393f83e269ff13f230b7ecd388330bc
+
 
 
 '''
@@ -110,22 +108,15 @@ while 1:
     ##### MOUVEMENT JOUEUR #####
     monVaisseau.bouge("images/pinkship0.png","images/pinkship1.png", height)
 
-<<<<<<< HEAD
+
     ''''''
-    if len(snakes)==1:
-        snakes[0].moveFirst()
-    elif len(snakes) > 1:
-        snakes[0].moveFirst()
-        for m in [1,len(snakes)-1]:
-            snakes[m].move(snakes[m-1])
-    else:
-        snakes.append(Ennemi.Snake(width+80,40))
-        snakes.append(Ennemi.Snake(width+80,40))
-        snakes.append(Ennemi.Snake(width+80,40))
-        snakes.append(Ennemi.Snake(width+80,40))
+    ##### MOUVEMENT DES SNAKE #####
+    if (len(snakes)!=0):
+        for m in [0,len(snakes)-1]:
+                snakes[m].move()
+   
     ''''''
-=======
->>>>>>> 3fb9c9cba393f83e269ff13f230b7ecd388330bc
+
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
@@ -140,7 +131,7 @@ while 1:
     #blits missiles
     for monMissile in missiles:
         screen.blit(monMissile.img,monMissile.getPos())
-        #test des obstacles
+        #test des snakes
         for snakeTemp in snakes:
             if snakeTemp.estTouche(monMissile.posX,monMissile.posY):
                 monPlayer.raiseScore(1)                
@@ -149,7 +140,7 @@ while 1:
                 #ob = Obstacle.obstacle(width+40,)
                 #obstacles.append(ob)
                                      
-    #blits obstacles
+    #blits snakes
     for snakeTemp in snakes:
         screen.blit(snakeTemp.img,snakeTemp.getPos())
 
