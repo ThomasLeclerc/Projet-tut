@@ -17,7 +17,8 @@ pygame.init()
 
 ##### PARAMETRES DE LA FENETRE #####
 size = width, height = 640, 400
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+
 
 
 ##### IMAGES DU BACKGROUND #####
@@ -70,6 +71,9 @@ while 1:
                         monVaisseau.chaleur+=33
                     else:
                         monVaisseau.chaleur=100
+            # ECHAPE
+            elif event.key == pygame.K_ESCAPE:
+                sys.exit()
         ##### RELACHE TOUCHE #####
         elif event.type == pygame.KEYUP:
             # HAUT
