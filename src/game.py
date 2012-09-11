@@ -39,12 +39,6 @@ missiles = []
 obstacles = []
 ennemy = []
 
-'''
-obstacles.append(Obstacle.obstacle(width,40))
-obstacles.append(Obstacle.obstacle(width,40))
-obstacles.append(Obstacle.obstacle(width,40))
-obstacles.append(Obstacle.obstacle(width,40))
-'''
 
 
 '''
@@ -103,19 +97,6 @@ while 1:
     ##### MOUVEMENT JOUEUR #####
     monVaisseau.bouge("images/pinkship0.png","images/pinkship1.png", height)
 
-    '''
-    if len(obstacles)==1:
-        obstacles[0].moveFirst()
-    elif len(obstacles) > 1:
-        obstacles[0].moveFirst()
-        for m in [1,len(obstacles)-1]:
-            obstacles[m].move(obstacles[m-1])
-    else:
-        obstacles.append(Obstacle.obstacle(width,40))
-        obstacles.append(Obstacle.obstacle(width,40))
-        obstacles.append(Obstacle.obstacle(width,40))
-        obstacles.append(Obstacle.obstacle(width,40))
-    '''
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
