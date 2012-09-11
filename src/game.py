@@ -39,12 +39,12 @@ missiles = []
 obstacles = []
 ennemy = []
 
-''''''
+'''
 obstacles.append(Obstacle.obstacle(width,40))
 obstacles.append(Obstacle.obstacle(width,40))
 obstacles.append(Obstacle.obstacle(width,40))
 obstacles.append(Obstacle.obstacle(width,40))
-''''''
+'''
 
 
 '''
@@ -72,7 +72,10 @@ while 1:
                     monMissile=Shot.shot()
                     monMissile.setPos(monVaisseau.posX, monVaisseau.posY)
                     missiles.append(monMissile)
-                    monVaisseau.chaleur+=33
+                    if(monVaisseau.chaleur+33<100):
+                        monVaisseau.chaleur+=33
+                    else:
+                        monVaisseau.chaleur=100
         ##### RELACHE TOUCHE #####
         elif event.type == pygame.KEYUP:
             # HAUT
@@ -100,7 +103,7 @@ while 1:
     ##### MOUVEMENT JOUEUR #####
     monVaisseau.bouge("images/pinkship0.png","images/pinkship1.png", height)
 
-    ''''''
+    '''
     if len(obstacles)==1:
         obstacles[0].moveFirst()
     elif len(obstacles) > 1:
@@ -112,7 +115,7 @@ while 1:
         obstacles.append(Obstacle.obstacle(width,40))
         obstacles.append(Obstacle.obstacle(width,40))
         obstacles.append(Obstacle.obstacle(width,40))
-    ''''''
+    '''
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
@@ -144,6 +147,16 @@ while 1:
     police = pygame.font.Font(None, 80)
     texte = police.render(str(monPlayer.getScore()),1,(254,0,0))
     screen.blit(texte,(550,300))
+    
+    #blits jauge chaleur
+    img = pygame.image.load("images/rocket.png")
+    police = pygame.font.Font(None,80)
+    txt = police.render(str(monVaisseau.chaleur),1,(254,0,0))
+    for i in range(2-((monVaisseau.chaleur)/33)):
+        screen.blit(img,(10*(i+1),10))
+    if(monVaisseau.chaleur==0):
+        screen.blit(img,(10*(i+2),10))
+    screen.blit(txt,(10,40))
 
 
     pygame.display.flip()

@@ -54,7 +54,9 @@ class ship:
         '''
         '    lance-missile refroidit
         '''
-        self.chaleur-=1
+        if(self.chaleur>0):
+            self.chaleur-=1
+        
     #fin fonction bouge()
 #fin classe ship
 
