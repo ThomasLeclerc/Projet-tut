@@ -18,7 +18,7 @@ class ennemy:
     
     def setImg(self, image):
         self.img = pygame.image.load(file)
-        self.shiprect = self.img.get_rect()
+        self.ennemyRect = self.img.get_rect()
 
 
 
@@ -28,8 +28,8 @@ class Snake(ennemy):
     coef = 0
     angleRotation = 160 #true si on monte et false si on descend
     versLeHaut = True
-    setImg('./images/ship1.png')
-    obrect = img.get_rect()
+    ## setImg('src/images/ship1.png')      # fait par __init__
+    ## self.ennemyRect = img.get_rect()    #
     def __init__(self,x,y):
         ennemy.__init__(self,x,y)
     def estTouche(self,x,y):
