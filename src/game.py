@@ -31,12 +31,9 @@ monPlayer = Player.player('Jean')
 monVaisseau = Ship.ship()
 monVaisseau.setImg("images/pinkship.png")
 
-''''''
-ob1 = Obstacle.obstacle(width,40)
-ob2 = Obstacle.obstacle(width,40)
-ob3 = Obstacle.obstacle(width,40)
-ob4 = Obstacle.obstacle(width,40)
-''''''
+
+
+
 ##### LISTES #####
 missiles = []
 obstacles = []
