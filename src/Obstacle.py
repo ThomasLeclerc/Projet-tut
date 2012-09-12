@@ -6,8 +6,8 @@ class obstacle:
     posX = 0
     posY = 0
     
-    def __init__(self,x,y,image):
-        self.posX = x
+    def __init__(self,y,image):
+        self.posX = 700
         self.posY = y
         self.setImg(image);
 
@@ -17,3 +17,7 @@ class obstacle:
     def setImg(self, image):
         self.img = pygame.image.load(file)
         self.ennemyRect = self.img.get_rect()
+
+
+    def bouge(self,):
+        self.posx-=8

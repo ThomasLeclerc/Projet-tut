@@ -10,6 +10,7 @@ import Ennemi
 import Shot
 import Ship
 import Player
+import Obstacle
 
 
 pygame.init()
@@ -39,7 +40,7 @@ monVaisseau.setImg("images/pinkship.png")
 missiles = []
 snakes = []
 ennemy = []
-
+obstacles = []
 ''''''
 snakes.append(Ennemi.Snake(width-20,80))
 snakes.append(Ennemi.Snake(width-10,80))
