@@ -12,6 +12,12 @@ import Ship
 import Player
 import Obstacle
 
+def creerSnakes(nombre):
+    i = 0
+    while(nombre!=0):
+        snakes.append(Ennemi.Snake(width-(i*20),80))
+        nombre -= 1
+        i += 1
 
 pygame.init()
 
@@ -42,10 +48,7 @@ snakes = []
 ennemy = []
 obstacles = []
 ''''''
-snakes.append(Ennemi.Snake(width-40,80))
-snakes.append(Ennemi.Snake(width-20,80))
-snakes.append(Ennemi.Snake(width,80))
-snakes.append(Ennemi.Snake(width+20,80))
+creerSnakes(4)
 ''''''
 
 
