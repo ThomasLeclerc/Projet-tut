@@ -40,8 +40,6 @@ monVaisseau = Ship.ship()
 monVaisseau.setImg("images/pinkship.png")
 
 
-
-
 ##### LISTES #####
 missiles = []
 snakes = []
@@ -50,6 +48,9 @@ obstacles = []
 ''''''
 creerSnakes(4)
 ''''''
+##### OBSTACLES #####
+#obstacles.append(Obstacle(0,"images/meteorite.png"))
+
 
 
 
@@ -78,10 +79,10 @@ while 1:
                     monMissile=Shot.shot()
                     monMissile.setPos(monVaisseau.posX, monVaisseau.posY)
                     missiles.append(monMissile)
-                    if(monVaisseau.chaleur+33<100):
+                    if(monVaisseau.chaleur+33<monVaisseau.chaleurMax):
                         monVaisseau.chaleur+=33
                     else:
-                        monVaisseau.chaleur=100
+                        monVaisseau.chaleur=monVaisseau.chaleurMax
             # ECHAPE
             elif event.key == pygame.K_ESCAPE:
                 sys.exit()
@@ -108,6 +109,8 @@ while 1:
         j=0
     if k > width:
         k=0
+        
+
 
     ##### MOUVEMENT JOUEUR #####
     monVaisseau.bouge("images/pinkship0.png","images/pinkship1.png", height)
@@ -153,7 +156,7 @@ while 1:
     
     #blits jauge chaleur
     img = pygame.image.load("images/rocket.png")
-    for l in range(2-((monVaisseau.chaleur)/33)):
+    for l in range(((monVaisseau.chaleurMax/33)-1)-((monVaisseau.chaleur)/33)):
         screen.blit(img,(10*(l+1),10))
     if(monVaisseau.chaleur==0):
         screen.blit(img,(10*(l+2),10))
