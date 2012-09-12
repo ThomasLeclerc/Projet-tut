@@ -1,6 +1,6 @@
 '''
 '  game.py
-'    Moteur de Jeu 
+'    Moteur de jeu 
 '''
 
 ##### IMPORTS #####
@@ -42,10 +42,10 @@ snakes = []
 ennemy = []
 obstacles = []
 ''''''
+snakes.append(Ennemi.Snake(width-40,80))
 snakes.append(Ennemi.Snake(width-20,80))
-snakes.append(Ennemi.Snake(width-10,80))
 snakes.append(Ennemi.Snake(width,80))
-snakes.append(Ennemi.Snake(width+10,80))
+snakes.append(Ennemi.Snake(width+20,80))
 ''''''
 
 
