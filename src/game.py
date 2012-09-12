@@ -34,8 +34,6 @@ monVaisseau = Ship.ship()
 monVaisseau.setImg("images/pinkship.png")
 
 
-
-
 ##### LISTES #####
 missiles = []
 snakes = []
@@ -47,6 +45,9 @@ snakes.append(Ennemi.Snake(width-10,80))
 snakes.append(Ennemi.Snake(width,80))
 snakes.append(Ennemi.Snake(width+10,80))
 ''''''
+##### OBSTACLES #####
+#obstacles.append(Obstacle(0,"images/meteorite.png"))
+
 
 
 
@@ -105,6 +106,8 @@ while 1:
         j=0
     if k > width:
         k=0
+        
+
 
     ##### MOUVEMENT JOUEUR #####
     monVaisseau.bouge("images/pinkship0.png","images/pinkship1.png", height)

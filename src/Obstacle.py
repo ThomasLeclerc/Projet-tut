@@ -15,7 +15,7 @@ class obstacle:
         return (self.posX,self.posY)
     
     def setImg(self, image):
-        self.img = pygame.image.load(file)
+        self.img = pygame.image.load(image)
         self.ennemyRect = self.img.get_rect()
 
 
