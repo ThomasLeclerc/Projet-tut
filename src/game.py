@@ -11,10 +11,12 @@ import Shot
 import Ship
 import Player
 import Obstacle
+import random
 
 def creerSnakes(nombre):
+    r = random.randint(100,250)
     while(nombre!=0):
-        snakes.append(Ennemi.Snake(width+(nombre*20),80))
+        snakes.append(Ennemi.Snake(width+(nombre*20),0,r))
         nombre -= 1
 
 pygame.init()

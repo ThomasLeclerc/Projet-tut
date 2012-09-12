@@ -23,7 +23,8 @@ class Snake(ennemy):
     versLeHaut = True
     ## setImg('src/images/ship1.png')      # fait par __init__
     ## self.ennemyRect = img.get_rect()    #
-    def __init__(self,x,y):
+    def __init__(self,x,y, positionChaine):
+        self.positionChaine=positionChaine
         ennemy.__init__(self,x,y, "images/chasseur1.png")
         self.img = pygame.transform.rotate(self.img,-75)
     def estTouche(self,x,y):
@@ -34,11 +35,11 @@ class Snake(ennemy):
     
     def move(self,snakes):
         self.posX -= 3
-        self.posY =  math.asin(math.sin(self.posX*0.03))*80+150
-        if self.posY >= 270:    
+        self.posY =  math.asin(math.sin(self.posX*0.03))*80+self.positionChaine
+        if self.posY >= self.positionChaine+120:    
             self.img = pygame.image.load("images/chasseur1.png")
             self.img = pygame.transform.rotate(self.img,-75)
-        if self.posY <= 36:
+        if self.posY <= self.positionChaine-120:
             self.img = pygame.image.load("images/chasseur0.png")
             self.img = pygame.transform.rotate(self.img,75)
 
