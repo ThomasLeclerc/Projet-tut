@@ -19,10 +19,7 @@ class ennemy:
         self.ennemyRect = self.img.get_rect()
 
 
-
-
 class Snake(ennemy):
-    angleRotation = 160 #true si on monte et false si on descend
     versLeHaut = True
     ## setImg('src/images/ship1.png')      # fait par __init__
     ## self.ennemyRect = img.get_rect()    #
@@ -35,7 +32,7 @@ class Snake(ennemy):
         else:
             return False
     
-    def move(self,):
+    def move(self,snakes):
         self.posX -= 3
         self.posY =  math.asin(math.sin(self.posX*0.03))*80+150
         if self.posY >= 270:    
@@ -44,6 +41,9 @@ class Snake(ennemy):
         if self.posY <= 36:
             self.img = pygame.image.load("images/chasseur0.png")
             self.img = pygame.transform.rotate(self.img,75)
+
+        if self.posX<0:
+            snakes.remove(self)
                     
             
                           

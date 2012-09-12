@@ -13,11 +13,9 @@ import Player
 import Obstacle
 
 def creerSnakes(nombre):
-    i = 0
     while(nombre!=0):
-        snakes.append(Ennemi.Snake(width-(i*20),80))
+        snakes.append(Ennemi.Snake(width+(nombre*20),80))
         nombre -= 1
-        i += 1
 
 pygame.init()
 
@@ -46,7 +44,7 @@ snakes = []
 ennemy = []
 obstacles = []
 ''''''
-creerSnakes(4)
+creerSnakes(int(monVaisseau.chaleurMax/33))
 ''''''
 ##### OBSTACLES #####
 #obstacles.append(Obstacle(0,"images/meteorite.png"))
@@ -120,7 +118,7 @@ while 1:
 
     if (len(snakes)!=0):
         for snake in snakes:
-            snake.move()
+            snake.move(snakes)
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
@@ -141,6 +139,7 @@ while 1:
                 monPlayer.raiseScore(1)                
                 missiles.remove(monMissile)
                 snakes.remove(snakeTemp)
+                
                 #ob = Obstacle.obstacle(width+40,)
                 #obstacles.append(ob)
                                      
@@ -159,6 +158,8 @@ while 1:
         screen.blit(img,(10*(l+1),10))
     if(monVaisseau.chaleur==0):
         screen.blit(img,(10*(l+2),10))
-
+    
+    if len(snakes)==0:
+        creerSnakes(int(monVaisseau.chaleurMax/33))
 
     pygame.display.flip()
