@@ -79,10 +79,10 @@ while 1:
                     monMissile=Shot.shot()
                     monMissile.setPos(monVaisseau.posX, monVaisseau.posY)
                     missiles.append(monMissile)
-                    if(monVaisseau.chaleur+33<100):
+                    if(monVaisseau.chaleur+33<monVaisseau.chaleurMax):
                         monVaisseau.chaleur+=33
                     else:
-                        monVaisseau.chaleur=100
+                        monVaisseau.chaleur=monVaisseau.chaleurMax
             # ECHAPE
             elif event.key == pygame.K_ESCAPE:
                 sys.exit()
