@@ -7,7 +7,7 @@ class ship:
     posY = 0
     speed=0
     switch=0
-    chaleurMax=100
+    chaleurMax=300
     chaleur=0
     
     def getPos(self):
