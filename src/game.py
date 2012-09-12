@@ -109,14 +109,11 @@ while 1:
     monVaisseau.bouge("images/pinkship0.png","images/pinkship1.png", height)
 
 
-    ''''''
     ##### MOUVEMENT DES SNAKE #####
-    if (len(snakes)!=0):
-        for m in [0,len(snakes)-1]:
-                snakes[m].move()
-   
-    ''''''
 
+    if (len(snakes)!=0):
+        for snake in snakes:
+            snake.move()
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
