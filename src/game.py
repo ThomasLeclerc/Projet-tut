@@ -117,7 +117,7 @@ while 1:
 
     if (len(snakes)!=0):
         for snake in snakes:
-            snake.move()
+            snake.move(snakes)
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
@@ -138,6 +138,7 @@ while 1:
                 monPlayer.raiseScore(1)                
                 missiles.remove(monMissile)
                 snakes.remove(snakeTemp)
+                
                 #ob = Obstacle.obstacle(width+40,)
                 #obstacles.append(ob)
                                      
@@ -156,6 +157,8 @@ while 1:
         screen.blit(img,(10*(l+1),10))
     if(monVaisseau.chaleur==0):
         screen.blit(img,(10*(l+2),10))
-
+    
+    if len(snakes)==0:
+        creerSnakes(4)
 
     pygame.display.flip()
