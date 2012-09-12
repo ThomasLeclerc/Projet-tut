@@ -1,6 +1,6 @@
 '''
 '  game.py
-'    Moteur de Jeu 
+'    Moteur de jeu 
 '''
 
 ##### IMPORTS #####
@@ -12,6 +12,12 @@ import Ship
 import Player
 import Obstacle
 
+def creerSnakes(nombre):
+    i = 0
+    while(nombre!=0):
+        snakes.append(Ennemi.Snake(width-(i*20),80))
+        nombre -= 1
+        i += 1
 
 pygame.init()
 
@@ -40,10 +46,7 @@ snakes = []
 ennemy = []
 obstacles = []
 ''''''
-snakes.append(Ennemi.Snake(width-20,80))
-snakes.append(Ennemi.Snake(width-10,80))
-snakes.append(Ennemi.Snake(width,80))
-snakes.append(Ennemi.Snake(width+10,80))
+creerSnakes(4)
 ''''''
 ##### OBSTACLES #####
 #obstacles.append(Obstacle(0,"images/meteorite.png"))
