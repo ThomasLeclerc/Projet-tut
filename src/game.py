@@ -155,7 +155,7 @@ while 1:
     
     #blits jauge chaleur
     img = pygame.image.load("images/rocket.png")
-    for l in range(2-((monVaisseau.chaleur)/33)):
+    for l in range(((monVaisseau.chaleurMax/33)-1)-((monVaisseau.chaleur)/33)):
         screen.blit(img,(10*(l+1),10))
     if(monVaisseau.chaleur==0):
         screen.blit(img,(10*(l+2),10))
