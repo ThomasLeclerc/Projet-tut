@@ -156,10 +156,7 @@ while 1:
         for shooterTemp in ennemy:
             if shooterTemp.estTouche(monMissile.posX,monMissile.posY, ennemy, monPlayer):         
                 missiles.remove(monMissile)
-<<<<<<< HEAD
-                shooterTemp.remove(shooterTemp)
-=======
->>>>>>> 3bdcf28b60c7f5cc96c2a7b4da329c4eb0460f25
+                ennemy.remove(shooterTemp)
                 
                                      
     #blits snakes
