@@ -14,3 +14,17 @@ class shot:
     def getPos(self):
         return (self.posX,self.posY)
 #fin classe shot
+
+class shotShooterEnnemy (shot):
+   img = pygame.image.load("images/rocketShooter.png") 
+   def __init__(self, x, y):
+       self.posX = x
+       self.posY = y
+   def move(self, missilesShooter):
+        self.posX-=10
+        if self.posX<-20:
+            missilesShooter.remove(self)
+            
+            
+            
+            

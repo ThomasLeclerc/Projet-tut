@@ -1,6 +1,6 @@
 import pygame
 import math
-
+import Shot
 
 class ennemy:
     posX = 0
@@ -47,19 +47,22 @@ class Snake(ennemy):
 
 class Shooter(ennemy):
     vie = 2
+    compteurTir = 0
+    missilesShooter = []
     def __init__(self,x,y):
         ennemy.__init__(self,x,y, "images/ship1.png")  
         self.img = pygame.transform.rotate(self.img,90)
     
-    def estTouche(self,x,y):
+    def estTouche(self,x,y , ennemy, player):
         if x > self.posX and x < self.posX+self.ennemyRect.right and y > self.posY and y < self.posY+self.ennemyRect.bottom:
             self.vie -= 1
             if self.vie == 0:
-                return True
+                ennemy.remove(self)
+                player.raiseScore(1)
             else:
                 self.img = pygame.image.load("images/ship3.png") 
                 self.img = pygame.transform.rotate(self.img,90)
-                return False
+            return True
         else:
             return False            
     
@@ -70,9 +73,13 @@ class Shooter(ennemy):
                self.posY += 4
            elif shipPosY < self.posY and self.posY-3 > 0:
                self.posY -= 4
-               
+           if self.posX<0:
+               ennemy.remove(self)    
                 
-                
+    def tir(self):
+        self.compteurTir += 1
+        if self.compteurTir%20 == 0:
+            self.missilesShooter.append(Shot.shotShooterEnnemy(self.posX,self.posY+20))         
                           
                 
             
