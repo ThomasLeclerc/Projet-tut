@@ -7,7 +7,7 @@ class ship:
     posY = 0
     speed=0
     switch=0
-    chaleurMax=300
+    chaleurMax=100
     chaleur=0
     charge=0
     inCharge=False
