@@ -118,13 +118,11 @@ while 1:
 
 
     ##### MOUVEMENT DES SNAKE #####
-
     if (len(snakes)!=0):
         for snake in snakes:
             snake.move(snakes)
             
     ##### MOUVEMENT DES SHOOTERS #####
-
     if (len(ennemy)!=0):
         for shooter in ennemy:
             shooter.move(monVaisseau)
@@ -152,7 +150,7 @@ while 1:
             if shooterTemp.estTouche(monMissile.posX,monMissile.posY):
                 monPlayer.raiseScore(1)                
                 missiles.remove(monMissile)
-                ennemy.remove(shooterTemp)
+                shooterTemp.remove(shooterTemp)
                 
                                      
     #blits snakes
