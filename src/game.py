@@ -24,7 +24,7 @@ pygame.init()
 
 
 ##### PARAMETRES DE LA FENETRE #####
-size = width, height = 640, 400
+size = width, height = 1440, 900
 screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
 
