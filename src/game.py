@@ -1,6 +1,6 @@
 '''
 '  game.py
-'    Moteur de jeu 
+'    Moteur de jeu
 '''
 
 ##### IMPORTS #####
@@ -15,6 +15,7 @@ import random
 
 def creerSnakes(nombre):
     r = random.randint(100,height-160)
+    print r
     while(nombre!=0):
         snakes.append(Ennemi.Snake(width+(nombre*20),0,r))
         nombre -= 1
@@ -46,7 +47,8 @@ snakes = []
 ennemy = []
 obstacles = []
 ''''''
-creerSnakes(int(monVaisseau.chaleurMax/33))
+#creerSnakes(int(monVaisseau.chaleurMax/33))
+creerSnakes(1)
 ennemy.append(Ennemi.Shooter(width, height/2-20))
 ''''''
 
@@ -134,7 +136,7 @@ while 1:
     ##### MOUVEMENT DES SHOOTERS #####
     if (len(ennemy)!=0):
         for shooter in ennemy:
-            shooter.move(monVaisseau)
+            shooter.move(monVaisseau, ennemy)
             shooter.tir()
             if len(shooter.missilesShooter)!=0:
                 for missileShooterTemp in shooter.missilesShooter:
