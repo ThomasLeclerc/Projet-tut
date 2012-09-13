@@ -21,9 +21,8 @@ class ennemy:
 
 class Snake(ennemy):
     versLeHaut = True
-    ## setImg('src/images/ship1.png')      # fait par __init__
-    ## self.ennemyRect = img.get_rect()    #
-    def __init__(self,x,y):
+    def __init__(self,x,y, positionChaine):
+        self.positionChaine=positionChaine
         ennemy.__init__(self,x,y, "images/chasseur1.png")
         self.img = pygame.transform.rotate(self.img,-75)
     def estTouche(self,x,y):
@@ -34,18 +33,46 @@ class Snake(ennemy):
     
     def move(self,snakes):
         self.posX -= 3
-        self.posY =  math.asin(math.sin(self.posX*0.03))*80+150
-        if self.posY >= 270:    
+        self.posY =  math.asin(math.sin(self.posX*0.03))*80+self.positionChaine
+        if self.posY >= self.positionChaine+120:    
             self.img = pygame.image.load("images/chasseur1.png")
             self.img = pygame.transform.rotate(self.img,-75)
-        if self.posY <= 36:
+        if self.posY <= self.positionChaine-120:
             self.img = pygame.image.load("images/chasseur0.png")
             self.img = pygame.transform.rotate(self.img,75)
 
         if self.posX<0:
             snakes.remove(self)
-                    
-            
+
+
+class Shooter(ennemy):
+    vie = 2
+    def __init__(self,x,y):
+        ennemy.__init__(self,x,y, "images/ship1.png")  
+        self.img = pygame.transform.rotate(self.img,90)
+    
+    def estTouche(self,x,y):
+        if x > self.posX and x < self.posX+self.ennemyRect.right and y > self.posY and y < self.posY+self.ennemyRect.bottom:
+            self.vie -= 1
+            if self.vie == 0:
+                return True
+            else:
+                self.img = pygame.image.load("images/ship3.png") 
+                self.img = pygame.transform.rotate(self.img,90)
+                return False
+        else:
+            return False            
+    
+    def move(self, ship):
+           self.posX -= 2      
+           (shipPosX, shipPosY) = ship.getPos()
+           if self.posY < shipPosY and self.posY+3 < 600:
+               self.posY += 4
+           elif shipPosY < self.posY and self.posY-3 > 0:
+               self.posY -= 4
+               
+                
+                
                           
                 
             

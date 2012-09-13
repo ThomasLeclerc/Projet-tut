@@ -11,10 +11,12 @@ import Shot
 import Ship
 import Player
 import Obstacle
+import random
 
 def creerSnakes(nombre):
+    r = random.randint(100,250)
     while(nombre!=0):
-        snakes.append(Ennemi.Snake(width+(nombre*20),80))
+        snakes.append(Ennemi.Snake(width+(nombre*20),0,r))
         nombre -= 1
 
 pygame.init()
@@ -45,6 +47,7 @@ ennemy = []
 obstacles = []
 ''''''
 creerSnakes(int(monVaisseau.chaleurMax/33))
+ennemy.append(Ennemi.Shooter(width, 150))
 ''''''
 ##### OBSTACLES #####
 #obstacles.append(Obstacle(0,"images/meteorite.png"))
@@ -119,6 +122,12 @@ while 1:
     if (len(snakes)!=0):
         for snake in snakes:
             snake.move(snakes)
+            
+    ##### MOUVEMENT DES SHOOTERS #####
+
+    if (len(ennemy)!=0):
+        for shooter in ennemy:
+            shooter.move(monVaisseau)
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
@@ -133,19 +142,26 @@ while 1:
     #blits missiles
     for monMissile in missiles:
         screen.blit(monMissile.img,monMissile.getPos())
-        #test des snakes
+        #test des ennemis
         for snakeTemp in snakes:
             if snakeTemp.estTouche(monMissile.posX,monMissile.posY):
                 monPlayer.raiseScore(1)                
                 missiles.remove(monMissile)
                 snakes.remove(snakeTemp)
+        for shooterTemp in ennemy:
+            if shooterTemp.estTouche(monMissile.posX,monMissile.posY):
+                monPlayer.raiseScore(1)                
+                missiles.remove(monMissile)
+                ennemy.remove(shooterTemp)
                 
-                #ob = Obstacle.obstacle(width+40,)
-                #obstacles.append(ob)
                                      
     #blits snakes
     for snakeTemp in snakes:
         screen.blit(snakeTemp.img,snakeTemp.getPos())
+        
+    #blits shooters
+    for shooterTemp in ennemy:
+        screen.blit(shooterTemp.img,shooterTemp.getPos())
 
     #blits score
     police = pygame.font.Font(None, 80)
