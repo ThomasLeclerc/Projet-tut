@@ -14,7 +14,7 @@ import Obstacle
 import random
 
 def creerSnakes(nombre):
-    r = random.randint(100,250)
+    r = random.randint(100,height-160)
     while(nombre!=0):
         snakes.append(Ennemi.Snake(width+(nombre*20),0,r))
         nombre -= 1
@@ -47,7 +47,7 @@ ennemy = []
 obstacles = []
 ''''''
 creerSnakes(int(monVaisseau.chaleurMax/33))
-ennemy.append(Ennemi.Shooter(width, 150))
+ennemy.append(Ennemi.Shooter(width, height/2-20))
 ''''''
 ##### OBSTACLES #####
 #obstacles.append(Obstacle(0,"images/meteorite.png"))
@@ -122,10 +122,17 @@ while 1:
         for snake in snakes:
             snake.move(snakes)
             
+            
     ##### MOUVEMENT DES SHOOTERS #####
     if (len(ennemy)!=0):
         for shooter in ennemy:
             shooter.move(monVaisseau)
+            shooter.tir()
+            if len(shooter.missilesShooter)!=0:
+                for missileShooterTemp in shooter.missilesShooter:
+                    missileShooterTemp.move(shooter.missilesShooter)
+      
+            
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
@@ -147,10 +154,12 @@ while 1:
                 missiles.remove(monMissile)
                 snakes.remove(snakeTemp)
         for shooterTemp in ennemy:
-            if shooterTemp.estTouche(monMissile.posX,monMissile.posY):
-                monPlayer.raiseScore(1)                
+            if shooterTemp.estTouche(monMissile.posX,monMissile.posY, ennemy, monPlayer):         
                 missiles.remove(monMissile)
+<<<<<<< HEAD
                 shooterTemp.remove(shooterTemp)
+=======
+>>>>>>> 3bdcf28b60c7f5cc96c2a7b4da329c4eb0460f25
                 
                                      
     #blits snakes
@@ -160,6 +169,10 @@ while 1:
     #blits shooters
     for shooterTemp in ennemy:
         screen.blit(shooterTemp.img,shooterTemp.getPos())
+        if len(shooter.missilesShooter)!=0:
+                for missileShooterTemp in shooter.missilesShooter:
+                    screen.blit(missileShooterTemp.img,missileShooterTemp.getPos())
+        
 
     #blits score
     police = pygame.font.Font(None, 80)
