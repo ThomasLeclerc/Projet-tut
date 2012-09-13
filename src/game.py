@@ -49,6 +49,7 @@ obstacles = []
 creerSnakes(int(monVaisseau.chaleurMax/33))
 ennemy.append(Ennemi.Shooter(width, height/2-20))
 ''''''
+
 ##### OBSTACLES #####
 #obstacles.append(Obstacle(0,"images/meteorite.png"))
 
@@ -76,14 +77,7 @@ while 1:
                 monVaisseau.monte=True
             # ESPACE
             elif event.key == pygame.K_SPACE:
-                if((monVaisseau.chaleur+33)<(monVaisseau.chaleurMax)):
-                    monMissile=Shot.shot()
-                    monMissile.setPos(monVaisseau.posX, monVaisseau.posY)
-                    missiles.append(monMissile)
-                    if(monVaisseau.chaleur+33<monVaisseau.chaleurMax):
-                        monVaisseau.chaleur+=33
-                    else:
-                        monVaisseau.chaleur=monVaisseau.chaleurMax
+                monVaisseau.inCharge=True
             # ECHAPE
             elif event.key == pygame.K_ESCAPE:
                 sys.exit()
@@ -93,7 +87,21 @@ while 1:
             if event.key == pygame.K_UP:
                 monVaisseau.monte=False
                 monVaisseau.setImg("images/pinkship.png")
-
+            # ESPACE
+            elif event.key == pygame.K_SPACE:
+                monVaisseau.inCharge=False
+                nbShoot = (monVaisseau.charge/33)+1
+                print monVaisseau.charge
+                for m in range(nbShoot):
+                    if(monVaisseau.chaleur+33<(monVaisseau.chaleurMax)):
+                        monMissile=Shot.shot()
+                        monMissile.setPos(monVaisseau.posX, monVaisseau.posY-(nbShoot*10)+(20*m))
+                        missiles.append(monMissile)
+                        if(monVaisseau.chaleur+33<monVaisseau.chaleurMax):
+                            monVaisseau.chaleur+=33
+                        else:
+                            monVaisseau.chaleur=monVaisseau.chaleurMax
+                monVaisseau.charge=0
     ##### BACKGROUND #####            
     screen.blit(background, (-i,0))
     screen.blit(background, (width-i,0))

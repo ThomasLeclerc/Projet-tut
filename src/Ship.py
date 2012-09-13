@@ -9,6 +9,8 @@ class ship:
     switch=0
     chaleurMax=300
     chaleur=0
+    charge=0
+    inCharge=False
     
     def getPos(self):
         return (self.posX,self.posY)
@@ -56,6 +58,13 @@ class ship:
         '''
         if(self.chaleur>0):
             self.chaleur-=1
+            
+        '''
+        '    charge des tirs
+        '''
+        if(self.inCharge):
+            if self.charge+3<(self.chaleurMax-self.chaleur):
+                self.charge+=3
         
     #fin fonction bouge()
 #fin classe ship
