@@ -32,17 +32,18 @@ class Snake(ennemy):
             return False
     
     def move(self,snakes):
-        self.posX -= 3
-        self.posY =  math.asin(math.sin(self.posX*0.03))*80+self.positionChaine
-        if self.posY >= self.positionChaine+120:    
+        self.posX -= 1
+        self.posY =  math.cos(self.posX*0.02)*120+self.positionChaine
+        if self.posY > self.positionChaine+110:    
             self.img = pygame.image.load("images/chasseur1.png")
             self.img = pygame.transform.rotate(self.img,-75)
-        if self.posY <= self.positionChaine-120:
+        elif self.posY < self.positionChaine-110:
             self.img = pygame.image.load("images/chasseur0.png")
             self.img = pygame.transform.rotate(self.img,75)
-
+        
         if self.posX<0:
             snakes.remove(self)
+        print self.posY
 
 
 class Shooter(ennemy):
@@ -66,7 +67,7 @@ class Shooter(ennemy):
         else:
             return False            
     
-    def move(self, ship):
+    def move(self, ship, ennemy):
            self.posX -= 2      
            (shipPosX, shipPosY) = ship.getPos()
            if self.posY < shipPosY and self.posY+3 < 600:
