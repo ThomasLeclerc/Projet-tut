@@ -15,7 +15,6 @@ import random
 
 def creerSnakes(nombre):
     r = random.randint(100,height-160)
-    print r
     while(nombre!=0):
         snakes.append(Ennemi.Snake(width+(nombre*20),0,r))
         nombre -= 1
@@ -24,7 +23,7 @@ pygame.init()
 
 
 ##### PARAMETRES DE LA FENETRE #####
-size = width, height = 640, 480
+size = width, height = 1024 ,780 
 screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
 
@@ -39,7 +38,7 @@ i=j=k=t=0
 ##### JOUEUR #####
 monPlayer = Player.player('Jean')
 monVaisseau = Ship.ship()
-monVaisseau.setImg("images/orange_ship_1.png")
+monVaisseau.setImg("images/orange_ship_small_1.png")
 
 
 ##### LISTES #####
@@ -67,7 +66,7 @@ while 1:
     
     ''' VITESSE D'AFFICHAGE '''    
     clock = pygame.time.Clock()
-    FRAMES_PER_SECOND = 30
+    FRAMES_PER_SECOND = 50
     deltat = clock.tick(FRAMES_PER_SECOND)
     
     ''' COMMANDES CLAVIER '''
@@ -89,7 +88,7 @@ while 1:
             # HAUT
             if event.key == pygame.K_UP:
                 monVaisseau.monte=False
-                monVaisseau.setImg("images/orange_ship_1.png")
+                monVaisseau.setImg("images/orange_ship_small_1.png")
             # ESPACE
             elif event.key == pygame.K_SPACE:
                 monVaisseau.inCharge=False
@@ -125,7 +124,7 @@ while 1:
 
 
     ##### MOUVEMENT JOUEUR #####
-    monVaisseau.bouge("images/orange_ship_2.png","images/orange_ship_2.png", height)
+    monVaisseau.bouge("images/orange_ship_small_1.png","images/orange_ship_small_2.png", height)
 
 
     ##### MOUVEMENT DES SNAKE #####

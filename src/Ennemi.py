@@ -43,7 +43,7 @@ class Snake(ennemy):
         
         if self.posX<0:
             snakes.remove(self)
-        print self.posY
+
 
 
 class Shooter(ennemy):
