@@ -32,18 +32,20 @@ class Snake(ennemy):
             return False
     
     def move(self,snakes):
-        self.posX -= 1
+        self.posX -= 4
+        
+        # DEPLACEMENT EN COURBE SINUSALE
         self.posY =  math.cos(self.posX*0.02)*120+self.positionChaine
-        if self.posY > self.positionChaine+110:    
-            self.img = pygame.image.load("images/chasseur1.png")
-            self.img = pygame.transform.rotate(self.img,-75)
-        elif self.posY < self.positionChaine-110:
-            self.img = pygame.image.load("images/chasseur0.png")
-            self.img = pygame.transform.rotate(self.img,75)
+        
+        coefDir = -2.4*math.sin(0.02*self.posX)
+        angle = math.degrees(math.atan(coefDir))
+        
+    
+        self.img = pygame.image.load("images/chasseur1.png")
+        self.img = pygame.transform.rotate(self.img,-angle) 
         
         if self.posX<0:
             snakes.remove(self)
-
 
 
 class Shooter(ennemy):

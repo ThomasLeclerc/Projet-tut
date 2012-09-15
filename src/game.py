@@ -16,7 +16,7 @@ import random
 def creerSnakes(nombre):
     r = random.randint(100,height-160)
     while(nombre!=0):
-        snakes.append(Ennemi.Snake(width+(nombre*20),0,r))
+        snakes.append(Ennemi.Snake(width+(nombre*30),0,r))
         nombre -= 1
 
 pygame.init()
@@ -48,7 +48,7 @@ ennemy = []
 obstacles = []
 ''''''
 #creerSnakes(int(monVaisseau.chaleurMax/33))
-creerSnakes(1)
+creerSnakes(int(monVaisseau.chaleurMax/33))
 ennemy.append(Ennemi.Shooter(width, height/2-20))
 ''''''
 
