@@ -13,17 +13,34 @@ import Player
 import Obstacle
 import random
 
+'''
+'' FONCTION QUI INSTANCIE nombre DE SNAKE
+'' le type de deplacement est tire aleatoirement
+'' ainsi que les coefiscients pour un deplacement en droite
+'''
 def creerSnakes(nombre):
-    r = random.randint(100,height-160)
-    while(nombre!=0):
-        snakes.append(Ennemi.Snake(width+(nombre*30),0,r))
-        nombre -= 1
+    positionChaine = random.randint(100,height-160)
+    deplacement = random.randint(1,3)
+    print deplacement
+    if deplacement == 2:
+        a = random.uniform(-0.8,0.8)
+        if a < 0:
+            b = random.uniform(height/2,height-10)
+        else:
+            b = random.uniform(10,height-height/2)
+        while(nombre!=0):
+            snakes.append(Ennemi.Snake(width+(nombre*40), 0, positionChaine, deplacement, a, b))
+            nombre -= 1
+    elif deplacement == 1:
+        while(nombre!=0):
+            snakes.append(Ennemi.Snake(width+(nombre*30), 0, positionChaine, 1))
+            nombre -= 1 
 
 pygame.init()
 
 
 ##### PARAMETRES DE LA FENETRE #####
-size = width, height = 1024 ,780 
+size = width, height = 1024,780 
 screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
 
@@ -130,7 +147,7 @@ while 1:
     ##### MOUVEMENT DES SNAKE #####
     if (len(snakes)!=0):
         for snake in snakes:
-            snake.move(snakes)
+            snake.move(snakes, width, height)
             
             
     ##### MOUVEMENT DES SHOOTERS #####

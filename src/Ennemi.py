@@ -20,9 +20,12 @@ class ennemy:
 
 
 class Snake(ennemy):
-    versLeHaut = True
-    def __init__(self,x,y, positionChaine):
+    def __init__(self,x,y, positionChaine, typeDeplacement , a=0, b=0):
         self.positionChaine=positionChaine
+        self.deplacement = typeDeplacement
+        if typeDeplacement == 2:
+            self.a = a
+            self.b = b
         ennemy.__init__(self,x,y, "images/chasseur1.png")
         self.img = pygame.transform.rotate(self.img,-75)
     def estTouche(self,x,y):
@@ -31,22 +34,29 @@ class Snake(ennemy):
         else:
             return False
     
-    def move(self,snakes):
-        self.posX -= 4
+    def move(self,snakes, width, height):
+        self.posX -= 5
         
         # DEPLACEMENT EN COURBE SINUSALE
-        self.posY =  math.cos(self.posX*0.02)*120+self.positionChaine
+        if self.deplacement==1:
+            self.posY =  math.cos(self.posX*0.02)*120+self.positionChaine
         
-        coefDir = -2.4*math.sin(0.02*self.posX)
-        angle = math.degrees(math.atan(coefDir))
+            # calcul de l'angle et rotation de l'image
+            coefDir = -2.4*math.sin(0.02*self.posX)
+            angle = math.degrees(math.atan(coefDir))  
+            self.img = pygame.image.load("images/chasseur1.png")
+            self.img = pygame.transform.rotate(self.img,-angle) 
         
-    
-        self.img = pygame.image.load("images/chasseur1.png")
-        self.img = pygame.transform.rotate(self.img,-angle) 
-        
-        if self.posX<0:
-            snakes.remove(self)
-
+            if self.posX<0:
+                snakes.remove(self)
+        #DEPLACEMENT EN DROITE        
+        elif self.deplacement==2:
+            self.posY = self.a*self.posX + self.b
+            angle = math.degrees(math.atan(self.a))
+            self.img = pygame.image.load("images/chasseur1.png")
+            self.img = pygame.transform.rotate(self.img,-angle)
+            if self.posX<0:
+                snakes.remove(self) 
 
 class Shooter(ennemy):
     vie = 2
@@ -72,9 +82,9 @@ class Shooter(ennemy):
     def move(self, ship, ennemy):
            self.posX -= 2      
            (shipPosX, shipPosY) = ship.getPos()
-           if self.posY < shipPosY and self.posY+3 < 600:
+           if self.posY < shipPosY-10 and self.posY+3 < 620:
                self.posY += 4
-           elif shipPosY < self.posY and self.posY-3 > 0:
+           elif shipPosY+10 < self.posY and self.posY-3 > 0:
                self.posY -= 4
            if self.posX<0:
                ennemy.remove(self)    
