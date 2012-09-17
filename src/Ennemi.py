@@ -1,6 +1,7 @@
 import pygame
 import math
 import Shot
+import random
 
 class ennemy:
     posX = 0
@@ -66,15 +67,8 @@ class Shooter(ennemy):
         ennemy.__init__(self,x,y, "images/ship1.png")  
         self.img = pygame.transform.rotate(self.img,90)
     
-    def estTouche(self,x,y , ennemy, player):
+    def estTouche(self,x,y , ennemy):
         if x > self.posX and x < self.posX+self.ennemyRect.right and y > self.posY and y < self.posY+self.ennemyRect.bottom:
-            self.vie -= 1
-            if self.vie == 0:
-                ennemy.remove(self)
-                player.raiseScore(1)
-            else:
-                self.img = pygame.image.load("images/ship3.png") 
-                self.img = pygame.transform.rotate(self.img,90)
             return True
         else:
             return False            
@@ -91,9 +85,58 @@ class Shooter(ennemy):
                 
     def tir(self):
         self.compteurTir += 1
-        if self.compteurTir%20 == 0:
+        if self.compteurTir%30 == 0:
             self.missilesShooter.append(Shot.shotShooterEnnemy(self.posX,self.posY+20))         
                           
+   
+'''
+'' Ennemi qui se deplace aleatoirement
+'''             
+class Aleatoire(ennemy):
+    vie = 2
+    sens = 1
+    def __init__(self,x,y):
+        ennemy.__init__(self,x,y, "images/ship1.png")  
+        self.img = pygame.transform.rotate(self.img,90)
+    
+    def estTouche(self,x,y , ennemy):
+        if x > self.posX and x < self.posX+self.ennemyRect.right and y > self.posY and y < self.posY+self.ennemyRect.bottom:
+            self.vie -= 1
+            if self.vie == 0:
+                ennemy.remove(self)
+            else:
+                self.img = pygame.image.load("images/ship3.png") 
+                self.img = pygame.transform.rotate(self.img,90)
+            return True
+        else:
+            return False            
+    
+    def move(self, ennemy, height):
+        self.posX -= 4
+        if (self.posX)%30 == 0:
+           self.sens = random.randint(0,1)
+        print self.sens   
+        
+        if self.sens == 0:
+            if self.posY > height-20:
+                self.sens = 1
+                self.posY -= 3
+            else:
+                self.posY += 3
+            
+        else:
+            if self.posY < 20:
+                self.sens = 0
+                self.posY += 3
+            else:
+                self.posY -= 3
+        
+        if self.posY > height-20:
+            self.sens = 1
+          
+        if self.posX<0:
+               ennemy.remove(self)   
+        
                 
             
 

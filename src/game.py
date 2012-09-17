@@ -13,6 +13,11 @@ import Player
 import Obstacle
 import random
 
+
+
+
+##### DEFINITION DES FCONTIONS #####
+
 '''
 '' FONCTION QUI INSTANCIE nombre DE SNAKE
 '' le type de deplacement est tire aleatoirement
@@ -21,14 +26,13 @@ import random
 def creerSnakes(nombre):
     positionChaine = random.randint(100,height-160)
     deplacement = random.randint(1,3)
-    print deplacement
     if deplacement == 2:
         a = random.uniform(-0.8,0.8)
         if a < 0:
             b = random.uniform(height/2,height-10)
         else:
             b = random.uniform(10,height-height/2)
-        while(nombre!=0):
+        while nombre!=0:
             snakes.append(Ennemi.Snake(width+(nombre*40), 0, positionChaine, deplacement, a, b))
             nombre -= 1
     elif deplacement == 1:
@@ -36,14 +40,49 @@ def creerSnakes(nombre):
             snakes.append(Ennemi.Snake(width+(nombre*30), 0, positionChaine, 1))
             nombre -= 1 
 
+def creerShooters():
+    if len(ennemy) < 2:
+        ennemy.append(Ennemi.Shooter(width, height/2-20))
+        
+def creerAleatoires():
+    if len(aleatoires) < 4:
+        aleatoires.append(Ennemi.Aleatoire(width, height/2))
+        
+'''
+'' Fonction qui gere l'apparition aleatoire des ennemis
+'' 
+'''
+def creerEnnemi(proba):
+    r = random.randint(0,100)
+    proba += 10
+    if (r < proba):
+        typeEnnemi = random.randint(1,3)
+        if (typeEnnemi == 1):
+            creerSnakes(int(monVaisseau.chaleurMax/33))
+            proba -= 30 
+        elif (typeEnnemi == 2):
+            creerShooters()
+            proba -= 30
+        else:
+            creerAleatoires()
+            proba -= 20
+    
+             
+        
+        
+
+
+
 pygame.init()
 
 
 ##### PARAMETRES DE LA FENETRE #####
-size = width, height = 1024,780 
+size = width, height = 640, 480
 screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
-
+##### COMPTEURS #####
+proba = 0
+comptApparitionEnnemis = 0
 
 ##### IMAGES DU BACKGROUND #####
 background = pygame.image.load("images/background.jpg")
@@ -62,11 +101,10 @@ monVaisseau.setImg("images/orange_ship_small_1.png")
 missiles = []
 snakes = []
 ennemy = []
+aleatoires = []
 obstacles = []
 ''''''
-#creerSnakes(int(monVaisseau.chaleurMax/33))
-creerSnakes(int(monVaisseau.chaleurMax/33))
-ennemy.append(Ennemi.Shooter(width, height/2-20))
+creerEnnemi(proba)
 ''''''
 
 ##### OBSTACLES #####
@@ -159,7 +197,11 @@ while 1:
                 for missileShooterTemp in shooter.missilesShooter:
                     missileShooterTemp.move(shooter.missilesShooter)
       
-            
+    
+    ##### MOUVEMENT DES ALEATOIRES #####
+    if len(aleatoires) != 0:
+        for aleatoire in aleatoires:
+            aleatoire.move(aleatoires, height)     
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
@@ -171,20 +213,42 @@ while 1:
     #blit joueur    
     screen.blit(monVaisseau.img,monVaisseau.getPos())
     
-    #blits missiles
+    #tests de collisions des ennemis avec les missiles
     for monMissile in missiles:
         screen.blit(monMissile.img,monMissile.getPos())
-        #test des ennemis
+        #test des snakes
         for snakeTemp in snakes:
             if snakeTemp.estTouche(monMissile.posX,monMissile.posY):
                 monPlayer.raiseScore(1)                
                 missiles.remove(monMissile)
                 snakes.remove(snakeTemp)
+    for monMissile in missiles:
+        screen.blit(monMissile.img,monMissile.getPos())
+        #test des shooters    
         for shooterTemp in ennemy:
-            if shooterTemp.estTouche(monMissile.posX,monMissile.posY, ennemy, monPlayer):         
-                missiles.remove(monMissile)
-                ennemy.remove(shooterTemp)
+            if shooterTemp.estTouche(monMissile.posX,monMissile.posY, ennemy): 
+                shooterTemp.vie -= 1
+                if shooterTemp.vie == 1:
+                    print shooterTemp.vie
+                    shooterTemp.img = pygame.image.load("images/ship3.png") 
+                    shooterTemp.img = pygame.transform.rotate(shooterTemp.img,90)
+                elif shooterTemp.vie == 0:         
+                    missiles.remove(monMissile)
+                    ennemy.remove(shooterTemp)
+                    monPlayer.raiseScore(2)
                 
+    for monMissile in missiles:
+        screen.blit(monMissile.img,monMissile.getPos())
+        #test des aleatoires 
+        for aleaTemp in aleatoires:
+            if aleaTemp.estTouche(monMissile.posX,monMissile.posY, aleatoires):
+                monPlayer.raiseScore(1)          
+                missiles.remove(monMissile)
+                aleatoires.remove(aleaTemp)
+    
+    #blits missiles
+    for monMissile in missiles:
+        screen.blit(monMissile.img,monMissile.getPos())           
                                      
     #blits snakes
     for snakeTemp in snakes:
@@ -197,7 +261,10 @@ while 1:
                 for missileShooterTemp in shooter.missilesShooter:
                     screen.blit(missileShooterTemp.img,missileShooterTemp.getPos())
         
-
+    #blits aleatoires
+    for aleaTemp in aleatoires:
+        screen.blit(aleaTemp.img,aleaTemp.getPos())
+        
     #blits score
     police = pygame.font.Font(None, 80)
     texte = police.render(str(monPlayer.getScore()),1,(254,0,0))
@@ -210,7 +277,10 @@ while 1:
     if(monVaisseau.chaleur==0):
         screen.blit(img,(10*(l+2),10))
     
-    if len(snakes)==0:
-        creerSnakes(int(monVaisseau.chaleurMax/33))
-
+    #apparition aleatoire d'ennemis
+    if (comptApparitionEnnemis%7 == 0):
+        creerEnnemi(proba)
+        comptApparitionEnnemis = 0
+    comptApparitionEnnemis += 1
+    
     pygame.display.flip()
