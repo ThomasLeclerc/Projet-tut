@@ -66,11 +66,20 @@ def creerEnnemi(proba):
         else:
             creerAleatoires()
             proba -= 20
-    
-             
-        
-        
-
+'''    
+def exlposion(x, y):
+    img = []
+    img.append(pygame.image.load("images/ingame/explosion/explosion1.png"))          
+    img.append(pygame.image.load("images/ingame/explosion/explosion2.png"))
+    img.append(pygame.image.load("images/ingame/explosion/explosion3.png"))
+    img.append(pygame.image.load("images/ingame/explosion/explosion4.png"))
+    img.append(pygame.image.load("images/ingame/explosion/explosion5.png"))
+    img.append(pygame.image.load("images/ingame/explosion/explosion6.png"))
+    img.append(pygame.image.load("images/ingame/explosion/explosion8.png"))
+    img.append(pygame.image.load("images/ingame/explosion/explosion9.png"))        
+    for im in img:
+        screen.blit(im,(x, y)    
+'''
 
 
 pygame.init()
@@ -103,6 +112,7 @@ snakes = []
 ennemy = []
 aleatoires = []
 obstacles = []
+missilesShooter = []
 ''''''
 creerEnnemi(proba)
 ''''''
@@ -181,31 +191,24 @@ while 1:
     ##### MOUVEMENT JOUEUR #####
     monVaisseau.bouge("images/orange_ship_small_1.png","images/orange_ship_small_2.png", height)
 
-
     ##### MOUVEMENT DES SNAKE #####
-    if (len(snakes)!=0):
-        for snake in snakes:
-            snake.move(snakes, width, height)
-            
-            
+    for snake in snakes:
+        snake.move(snakes, width, height)
+                  
     ##### MOUVEMENT DES SHOOTERS #####
-    if (len(ennemy)!=0):
-        for shooter in ennemy:
-            shooter.move(monVaisseau, ennemy)
-            shooter.tir()
-            if len(shooter.missilesShooter)!=0:
-                for missileShooterTemp in shooter.missilesShooter:
-                    missileShooterTemp.move(shooter.missilesShooter)
-      
-    
+    for shooter in ennemy:
+        shooter.move(monVaisseau, ennemy)
+        shooter.tir(missilesShooter)
+                 
     ##### MOUVEMENT DES ALEATOIRES #####
-    if len(aleatoires) != 0:
-        for aleatoire in aleatoires:
-            aleatoire.move(aleatoires, height)     
+    for aleatoire in aleatoires:
+        aleatoire.move(aleatoires, height)     
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
         monMissile.bouge(width, missiles)
+    for missileShooterTemp in missilesShooter:
+        missileShooterTemp.move(missilesShooter)
 
     '''
     ''    BLITS (deplacements)
@@ -229,12 +232,12 @@ while 1:
             if shooterTemp.estTouche(monMissile.posX,monMissile.posY, ennemy): 
                 shooterTemp.vie -= 1
                 if shooterTemp.vie == 1:
-                    print shooterTemp.vie
-                    shooterTemp.img = pygame.image.load("images/ship3.png") 
-                    shooterTemp.img = pygame.transform.rotate(shooterTemp.img,90)
+                    print 'haha'
                 elif shooterTemp.vie == 0:         
                     missiles.remove(monMissile)
+                    #(x, y) = ennemy.getPos()
                     ennemy.remove(shooterTemp)
+                    #exlposion(x, y)
                     monPlayer.raiseScore(2)
                 
     for monMissile in missiles:
@@ -257,10 +260,11 @@ while 1:
     #blits shooters
     for shooterTemp in ennemy:
         screen.blit(shooterTemp.img,shooterTemp.getPos())
-        if len(shooter.missilesShooter)!=0:
-                for missileShooterTemp in shooter.missilesShooter:
-                    screen.blit(missileShooterTemp.img,missileShooterTemp.getPos())
-        
+                
+    #blits missiles shooter
+    for missileShooterTemp in missilesShooter:
+        screen.blit(missileShooterTemp.img,missileShooterTemp.getPos()) 
+           
     #blits aleatoires
     for aleaTemp in aleatoires:
         screen.blit(aleaTemp.img,aleaTemp.getPos())
@@ -268,7 +272,7 @@ while 1:
     #blits score
     police = pygame.font.Font(None, 80)
     texte = police.render(str(monPlayer.getScore()),1,(254,0,0))
-    screen.blit(texte,(550,300))
+    screen.blit(texte,(width-70,height-70))
     
     #blits jauge chaleur
     img = pygame.image.load("images/rocket.png")

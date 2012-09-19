@@ -62,10 +62,9 @@ class Snake(ennemy):
 class Shooter(ennemy):
     vie = 2
     compteurTir = 0
-    missilesShooter = []
+    switch = 0
     def __init__(self,x,y):
-        ennemy.__init__(self,x,y, "images/ship1.png")  
-        self.img = pygame.transform.rotate(self.img,90)
+        ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy1/enemy1_1.png")  
     
     def estTouche(self,x,y , ennemy):
         if x > self.posX and x < self.posX+self.ennemyRect.right and y > self.posY and y < self.posY+self.ennemyRect.bottom:
@@ -74,19 +73,27 @@ class Shooter(ennemy):
             return False            
     
     def move(self, ship, ennemy):
-           self.posX -= 2      
-           (shipPosX, shipPosY) = ship.getPos()
-           if self.posY < shipPosY-10 and self.posY+3 < 620:
-               self.posY += 4
-           elif shipPosY+10 < self.posY and self.posY-3 > 0:
-               self.posY -= 4
-           if self.posX<0:
-               ennemy.remove(self)    
+        self.posX -= 2      
+        (shipPosX, shipPosY) = ship.getPos()
+        if self.posY < shipPosY-10 and self.posY+3 < 620:
+            self.posY += 4
+        elif shipPosY+10 < self.posY and self.posY-3 > 0:
+            self.posY -= 4
+        if self.posX<0:
+            ennemy.remove(self)  
+               
+        #animation    
+        if self.switch == 0:
+            self.img = pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_2.png")
+            self.switch=1
+        elif self.switch == 1:
+            self.img = pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_1.png")
+            self.switch=0  
                 
-    def tir(self):
+    def tir(self, missilesShooter):
         self.compteurTir += 1
         if self.compteurTir%30 == 0:
-            self.missilesShooter.append(Shot.shotShooterEnnemy(self.posX,self.posY+20))         
+            missilesShooter.append(Shot.shotShooterEnnemy(self.posX,self.posY+20))         
                           
    
 '''
@@ -95,9 +102,9 @@ class Shooter(ennemy):
 class Aleatoire(ennemy):
     vie = 2
     sens = 1
+    switch = 0
     def __init__(self,x,y):
-        ennemy.__init__(self,x,y, "images/ship1.png")  
-        self.img = pygame.transform.rotate(self.img,90)
+        ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy2/enemy2_1.png")   
     
     def estTouche(self,x,y , ennemy):
         if x > self.posX and x < self.posX+self.ennemyRect.right and y > self.posY and y < self.posY+self.ennemyRect.bottom:
@@ -135,7 +142,15 @@ class Aleatoire(ennemy):
             self.sens = 1
           
         if self.posX<0:
-               ennemy.remove(self)   
+               ennemy.remove(self)  
+               
+        #animation    
+        if self.switch == 0:
+            self.img = pygame.image.load("images/vaisseaux/enemies/enemy2/enemy2_2.png")
+            self.switch=1
+        elif self.switch == 1:
+            self.img = pygame.image.load("images/vaisseaux/enemies/enemy2/enemy2_1.png")
+            self.switch=0  
         
                 
             

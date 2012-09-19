@@ -3,7 +3,7 @@ import pygame
 class shot:
     posX = 0
     posY = 0
-    img = pygame.image.load("images/rocket.png")
+    img = pygame.image.load("images/vaisseaux/orange_ship/orange_ship_bullet.png")
     def setPos(self,x,y):
         self.posX=x+20
         self.posY=y+20
@@ -16,7 +16,7 @@ class shot:
 #fin classe shot
     
 class shotShooterEnnemy (shot):
-    img = pygame.image.load("images/rocketShooter.png") 
+    img = pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_bullet.png") 
     def __init__(self, x, y):
         self.posX = x
         self.posY = y
