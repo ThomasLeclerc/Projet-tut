@@ -65,7 +65,7 @@ class Shooter(ennemy):
     switch = 0
     def __init__(self,x,y):
         ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy1/enemy1_1.png")  
-    
+        self.img =  pygame.transform.scale(self.img, (80, 100))
     def estTouche(self,x,y , ennemy):
         if x > self.posX and x < self.posX+self.ennemyRect.right and y > self.posY and y < self.posY+self.ennemyRect.bottom:
             return True
@@ -84,10 +84,10 @@ class Shooter(ennemy):
                
         #animation    
         if self.switch == 0:
-            self.img = pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_2.png")
+            self.img = self.img =  pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_2.png"), (80, 100))
             self.switch=1
         elif self.switch == 1:
-            self.img = pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_1.png")
+            self.img = pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_1.png"), (80, 100))
             self.switch=0  
                 
     def tir(self, missilesShooter):
@@ -105,14 +105,15 @@ class Aleatoire(ennemy):
     switch = 0
     def __init__(self,x,y):
         ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy2/enemy2_1.png")   
-    
+        self.img =  pygame.transform.scale(self.img, (50, 50))
+        
     def estTouche(self,x,y , ennemy):
         if x > self.posX and x < self.posX+self.ennemyRect.right and y > self.posY and y < self.posY+self.ennemyRect.bottom:
             self.vie -= 1
             if self.vie == 0:
                 ennemy.remove(self)
             else:
-                self.img = pygame.image.load("images/ship3.png") 
+                self.img = self.img =  pygame.transform.scale(pygame.image.load("images/ship3.png") , (50, 50))
                 self.img = pygame.transform.rotate(self.img,90)
             return True
         else:
@@ -121,8 +122,7 @@ class Aleatoire(ennemy):
     def move(self, ennemy, height):
         self.posX -= 4
         if (self.posX)%30 == 0:
-           self.sens = random.randint(0,1)
-        print self.sens   
+           self.sens = random.randint(0,1)   
         
         if self.sens == 0:
             if self.posY > height-20:
@@ -146,10 +146,10 @@ class Aleatoire(ennemy):
                
         #animation    
         if self.switch == 0:
-            self.img = pygame.image.load("images/vaisseaux/enemies/enemy2/enemy2_2.png")
+            self.img = pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy2/enemy2_2.png") , (50, 50))
             self.switch=1
         elif self.switch == 1:
-            self.img = pygame.image.load("images/vaisseaux/enemies/enemy2/enemy2_1.png")
+            self.img = pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy2/enemy2_2.png") , (50, 50))
             self.switch=0  
         
                 

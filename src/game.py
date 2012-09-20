@@ -59,28 +59,27 @@ def creerEnnemi(proba):
         typeEnnemi = random.randint(1,3)
         if (typeEnnemi == 1):
             creerSnakes(int(monVaisseau.chaleurMax/33))
-            proba -= 30 
+            proba -= 40 
         elif (typeEnnemi == 2):
             creerShooters()
-            proba -= 30
+            proba -= 40
         else:
             creerAleatoires()
-            proba -= 20
-'''    
-def exlposion(x, y):
-    img = []
-    img.append(pygame.image.load("images/ingame/explosion/explosion1.png"))          
-    img.append(pygame.image.load("images/ingame/explosion/explosion2.png"))
-    img.append(pygame.image.load("images/ingame/explosion/explosion3.png"))
-    img.append(pygame.image.load("images/ingame/explosion/explosion4.png"))
-    img.append(pygame.image.load("images/ingame/explosion/explosion5.png"))
-    img.append(pygame.image.load("images/ingame/explosion/explosion6.png"))
-    img.append(pygame.image.load("images/ingame/explosion/explosion8.png"))
-    img.append(pygame.image.load("images/ingame/explosion/explosion9.png"))        
-    for im in img:
-        screen.blit(im,(x, y)    
-'''
+            proba -= 30
+        if proba == 100:
+            proba = 0
 
+'''
+'' Apparition aleatoire des asteroides
+'''
+def creerObstacle(proba):
+    r = random.randint(0,100)
+    y = random.randint(10, height-54)
+    proba += 10
+    if (r < proba):
+        typeObstacle = random.randint(1,5)
+        obstacles.append(Obstacle.obstacle(y, "images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
+        proba = 0
 
 pygame.init()
 
@@ -90,8 +89,10 @@ size = width, height = 640, 480
 screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
 ##### COMPTEURS #####
-proba = 0
+probaEnnemis = 0
+probaObstacles = 0
 comptApparitionEnnemis = 0
+comptApparitionObstacles = 0
 
 ##### IMAGES DU BACKGROUND #####
 background = pygame.image.load("images/background.jpg")
@@ -114,7 +115,8 @@ aleatoires = []
 obstacles = []
 missilesShooter = []
 ''''''
-creerEnnemi(proba)
+creerEnnemi(probaEnnemis)
+creerObstacle(probaObstacles)
 ''''''
 
 ##### OBSTACLES #####
@@ -133,7 +135,6 @@ while 1:
     clock = pygame.time.Clock()
     FRAMES_PER_SECOND = 50
     deltat = clock.tick(FRAMES_PER_SECOND)
-    
     ''' COMMANDES CLAVIER '''
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
@@ -202,7 +203,12 @@ while 1:
                  
     ##### MOUVEMENT DES ALEATOIRES #####
     for aleatoire in aleatoires:
-        aleatoire.move(aleatoires, height)     
+        aleatoire.move(aleatoires, height)  
+        
+    ##### MOUVEMENT DES OBSTACLES #####
+    for obstacle in obstacles:
+        obstacle.move()
+        
 
     ##### MOUVEMENT MISSILES #####        
     for monMissile in missiles:
@@ -230,15 +236,9 @@ while 1:
         #test des shooters    
         for shooterTemp in ennemy:
             if shooterTemp.estTouche(monMissile.posX,monMissile.posY, ennemy): 
-                shooterTemp.vie -= 1
-                if shooterTemp.vie == 1:
-                    print 'haha'
-                elif shooterTemp.vie == 0:         
-                    missiles.remove(monMissile)
-                    #(x, y) = ennemy.getPos()
-                    ennemy.remove(shooterTemp)
-                    #exlposion(x, y)
-                    monPlayer.raiseScore(2)
+                missiles.remove(monMissile)
+                ennemy.remove(shooterTemp)
+                monPlayer.raiseScore(2)
                 
     for monMissile in missiles:
         screen.blit(monMissile.img,monMissile.getPos())
@@ -268,7 +268,10 @@ while 1:
     #blits aleatoires
     for aleaTemp in aleatoires:
         screen.blit(aleaTemp.img,aleaTemp.getPos())
-        
+      
+    #blits obstacles
+    for obsTemp in obstacles:
+        screen.blit(obsTemp.img,obsTemp.getPos())  
     #blits score
     police = pygame.font.Font(None, 80)
     texte = police.render(str(monPlayer.getScore()),1,(254,0,0))
@@ -283,8 +286,16 @@ while 1:
     
     #apparition aleatoire d'ennemis
     if (comptApparitionEnnemis%7 == 0):
-        creerEnnemi(proba)
+        creerEnnemi(probaEnnemis)
         comptApparitionEnnemis = 0
     comptApparitionEnnemis += 1
+    
+    
+    
+    #apparition aleatoire d'obstacles
+    if (comptApparitionObstacles%10 == 0):
+        creerObstacle(probaObstacles)
+        comptApparitionObstacles = 0
+    comptApparitionObstacles += 1
     
     pygame.display.flip()

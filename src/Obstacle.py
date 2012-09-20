@@ -1,7 +1,6 @@
 import pygame
 
 
-
 class obstacle:
     posX = 0
     posY = 0
@@ -15,9 +14,9 @@ class obstacle:
         return (self.posX,self.posY)
     
     def setImg(self, image):
-        self.img = pygame.image.load(image)
+        self.img =  pygame.transform.scale(pygame.image.load(image), (81, 75))
         self.ennemyRect = self.img.get_rect()
 
 
-    def bouge(self,):
-        self.posx-=8
+    def move(self):
+        self.posX-=8
