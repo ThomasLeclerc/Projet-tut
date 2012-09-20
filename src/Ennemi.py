@@ -48,7 +48,7 @@ class Snake(ennemy):
             self.img = pygame.image.load("images/chasseur1.png")
             self.img = pygame.transform.rotate(self.img,-angle) 
         
-            if self.posX<0:
+            if self.posX<-200:
                 snakes.remove(self)
         #DEPLACEMENT EN DROITE        
         elif self.deplacement==2:
@@ -79,7 +79,7 @@ class Shooter(ennemy):
             self.posY += 4
         elif shipPosY+10 < self.posY and self.posY-3 > 0:
             self.posY -= 4
-        if self.posX<0:
+        if self.posX<-100:
             ennemy.remove(self)  
                
         #animation    
@@ -120,8 +120,8 @@ class Aleatoire(ennemy):
             return False            
     
     def move(self, ennemy, height):
-        self.posX -= 4
-        if (self.posX)%30 == 0:
+        self.posX -= 8
+        if (self.posX)%25 == 0:
            self.sens = random.randint(0,1)   
         
         if self.sens == 0:
@@ -141,7 +141,7 @@ class Aleatoire(ennemy):
         if self.posY > height-20:
             self.sens = 1
           
-        if self.posX<0:
+        if self.posX<-50:
                ennemy.remove(self)  
                
         #animation    
