@@ -3,6 +3,8 @@ import Curseur
 import pygame
 import sys
 
+pygame.init()
+
 ##### PARAMETRES DE LA FENETRE #####
 size = width, height = 1024,780 
 screen = pygame.display.set_mode(size)
@@ -25,6 +27,11 @@ posX2 = width/2 + 100
 ##### CURSEUR #####
 pas = posX2 - posX1
 curseurStore = Curseur.curseur(posX1, pas)
+
+##### SON #####
+sonExplosion = pygame.mixer.Sound("sounds/cliclic.WAV")
+
+
 
 
 screen.blit(imgQuitTxt, (posX,posY))            
@@ -58,8 +65,8 @@ while 1:
             elif event.key == pygame.K_RETURN:
 
                 if curseurStore.estPositionne(posX1):
-                    print("Retour a l'ecran precedent")
-
+                    sonExplosion.play()
+                        
                 elif curseurStore.estPositionne(posX2):
                     sys.exit()     
             # ECHAP

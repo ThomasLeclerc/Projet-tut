@@ -122,14 +122,16 @@ creerObstacle(probaObstacles)
 ##### OBSTACLES #####
 #obstacles.append(Obstacle(0,"images/meteorite.png"))
 
-
-
+##### MUSIQUE #####
+musique = pygame.mixer.Sound("sounds/BB078.WAV")
+play = 0
 
 '''
 '' BOUCLE DE JEU
 ''    (img par img)
 '''
 while 1:
+    
     
     ''' VITESSE D'AFFICHAGE '''    
     clock = pygame.time.Clock()
@@ -297,5 +299,10 @@ while 1:
         creerObstacle(probaObstacles)
         comptApparitionObstacles = 0
     comptApparitionObstacles += 1
+    
+    ''' PTITE ZIK '''
+    if play == 0:
+        musique.play()
+        play = 1
     
     pygame.display.flip()
