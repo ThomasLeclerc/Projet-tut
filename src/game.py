@@ -79,9 +79,8 @@ def gameOver((x, y), screen):
         screen.blit(background, (0,0))             
         screen.blit(pygame.image.load("images/ingame/explosion/explosion"+str(g)+".png"), (x,y))
         pygame.display.flip()
-        sleep(0.05)
+        sleep(0.1)
     
-    screen.blit(background, (0,0))
     #blit GAME OVER    
     policeTitre = pygame.font.Font(None, 120)
     titre = policeTitre.render("GAME OVER",1,(254,0,0))
@@ -115,7 +114,7 @@ comptApparitionShooter = 100
 comptApparitionAleatoire = 70
 comptApparitionObstacles = 80
 distanceTemp = 0
-distance = 0
+distance = 2
 perdu = False
 
 ##### IMAGES DU BACKGROUND #####
