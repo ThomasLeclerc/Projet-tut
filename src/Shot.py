@@ -1,25 +1,37 @@
 import pygame
 
-class shot:
-    posX = 0
-    posY = 0
-    img = pygame.image.load("images/vaisseaux/orange_ship/orange_ship_bullet.png")
-    def setPos(self,x,y):
-        self.posX=x+20
-        self.posY=y+20
+class shot:  
+    def getPos(self):
+        return (self.posX,self.posY)
+    
+    def getDimensions(self):
+        return (self.img.get_width(), self.img.get_height())
+    
+    def setImg(self, image):
+        self.img = pygame.image.load(image)
+        self.ennemyRect = self.img.get_rect()
+#fin classe shot
+    
+class shotShip(shot):
+    def __init__(self):
+        self.posX = 0
+        self.posY = 0
+        self.setImg("images/vaisseaux/orange_ship/orange_ship_bullet.png")
+        
     def bouge(self, width, missiles):
         self.posX+=15
         if self.posX>width:
             missiles.remove(self)
-    def getPos(self):
-        return (self.posX,self.posY)
-#fin classe shot
-    
+            
+    def setPos(self,x,y):
+        self.posX=x+20
+        self.posY=y+20
+        
 class shotShooterEnnemy (shot):
-    img = pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_bullet.png") 
     def __init__(self, x, y):
         self.posX = x
         self.posY = y
+        self.setImg("images/vaisseaux/enemies/enemy1/enemy1_bullet.png") 
     def move(self, missilesShooter):
         self.posX-=10
         if self.posX<-20:

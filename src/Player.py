@@ -1,8 +1,7 @@
 class player:
-    #best_score = getBestScore()
-    score = 0
     def __init__(self,name):
         self.name = name
+        self.score = 0
 
     def raiseScore(self, nombre):
         self.score += nombre

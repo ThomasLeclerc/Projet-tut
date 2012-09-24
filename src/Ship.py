@@ -11,12 +11,13 @@ class ship:
     chaleur=0
     charge=0
     inCharge=False
+    enVie = True
     
     def getPos(self):
         return (self.posX,self.posY)
     def setImg(self, image):
         self.img = pygame.image.load(image)
-        self.shiprect = self.img.get_rect()
+        self.shipRect = self.img.get_rect()
 
     #
     # deplace le vaisseau,   
@@ -39,7 +40,7 @@ class ship:
                 self.setImg(file1)
                 self.switch=0
         else:
-            if self.posY+2 <= height-(self.shiprect).bottom:
+            if self.posY+2 <= height-(self.shipRect).bottom:
                 self.posY+=self.speed
                 self.speed+=accel
             else:
@@ -49,8 +50,8 @@ class ship:
         if self.posY < 0:
             self.posY = 0
             self.speed = 0
-        elif self.posY > height-(self.shiprect).bottom:
-            self.posY = height-(self.shiprect).bottom
+        elif self.posY > height-(self.shipRect).bottom:
+            self.posY = height-(self.shipRect).bottom
             self.speed = 0
 
         '''
@@ -67,5 +68,14 @@ class ship:
                 self.charge+=3
         
     #fin fonction bouge()
+    
+    def estTouche(self,(x,y), (obsWidth, obsHeight)):
+        if ((self.posX+self.img.get_width() > x and self.posX+self.img.get_width() < x+obsWidth and self.posY > y and self.posY < y+obsHeight) or
+        (self.posX+self.img.get_width() > x and self.posX+self.img.get_width() < x+obsWidth and self.posY+self.img.get_height() > y and self.posY+self.img.get_height() < y+obsHeight) or 
+        (self.posX+self.img.get_width() > x and self.posX < x+obsWidth and self.posY+self.img.get_height() > y and self.posY+self.img.get_height() < y+obsHeight) or 
+        (self.posX+self.img.get_width() > x and self.posX < x+obsWidth and self.posY > y and self.posY < y+obsHeight)):
+            return True 
+        else:
+            return False
 #fin classe ship
 

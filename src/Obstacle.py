@@ -13,6 +13,9 @@ class obstacle:
     def getPos(self):
         return (self.posX,self.posY)
     
+    def getDimensions(self):
+        return (self.img.get_width(), self.img.get_height())
+    
     def setImg(self, image):
         self.img =  pygame.transform.scale(pygame.image.load(image), (81, 75))
         self.obstacleRect = self.img.get_rect()

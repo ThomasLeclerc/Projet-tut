@@ -15,6 +15,9 @@ class ennemy:
     def getPos(self):
         return (self.posX,self.posY)
     
+    def getDimensions(self):
+        return (self.img.get_width(), self.img.get_height())
+    
     def setImg(self, image):
         self.img = pygame.image.load(image)
         self.ennemyRect = self.img.get_rect()
