@@ -15,8 +15,14 @@ class obstacle:
     
     def setImg(self, image):
         self.img =  pygame.transform.scale(pygame.image.load(image), (81, 75))
-        self.ennemyRect = self.img.get_rect()
+        self.obstacleRect = self.img.get_rect()
 
 
     def move(self):
         self.posX-=8
+        
+    def estTouche(self,x,y):
+        if x > self.posX and x < self.posX+self.obstacleRect.right and y > self.posY and y < self.posY+self.obstacleRect.bottom:
+            return True 
+        else:
+            return False

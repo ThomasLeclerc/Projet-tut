@@ -224,7 +224,7 @@ while 1:
     #blit joueur    
     screen.blit(monVaisseau.img,monVaisseau.getPos())
     
-    #tests de collisions des ennemis avec les missiles
+    ##### COLLISIONS ####
     for monMissile in missiles:
         screen.blit(monMissile.img,monMissile.getPos())
         #test des snakes
@@ -250,6 +250,13 @@ while 1:
                 monPlayer.raiseScore(1)          
                 missiles.remove(monMissile)
                 aleatoires.remove(aleaTemp)
+                
+    for monMissile in missiles:
+        screen.blit(monMissile.img,monMissile.getPos())
+        #test des obstacles
+        for obsTemp in obstacles:
+            if obsTemp.estTouche(monMissile.posX,monMissile.posY):        
+                missiles.remove(monMissile)
     
     #blits missiles
     for monMissile in missiles:
