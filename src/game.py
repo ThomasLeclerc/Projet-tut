@@ -24,7 +24,7 @@ import random
 '' ainsi que les coefiscients pour un deplacement en droite
 '''
 def creerSnakes(nombre):
-    positionChaine = random.randint(100,height-160)
+    positionChaine = random.randint(100,height-180)
     deplacement = random.randint(1,3)
     if deplacement == 2:
         a = random.uniform(-0.8,0.8)
@@ -52,34 +52,26 @@ def creerAleatoires():
 '' Fonction qui gere l'apparition aleatoire des ennemis
 '' 
 '''
-def creerEnnemi(proba):
-    r = random.randint(0,100)
-    proba += 10
-    if (r < proba):
-        typeEnnemi = random.randint(1,3)
-        if (typeEnnemi == 1):
-            creerSnakes(int(monVaisseau.chaleurMax/33))
-            proba -= 40 
-        elif (typeEnnemi == 2):
-            creerShooters()
-            proba -= 40
-        else:
-            creerAleatoires()
-            proba -= 30
-        if proba == 100:
-            proba = 0
-
+def creerEnnemi(compApparitionSnake, compApparitionShooter, compApparitionAleatoire):
+    if distance%compApparitionSnake == 0:
+        compApparitionSnake -= 1
+        creerSnakes(int(monVaisseau.chaleurMax/60))
+    if distance%compApparitionShooter == 0:
+        compApparitionShooter -= 1
+        creerShooters()
+    if distance%compApparitionAleatoire == 0:
+        compApparitionAleatoire -= 1
+        creerAleatoires()
 '''
 '' Apparition aleatoire des asteroides
 '''
-def creerObstacle(proba):
+def creerObstacle(comptApparitionObstacle):
     r = random.randint(0,100)
     y = random.randint(10, height-54)
-    proba += 10
-    if (r < proba):
+    if distance%comptApparitionObstacle==0:
+        comptApparitionObstacle -= 0
         typeObstacle = random.randint(1,5)
         obstacles.append(Obstacle.obstacle(y, "images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
-        proba = 0
 
 pygame.init()
 
@@ -89,10 +81,13 @@ size = width, height = 640, 480
 screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
 ##### COMPTEURS #####
-probaEnnemis = 0
 probaObstacles = 0
-comptApparitionEnnemis = 0
-comptApparitionObstacles = 0
+comptApparitionSnake = 90
+comptApparitionShooter = 100
+comptApparitionAleatoire = 70
+comptApparitionObstacles = 80
+distanceTemp = 0
+distance = 0
 
 ##### IMAGES DU BACKGROUND #####
 background = pygame.image.load("images/background.jpg")
@@ -115,8 +110,8 @@ aleatoires = []
 obstacles = []
 missilesShooter = []
 ''''''
-creerEnnemi(probaEnnemis)
-creerObstacle(probaObstacles)
+creerEnnemi(comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire)
+creerObstacle(comptApparitionObstacles)
 ''''''
 
 ##### OBSTACLES #####
@@ -282,9 +277,9 @@ while 1:
     for obsTemp in obstacles:
         screen.blit(obsTemp.img,obsTemp.getPos())  
     #blits score
-    police = pygame.font.Font(None, 80)
-    texte = police.render(str(monPlayer.getScore()),1,(254,0,0))
-    screen.blit(texte,(width-70,height-70))
+    police = pygame.font.Font(None, 60)
+    texte = police.render(str(distance)+" m",1,(254,0,0))
+    screen.blit(texte,(width-200,height-70))
     
     #blits jauge chaleur
     img = pygame.image.load("images/rocket.png")
@@ -293,19 +288,17 @@ while 1:
     if(monVaisseau.chaleur==0):
         screen.blit(img,(10*(l+2),10))
     
-    #apparition aleatoire d'ennemis
-    if (comptApparitionEnnemis%7 == 0):
-        creerEnnemi(probaEnnemis)
-        comptApparitionEnnemis = 0
-    comptApparitionEnnemis += 1
     
     
     
-    #apparition aleatoire d'obstacles
-    if (comptApparitionObstacles%10 == 0):
-        creerObstacle(probaObstacles)
-        comptApparitionObstacles = 0
-    comptApparitionObstacles += 1
+    #incrementation du compteur generale de distance et creation d'ennemis et d'obstacles
+    if distanceTemp != 10:
+        distance += 1
+    else:
+        distanceTemp = 0
+        distance += 1
+    creerEnnemi(comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire)
+    creerObstacle(comptApparitionObstacles)
     
     ''' PTITE ZIK '''
     if play == 0:

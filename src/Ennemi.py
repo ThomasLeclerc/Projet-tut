@@ -75,7 +75,7 @@ class Shooter(ennemy):
     def move(self, ship, ennemy):
         self.posX -= 2      
         (shipPosX, shipPosY) = ship.getPos()
-        if self.posY < shipPosY-10 and self.posY+3 < 620:
+        if self.posY < shipPosY-10 and self.posY+3 < 600:
             self.posY += 4
         elif shipPosY+10 < self.posY and self.posY-3 > 0:
             self.posY -= 4

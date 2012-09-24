@@ -7,7 +7,7 @@ class ship:
     posY = 0
     speed=0
     switch=0
-    chaleurMax=100
+    chaleurMax=200
     chaleur=0
     charge=0
     inCharge=False
@@ -57,7 +57,7 @@ class ship:
         '    lance-missile refroidit
         '''
         if(self.chaleur>0):
-            self.chaleur-=1
+            self.chaleur-=2
             
         '''
         '    charge des tirs
