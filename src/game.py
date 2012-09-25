@@ -301,7 +301,10 @@ while 1:
     #blit joueur    
     screen.blit(monVaisseau.img,monVaisseau.getPos())
     
-    
+    #jauge tir
+    pygame.draw.rect(screen,(255,0,0),(1,1,monVaisseau.chaleurMax+3,10),1)
+    if (monVaisseau.inCharge):
+        pygame.draw.rect(screen,(255,0,0),(4,4,monVaisseau.charge,7))
     
     
     #blits missiles
