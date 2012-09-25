@@ -72,24 +72,34 @@ class ship:
         '    lance-missile refroidit
         '''
         if(self.chaleur>0):
-            self.chaleur-=2
+            self.chaleur-=3
             
         '''
         '    charge des tirs
         '''
         if(self.inCharge):
-            if self.charge+3<(self.chaleurMax-self.chaleur):
-                self.charge+=3
+            if self.charge+7<(self.chaleurMax-self.chaleur):
+                self.charge+=7
         
     #fin fonction bouge()
     
-    def estTouche(self,(x,y), (obsWidth, obsHeight)):
+    '''def estTouche(self,(x,y), (obsWidth, obsHeight)):
         if ((self.posX+self.img.get_width() > x and self.posX+self.img.get_width() < x+obsWidth and self.posY > y and self.posY < y+obsHeight) or
         (self.posX+self.img.get_width() > x and self.posX+self.img.get_width() < x+obsWidth and self.posY+self.img.get_height() > y and self.posY+self.img.get_height() < y+obsHeight) or 
         (self.posX+self.img.get_width() > x and self.posX < x+obsWidth and self.posY+self.img.get_height() > y and self.posY+self.img.get_height() < y+obsHeight) or 
         (self.posX+self.img.get_width() > x and self.posX < x+obsWidth and self.posY > y and self.posY < y+obsHeight)):
             return True 
         else:
-            return False
+            return False'''
+
+    def estTouche2(self,(x,y), (obsWidth, obsHeight)):
+        if ((self.posX+self.img.get_width()-9 > x and self.posX+self.img.get_width()-9 < x+obsWidth and self.posY+14 > y and self.posY+14 < y+obsHeight) or
+        (self.posX+self.img.get_width()-9 > x and self.posX+self.img.get_width()-9 < x+obsWidth and self.posY+self.img.get_height() > y and self.posY+self.img.get_height() < y+obsHeight) or 
+        (self.posX+self.img.get_width()-9 > x and self.posX+35 < x+obsWidth and self.posY+self.img.get_height()-11 > y and self.posY+self.img.get_height()-11 < y+obsHeight) or 
+        (self.posX+self.img.get_width()-9 > x and self.posX+35 < x+obsWidth and self.posY+14 > y and self.posY+14 < y+obsHeight)):
+            return True 
+        else:
+            return False  
+        
 #fin classe ship
 

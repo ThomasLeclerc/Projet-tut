@@ -19,13 +19,13 @@ class shotShip(shot):
         self.setImg("images/vaisseaux/orange_ship/orange_ship_bullet.png")
         
     def bouge(self, width, missiles):
-        self.posX+=15
+        self.posX+=25
         if self.posX>width:
             missiles.remove(self)
             
     def setPos(self,x,y):
-        self.posX=x+20
-        self.posY=y+20
+        self.posX=x+70
+        self.posY=y+40
         
 class shotShooterEnnemy (shot):
     def __init__(self, x, y):

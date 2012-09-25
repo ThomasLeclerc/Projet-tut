@@ -69,7 +69,7 @@ def creerEnnemi(compApparitionSnake, compApparitionShooter, compApparitionAleato
 '' Apparition aleatoire des asteroides
 '''
 def creerObstacle(comptApparitionObstacle):
-    r = random.randint(0,100)
+    #r = random.randint(0,100)
     y = random.randint(10, height-54)
     if distance%comptApparitionObstacle==0:
         comptApparitionObstacle -= 0
@@ -145,27 +145,27 @@ def Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, o
     
 #test du ship contre les ennemis
     for obsTemp in obstacles:
-        if monVaisseau.estTouche(obsTemp.getPos(), obsTemp.getDimensions()):
+        if monVaisseau.estTouche2(obsTemp.getPos(), obsTemp.getDimensions()):
             monVaisseau.enVie = False
             perdu = True
     
     for snakeTemp in snakes:
-        if monVaisseau.estTouche(snakeTemp.getPos(), snakeTemp.getDimensions()):
+        if monVaisseau.estTouche2(snakeTemp.getPos(), snakeTemp.getDimensions()):
             monVaisseau.enVie = False
             perdu = True
     
     for shooterTemp in shooters:
-        if monVaisseau.estTouche(shooterTemp.getPos(), shooterTemp.getDimensions()):
+        if monVaisseau.estTouche2(shooterTemp.getPos(), shooterTemp.getDimensions()):
             monVaisseau.enVie = False
             perdu = True
     
     for aleaTemp in aleatoires:
-        if monVaisseau.estTouche(aleaTemp.getPos(), aleaTemp.getDimensions()):
+        if monVaisseau.estTouche2(aleaTemp.getPos(), aleaTemp.getDimensions()):
             monVaisseau.enVie = False
             perdu = True
     
     for missileShooterTemp in missilesShooter:
-        if monVaisseau.estTouche(missileShooterTemp.getPos(), missileShooterTemp.getDimensions()):
+        if monVaisseau.estTouche2(missileShooterTemp.getPos(), missileShooterTemp.getDimensions()):
             monVaisseau.enVie = False
             perdu = True
     
@@ -296,16 +296,16 @@ creerObstacle(comptApparitionObstacles)
 musique = pygame.mixer.Sound("sounds/BB078.WAV")
 play = 0
 
-'''
-'' BOUCLE DE JEU
-''    (img par img)
-'''
+'''################################################################## ''
+''   BOUCLE DE JEU                                                    ''
+''      (img par img)                                                 ''
+'' ##################################################################'''
 while 1:
     
     
     ''' VITESSE D'AFFICHAGE '''    
     clock = pygame.time.Clock()
-    FRAMES_PER_SECOND = 40
+    FRAMES_PER_SECOND = 60
     deltat = clock.tick(FRAMES_PER_SECOND)
     ''' COMMANDES CLAVIER '''
     for event in pygame.event.get():
@@ -334,7 +334,7 @@ while 1:
                 for m in range(nbShoot):
                     if(monVaisseau.chaleur+33<(monVaisseau.chaleurMax)):
                         monMissile=Shot.shotShip()
-                        monMissile.setPos(monVaisseau.posX, monVaisseau.posY-(nbShoot*10)+(20*m))
+                        monMissile.setPos(monVaisseau.posX, monVaisseau.posY-(nbShoot*30)+(60*m))
                         missiles.append(monMissile)
                         if(monVaisseau.chaleur+33<monVaisseau.chaleurMax):
                             monVaisseau.chaleur+=33
