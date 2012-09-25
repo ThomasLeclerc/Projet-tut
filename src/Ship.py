@@ -12,6 +12,7 @@ class ship:
     charge=0
     inCharge=False
     enVie = True
+    record = 1
     
     def getPos(self):
         return (self.posX,self.posY)

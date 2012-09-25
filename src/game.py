@@ -16,7 +16,6 @@ from time import sleep
 
 
 
-
 ##### DEFINITION DES FCONTIONS #####
 
 '''
@@ -89,7 +88,12 @@ def gameOver((x, y), screen):
     #blit disctance parcourue
     policeTitre = pygame.font.Font(None, 80)
     titre = policeTitre.render("distance : "+str(distance)+" m",1,(254,0,0))
-    screen.blit(titre,(120,height/2))  
+    screen.blit(titre,(120,height/2))
+    if distance > monVaisseau.record :
+        monVaisseau.record=distance  
+    titreRec = policeTitre.render("record : "+str(monVaisseau.record)+" m",1,(254,0,0))
+    screen.blit(titreRec,(120,(height/2)+60))
+
     
     pygame.display.flip()
     while(1):
@@ -116,6 +120,7 @@ comptApparitionObstacles = 80
 distanceTemp = 0
 distance = 2
 perdu = False
+
 
 ##### IMAGES DU BACKGROUND #####
 background = pygame.image.load("images/background.jpg")
