@@ -1,6 +1,9 @@
 '''
 '  game.py
 '    Moteur de jeu
+
+
+
 '''
 
 ##### IMPORTS #####
@@ -16,7 +19,7 @@ from time import sleep
 
 
 
-##### DEFINITION DES FCONTIONS #####
+##### DEFINITION DES FONCTIONS #####
 
 '''
 '' FONCTION QUI INSTANCIE nombre DE SNAKE
@@ -104,6 +107,145 @@ def gameOver((x, y), screen):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     sys.exit()
+                    
+'''
+'    Fonction qui gere les collisions
+'''
+def Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles):
+    perdu = False
+#test des missiles contre snakes
+    for monMissile in missiles:
+        for snakeTemp in snakes:
+            if snakeTemp.estTouche(monMissile.posX, monMissile.posY):
+                monPlayer.raiseScore(1)
+                missiles.remove(monMissile)
+                snakes.remove(snakeTemp)
+    
+#test des missiles contre shooters
+    for monMissile in missiles:
+        for shooterTemp in shooters:
+            if shooterTemp.estTouche(monMissile.posX, monMissile.posY, shooters):
+                missiles.remove(monMissile)
+                shooters.remove(shooterTemp)
+                monPlayer.raiseScore(2)
+    
+#test des missiles contre aleatoires
+    for monMissile in missiles:
+        for aleaTemp in aleatoires:
+            if aleaTemp.estTouche(monMissile.posX, monMissile.posY, aleatoires):
+                monPlayer.raiseScore(1)
+                missiles.remove(monMissile)
+                aleatoires.remove(aleaTemp)
+    
+#test des missiles contre obstacles
+    for monMissile in missiles:
+        for obsTemp in obstacles:
+            if obsTemp.estTouche(monMissile.posX, monMissile.posY):
+                missiles.remove(monMissile)
+    
+#test du ship contre les ennemis
+    for obsTemp in obstacles:
+        if monVaisseau.estTouche(obsTemp.getPos(), obsTemp.getDimensions()):
+            monVaisseau.enVie = False
+            perdu = True
+    
+    for snakeTemp in snakes:
+        if monVaisseau.estTouche(snakeTemp.getPos(), snakeTemp.getDimensions()):
+            monVaisseau.enVie = False
+            perdu = True
+    
+    for shooterTemp in shooters:
+        if monVaisseau.estTouche(shooterTemp.getPos(), shooterTemp.getDimensions()):
+            monVaisseau.enVie = False
+            perdu = True
+    
+    for aleaTemp in aleatoires:
+        if monVaisseau.estTouche(aleaTemp.getPos(), aleaTemp.getDimensions()):
+            monVaisseau.enVie = False
+            perdu = True
+    
+    for missileShooterTemp in missilesShooter:
+        if monVaisseau.estTouche(missileShooterTemp.getPos(), missileShooterTemp.getDimensions()):
+            monVaisseau.enVie = False
+            perdu = True
+    
+    return perdu
+
+'''
+'    Fonction qui gere les mouvements
+'''
+def Mouvements(width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles):
+    ##### MOUVEMENT JOUEUR #####
+    monVaisseau.bouge("images/orange_ship_small_1.png", "images/orange_ship_small_2.png", height)
+    ##### MOUVEMENT DES SNAKE #####
+    for snake in snakes:
+        snake.move(snakes, width, height)
+    
+    ##### MOUVEMENT DES SHOOTERS #####
+    for shooter in shooters:
+        shooter.move(monVaisseau, shooters)
+        shooter.tir(missilesShooter)
+    
+    ##### MOUVEMENT DES ALEATOIRES #####
+    for aleatoire in aleatoires:
+        aleatoire.move(aleatoires, height)
+    
+    ##### MOUVEMENT DES OBSTACLES #####
+    for obstacle in obstacles:
+        obstacle.move()
+    
+    ##### MOUVEMENT MISSILES #####
+    for monMissile in missiles:
+        monMissile.bouge(width, missiles)
+    
+    for missileShooterTemp in missilesShooter:
+        missileShooterTemp.move(missilesShooter)
+    
+'''
+'    Fonction qui gere les blits
+'''
+def Blits(width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles):
+    #blit joueur
+    screen.blit(monVaisseau.img, monVaisseau.getPos())
+#jauge tir
+    pygame.draw.rect(screen, (255, 0, 0), (1, 1, monVaisseau.chaleurMax + 3, 10), 1)
+    if (monVaisseau.inCharge):
+        pygame.draw.rect(screen, (255, 0, 0), (4, 4, monVaisseau.charge, 7))
+#blits missiles
+    for monMissile in missiles:
+        screen.blit(monMissile.img, monMissile.getPos())
+    
+#blits snakes
+    for snakeTemp in snakes:
+        screen.blit(snakeTemp.img, snakeTemp.getPos())
+    
+#blits shooters
+    for shooterTemp in shooters:
+        screen.blit(shooterTemp.img, shooterTemp.getPos())
+    
+#blits missiles shooter
+    for missileShooterTemp in missilesShooter:
+        screen.blit(missileShooterTemp.img, missileShooterTemp.getPos())
+    
+#blits aleatoires
+    for aleaTemp in aleatoires:
+        screen.blit(aleaTemp.img, aleaTemp.getPos())
+    
+#blits obstacles
+    for obsTemp in obstacles:
+        screen.blit(obsTemp.img, obsTemp.getPos())
+    
+#blits score
+    police = pygame.font.Font(None, 60)
+    texte = police.render(str(distance) + " m", 1, (254, 0, 0))
+    screen.blit(texte, (width - 200, height - 70))
+#blits jauge chaleur
+    img = pygame.image.load("images/rocket.png")
+    for l in range(((monVaisseau.chaleurMax / 33) - 1) - ((monVaisseau.chaleur) / 33)):
+        screen.blit(img, (10 * (l + 1), 10))
+    
+    if (monVaisseau.chaleur == 0):
+        screen.blit(img, (10 * (l + 2), 10))
 
 pygame.init()
 
@@ -217,137 +359,14 @@ while 1:
         k=0
         
 
-
-    ##### MOUVEMENT JOUEUR #####
-    monVaisseau.bouge("images/orange_ship_small_1.png","images/orange_ship_small_2.png", height)
-
-    ##### MOUVEMENT DES SNAKE #####
-    for snake in snakes:
-        snake.move(snakes, width, height)
-                  
-    ##### MOUVEMENT DES SHOOTERS #####
-    for shooter in shooters:
-        shooter.move(monVaisseau, shooters)
-        shooter.tir(missilesShooter)
-                 
-    ##### MOUVEMENT DES ALEATOIRES #####
-    for aleatoire in aleatoires:
-        aleatoire.move(aleatoires, height)  
-        
-    ##### MOUVEMENT DES OBSTACLES #####
-    for obstacle in obstacles:
-        obstacle.move()
-        
-
-    ##### MOUVEMENT MISSILES #####        
-    for monMissile in missiles:
-        monMissile.bouge(width, missiles)
-    for missileShooterTemp in missilesShooter:
-        missileShooterTemp.move(missilesShooter)
-
-
-
-##### COLLISIONS ####
-    #test des missiles contre snakes
-    for monMissile in missiles:
-        for snakeTemp in snakes:
-            if snakeTemp.estTouche(monMissile.posX,monMissile.posY):
-                monPlayer.raiseScore(1)                
-                missiles.remove(monMissile)
-                snakes.remove(snakeTemp)
-                
-    #test des missiles contre shooters 
-    for monMissile in missiles:   
-        for shooterTemp in shooters:
-            if shooterTemp.estTouche(monMissile.posX,monMissile.posY, shooters): 
-                missiles.remove(monMissile)
-                shooters.remove(shooterTemp)
-                monPlayer.raiseScore(2)
     
-    #test des missiles contre aleatoires             
-    for monMissile in missiles:
-        for aleaTemp in aleatoires:
-            if aleaTemp.estTouche(monMissile.posX,monMissile.posY, aleatoires):
-                monPlayer.raiseScore(1)          
-                missiles.remove(monMissile)
-                aleatoires.remove(aleaTemp)
+    Mouvements(width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles)
 
-    #test des missiles contre obstacles                
-    for monMissile in missiles:
-        for obsTemp in obstacles:
-            if obsTemp.estTouche(monMissile.posX,monMissile.posY):        
-                missiles.remove(monMissile)
-                
-    #test du ship contre les ennemis
-    for obsTemp in obstacles:
-        if monVaisseau.estTouche(obsTemp.getPos(), obsTemp.getDimensions()):
-            monVaisseau.enVie = False
-            perdu = True
-    for snakeTemp in snakes:
-        if monVaisseau.estTouche(snakeTemp.getPos(), snakeTemp.getDimensions()):
-            monVaisseau.enVie = False
-            perdu = True
-    for shooterTemp in shooters:
-        if monVaisseau.estTouche(shooterTemp.getPos(), shooterTemp.getDimensions()):
-            monVaisseau.enVie = False
-            perdu = True
-    for aleaTemp in aleatoires:
-        if monVaisseau.estTouche(aleaTemp.getPos(), aleaTemp.getDimensions()):
-            monVaisseau.enVie = False
-            perdu = True
-    for missileShooterTemp in missilesShooter:
-        if monVaisseau.estTouche(missileShooterTemp.getPos(), missileShooterTemp.getDimensions()):
-            monVaisseau.enVie = False
-            perdu = True
+    perdu = Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles)
     if perdu:
         break
-    '''
-    ''    BLITS (deplacements)
-    '''        
-    #blit joueur    
-    screen.blit(monVaisseau.img,monVaisseau.getPos())
-    
-    #jauge tir
-    pygame.draw.rect(screen,(255,0,0),(1,1,monVaisseau.chaleurMax+3,10),1)
-    if (monVaisseau.inCharge):
-        pygame.draw.rect(screen,(255,0,0),(4,4,monVaisseau.charge,7))
-    
-    
-    #blits missiles
-    for monMissile in missiles:
-        screen.blit(monMissile.img ,monMissile.getPos())           
-                                     
-    #blits snakes
-    for snakeTemp in snakes:
-        screen.blit(snakeTemp.img,snakeTemp.getPos())
-        
-    #blits shooters
-    for shooterTemp in shooters:
-        screen.blit(shooterTemp.img,shooterTemp.getPos())
-                
-    #blits missiles shooter
-    for missileShooterTemp in missilesShooter:
-        screen.blit(missileShooterTemp.img,missileShooterTemp.getPos()) 
-           
-    #blits aleatoires
-    for aleaTemp in aleatoires:
-        screen.blit(aleaTemp.img,aleaTemp.getPos())
-      
-    #blits obstacles
-    for obsTemp in obstacles:
-        screen.blit(obsTemp.img,obsTemp.getPos())  
-    
-    #blits score
-    police = pygame.font.Font(None, 60)
-    texte = police.render(str(distance)+" m",1,(254,0,0))
-    screen.blit(texte,(width-200,height-70))
-    
-    #blits jauge chaleur
-    img = pygame.image.load("images/rocket.png")
-    for l in range(((monVaisseau.chaleurMax/33)-1)-((monVaisseau.chaleur)/33)):
-        screen.blit(img,(10*(l+1),10))
-    if(monVaisseau.chaleur==0):
-        screen.blit(img,(10*(l+2),10))
+       
+    Blits(width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles)
     
     
     
