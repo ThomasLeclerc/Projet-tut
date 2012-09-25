@@ -1,4 +1,6 @@
 import pygame
+import pickle
+
 
 class ship:
     monte = False
@@ -12,7 +14,18 @@ class ship:
     charge=0
     inCharge=False
     enVie = True
-    record = 1
+    record = 0
+    
+    def enregistrerRecord(self,record):
+        file1 = open('saves/sav.txt','w')
+        file1.write(str(self.record))
+        file1.close()
+    def chargerRecord(self):
+        file1 = open('saves/sav.txt','r')
+        strRec = file1.read()
+        self.record = int(strRec)
+
+
     
     def getPos(self):
         return (self.posX,self.posY)

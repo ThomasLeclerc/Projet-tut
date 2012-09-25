@@ -89,8 +89,10 @@ def gameOver((x, y), screen):
     policeTitre = pygame.font.Font(None, 80)
     titre = policeTitre.render("distance : "+str(distance)+" m",1,(254,0,0))
     screen.blit(titre,(120,height/2))
+    monVaisseau.chargerRecord()
     if distance > monVaisseau.record :
-        monVaisseau.record=distance  
+        monVaisseau.record=distance
+        monVaisseau.enregistrerRecord(monVaisseau.record)  
     titreRec = policeTitre.render("record : "+str(monVaisseau.record)+" m",1,(254,0,0))
     screen.blit(titreRec,(120,(height/2)+60))
 
