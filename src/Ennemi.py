@@ -77,7 +77,7 @@ class Shooter(ennemy):
     
     def move(self, ship, ennemy):
         self.posX -= 2      
-        (shipPosX, shipPosY) = ship.getPos()
+        (_, shipPosY) = ship.getPos()
         if self.posY < shipPosY-10 and self.posY+3 < 600:
             self.posY += 4
         elif shipPosY+10 < self.posY and self.posY-3 > 0:
@@ -125,7 +125,7 @@ class Aleatoire(ennemy):
     def move(self, ennemy, height):
         self.posX -= 8
         if (self.posX)%25 == 0:
-           self.sens = random.randint(0,1)   
+            self.sens = random.randint(0,1)   
         
         if self.sens == 0:
             if self.posY > height-20:
@@ -145,7 +145,7 @@ class Aleatoire(ennemy):
             self.sens = 1
           
         if self.posX<-50:
-               ennemy.remove(self)  
+            ennemy.remove(self)  
                
         #animation    
         if self.switch == 0:
