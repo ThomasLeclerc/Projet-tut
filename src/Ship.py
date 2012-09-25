@@ -25,7 +25,7 @@ class ship:
     # de la	fenetre
     #
     def bouge(self,file0,file1, height):
-        accel=0.8
+        accel=1.5
         if self.monte == True:
             if self.posY-2 >= 0:
                 self.posY+=self.speed

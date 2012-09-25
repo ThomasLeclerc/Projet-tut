@@ -104,7 +104,7 @@ pygame.init()
 
         
 ##### PARAMETRES DE LA FENETRE #####
-size = width, height = 640, 480
+size = width, height = 1024,768
 screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
 ##### COMPTEURS #####
@@ -194,13 +194,12 @@ while 1:
                 monVaisseau.charge=0
     ##### BACKGROUND #####
     screen.blit(background, (0,0))            
-    screen.blit(bgCouche1, (-i,0))
-    screen.blit(bgCouche1, (width-i,0))
+    screen.blit(bgCouche1, (width-i,i))
     screen.blit(bgCouche2, (-j,0))
     screen.blit(bgCouche2, (width-j,0))
     screen.blit(bgCouche3, (-k,0))
     screen.blit(bgCouche3, (width-k,0))
-    i+=2
+    i+=4
     j+=4
     k+=8
     if i > width:
