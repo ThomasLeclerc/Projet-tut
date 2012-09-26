@@ -13,6 +13,7 @@ class ship(pygame.sprite.Sprite):
     inCharge=False
     enVie = True
     record = 0
+    radius = 0.8
     
     def __init__(self, position_initiale):
         pygame.sprite.Sprite.__init__(self)
@@ -98,17 +99,9 @@ class ship(pygame.sprite.Sprite):
     #fin fonction bouge()
     
     def estTouche(self, obs):
-        return (pygame.sprite.collide_rect(self, obs))
+        return (pygame.sprite.collide_circle(self, obs))
  
 
-    def estTouche2(self,(x,y), (obsWidth, obsHeight)):
-        if ((self.posX+self.img.get_width()-9 > x and self.posX+self.img.get_width()-9 < x+obsWidth and self.posY+14 > y and self.posY+14 < y+obsHeight) or
-        (self.posX+self.img.get_width()-9 > x and self.posX+self.img.get_width()-9 < x+obsWidth and self.posY+self.img.get_height() > y and self.posY+self.img.get_height() < y+obsHeight) or 
-        (self.posX+self.img.get_width()-9 > x and self.posX+35 < x+obsWidth and self.posY+self.img.get_height()-11 > y and self.posY+self.img.get_height()-11 < y+obsHeight) or 
-        (self.posX+self.img.get_width()-9 > x and self.posX+35 < x+obsWidth and self.posY+14 > y and self.posY+14 < y+obsHeight)):
-            return True 
-        else:
-            return False  
 
 #fin classe ship
 

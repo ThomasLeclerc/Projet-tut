@@ -22,6 +22,9 @@ class ennemy(pygame.sprite.Sprite):
     def setImg(self, image):
         self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
+        
+    def estTouche(self,spr):
+       return (pygame.sprite.collide_circle(self, spr))
 
 
 class Snake(ennemy):
@@ -33,11 +36,7 @@ class Snake(ennemy):
             self.b = b
         ennemy.__init__(self,x,y, "images/chasseur1.png")
         self.image = pygame.transform.rotate(self.image,-75)
-    def estTouche(self,x,y):
-        if x > self.rect.left and x < self.rect.left+self.rect.right and y > self.rect.top and y < self.rect.top+self.rect.bottom:
-            return True 
-        else:
-            return False
+    
     
     def update(self, current_time, snakes, width, height):
         # Update every 10 milliseconds = 1/100th of a second.
@@ -72,12 +71,7 @@ class Shooter(ennemy):
     switch = 0
     def __init__(self,x,y):
         ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy1/enemy1_1.png")  
-        self.image =  pygame.transform.scale(self.image, (80, 100))
-    def estTouche(self,x,y , ennemy):
-        if x > self.rect.left and x < self.rect.left+self.rect.right and y > self.rect.top and y < self.rect.top+self.rect.bottom:
-            return True
-        else:
-            return False            
+        self.image =  pygame.transform.scale(self.image, (80, 100))         
     
     def update(self, current_time, ship, ennemy):
         # Update every 10 milliseconds = 1/100th of a second.
@@ -110,24 +104,11 @@ class Shooter(ennemy):
 '' Ennemi qui se deplace aleatoirement
 '''             
 class Aleatoire(ennemy):
-    vie = 2
     sens = 1
     switch = 0
     def __init__(self,x,y):
         ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy2/enemy2_1.png")   
-        self.image =  pygame.transform.scale(self.image, (50, 50))
-        
-    def estTouche(self,x,y , ennemy):
-        if x > self.rect.left and x < self.rect.left+self.rect.right and y > self.rect.top and y < self.rect.top+self.rect.bottom:
-            self.vie -= 1
-            if self.vie == 0:
-                ennemy.remove(self)
-            else:
-                self.image = self.image =  pygame.transform.scale(pygame.image.load("images/ship3.png") , (50, 50))
-                self.image = pygame.transform.rotate(self.image,90)
-            return True
-        else:
-            return False            
+        self.image =  pygame.transform.scale(self.image, (50, 50))        
     
     def update(self, current_time, ennemy, height):
         # Update every 10 milliseconds = 1/100th of a second.

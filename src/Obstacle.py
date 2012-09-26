@@ -27,8 +27,5 @@ class obstacle(pygame.sprite.Sprite):
             self.rect.left-=8
         self.next_update_time = current_time + 10
         
-    def estTouche(self,x,y):
-        if x > self.rect.left and x < self.rect.left+self.rect.right and y > self.rect.top and y < self.rect.top+self.rect.bottom:
-            return True 
-        else:
-            return False
+    def estTouche(self, spr):
+        return (pygame.sprite.collide_circle(self, spr))

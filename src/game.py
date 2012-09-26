@@ -118,7 +118,7 @@ def Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, o
 #test des missiles contre snakes
     for monMissile in missiles:
         for snakeTemp in snakes:
-            if snakeTemp.estTouche(monMissile.rect.left, monMissile.rect.top):
+            if snakeTemp.estTouche(monMissile):
                 monPlayer.raiseScore(1)
                 missiles.remove(monMissile)
                 snakes.remove(snakeTemp)
@@ -126,7 +126,7 @@ def Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, o
 #test des missiles contre shooters
     for monMissile in missiles:
         for shooterTemp in shooters:
-            if shooterTemp.estTouche(monMissile.rect.left, monMissile.rect.top, shooters):
+            if shooterTemp.estTouche(monMissile):
                 missiles.remove(monMissile)
                 shooters.remove(shooterTemp)
                 monPlayer.raiseScore(2)
@@ -134,7 +134,7 @@ def Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, o
 #test des missiles contre aleatoires
     for monMissile in missiles:
         for aleaTemp in aleatoires:
-            if aleaTemp.estTouche(monMissile.rect.left, monMissile.rect.top, aleatoires):
+            if aleaTemp.estTouche(monMissile):
                 monPlayer.raiseScore(1)
                 missiles.remove(monMissile)
                 aleatoires.remove(aleaTemp)
@@ -142,7 +142,7 @@ def Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, o
 #test des missiles contre obstacles
     for monMissile in missiles:
         for obsTemp in obstacles:
-            if obsTemp.estTouche(monMissile.rect.left, monMissile.rect.top):
+            if obsTemp.estTouche(monMissile):
                 missiles.remove(monMissile)
     
 #test du ship contre les ennemis
