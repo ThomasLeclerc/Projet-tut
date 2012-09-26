@@ -25,8 +25,8 @@ class ennemy(pygame.sprite.Sprite):
         
     def estTouche(self,spr):
        return (pygame.sprite.collide_circle(self, spr))
-
-
+   
+  
 class Snake(ennemy):
     def __init__(self,x,y, typeDeplacement ,positionChaine=0, a=0, b=0):
         self.deplacement = typeDeplacement

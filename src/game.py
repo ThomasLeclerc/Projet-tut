@@ -8,6 +8,7 @@
 
 ##### IMPORTS #####
 import pygame
+import pyganim
 import sys
 import Ennemi
 import Shot
@@ -120,37 +121,52 @@ def gameOver((x, y), screen):
 '''
 def Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles):
     perdu = False
-#test des missiles contre snakes
+    #test des missiles contre snakes
     for monMissile in missiles:
         for snakeTemp in snakes:
             if snakeTemp.estTouche(monMissile):
                 monPlayer.raiseScore(1)
+                (x,y) = snakeTemp.getPos()
                 missiles.remove(monMissile)
                 snakes.remove(snakeTemp)
+                animObj.play()
+                animObj.blit(screen, (x,y))
     
-#test des missiles contre shooters
+    #test des missiles contre shooters
     for monMissile in missiles:
         for shooterTemp in shooters:
             if shooterTemp.estTouche(monMissile):
                 missiles.remove(monMissile)
+                (x,y) = shooterTemp.getPos()
                 shooters.remove(shooterTemp)
                 monPlayer.raiseScore(2)
+                animObj.play()
+                animObj.blit(screen, (x,y))
     
-#test des missiles contre aleatoires
+    #test des missiles contre aleatoires
     for monMissile in missiles:
         for aleaTemp in aleatoires:
             if aleaTemp.estTouche(monMissile):
+                (x,y) = aleaTemp.getPos()
                 monPlayer.raiseScore(1)
                 missiles.remove(monMissile)
                 aleatoires.remove(aleaTemp)
+                animObj.play()
+                animObj.blit(screen, (x,y))
     
-#test des missiles contre obstacles
+    #test des missiles du joueur contre obstacles
     for monMissile in missiles:
         for obsTemp in obstacles:
             if obsTemp.estTouche(monMissile):
                 missiles.remove(monMissile)
-    
-#test du ship contre les ennemis
+                
+    #test des missiles de shooters contre obstacle
+    for monMissile in missilesShooter:
+        for obsTemp in obstacles:
+            if obsTemp.estTouche(monMissile):
+                missilesShooter.remove(monMissile)
+                
+    #test du ship contre les ennemis
     for obsTemp in obstacles:
         if monVaisseau.estTouche(obsTemp):
             monVaisseau.enVie = False
@@ -244,6 +260,11 @@ comptApparitionObstacles = 60
 distanceTemp = 0
 distance = 2
 perdu = False
+
+##### EXPLOSIONS #####
+imagesTemp = [(pygame.transform.scale(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), (70, 70)), 0.6) for compt in range(2,6)]
+animObj = pyganim.PygAnimation(imagesTemp, loop=False)
+animObj.play()
 
 
 ##### IMAGES DU BACKGROUND #####
