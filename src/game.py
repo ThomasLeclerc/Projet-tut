@@ -296,17 +296,35 @@ creerObstacle(comptApparitionObstacles)
 musique = pygame.mixer.Sound("sounds/BB078.WAV")
 play = 0
 
+##### MENU COMMENCER #####
+menuStartOn=True
+
 '''################################################################## ''
 ''   BOUCLE DE JEU                                                    ''
 ''      (img par img)                                                 ''
 '' ##################################################################'''
 while 1:
     
-    
     ''' VITESSE D'AFFICHAGE '''    
     clock = pygame.time.Clock()
     FRAMES_PER_SECOND = 60
     deltat = clock.tick(FRAMES_PER_SECOND)
+    
+    '''APPUYER SUR ENTRER POUR COMMENCER'''
+    while menuStartOn:
+        purisa = pygame.font.match_font('Purisa')
+        policeTitre = pygame.font.Font(purisa, 40)
+        titre = policeTitre.render("APPUYER SUR ENTRER",1,(50,0,200))
+        screen.blit(titre,(100,100))
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    menuStartOn=False
+                elif event.key == pygame.K_ESCAPE:
+                    sys.exit()
+                
     ''' COMMANDES CLAVIER '''
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()

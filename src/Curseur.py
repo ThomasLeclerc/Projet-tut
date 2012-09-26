@@ -1,7 +1,7 @@
 """
-Le curseur utilisé pour naviguer entre chaque option
-du menu. Sa position sera analysée afin de déterminer
-l'option à sélectionner
+Le curseur utilise pour naviguer entre chaque option
+du menu. Sa position sera analysee afin de determiner
+l'option a selectionner
 """
 class curseur:
     positionCurseur = 0
