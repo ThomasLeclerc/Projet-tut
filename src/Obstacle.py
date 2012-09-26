@@ -1,4 +1,5 @@
 import pygame
+import random
 
 
 class obstacle(pygame.sprite.Sprite):
@@ -17,7 +18,9 @@ class obstacle(pygame.sprite.Sprite):
         return (self.image.get_width(), self.image.get_height())
     
     def setImg(self, image):
-        self.image =  pygame.transform.scale(pygame.image.load(image), (81, 75))
+        taille = [(81, 75), (162, 150), (232, 225)]
+        
+        self.image =  pygame.transform.scale(pygame.image.load(image), taille[random.randint(0,2)])
         self.rect = self.image.get_rect()
 
 

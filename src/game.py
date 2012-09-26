@@ -71,12 +71,11 @@ def creerEnnemi(compApparitionSnake, compApparitionShooter, compApparitionAleato
 '''
 def creerObstacle(comptApparitionObstacle, width):
     r = random.randint(0,100)
-
     y = random.randint(10, height-54)
     if distance%comptApparitionObstacle==0:
         comptApparitionObstacle -= 0
         typeObstacle = random.randint(1,5)
-        obstacles.add(Obstacle.obstacle(    width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
+        obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
 
 def gameOver((x, y), screen):
     for g in range(1,9):
@@ -184,7 +183,7 @@ def Mouvements(width, height, monVaisseau, missiles, snakes, shooters, aleatoire
     snakes.update(pygame.time.get_ticks(), snakes, width, height)
     
     ##### MOUVEMENT DES SHOOTERS #####
-    shooters.update(pygame.time.get_ticks(), monVaisseau, shooters)
+    shooters.update(pygame.time.get_ticks(), monVaisseau, shooters, missilesShooter)
     
     ##### MOUVEMENT DES ALEATOIRES #####
     aleatoires.update(pygame.time.get_ticks(), aleatoires, height)
@@ -235,7 +234,7 @@ probaObstacles = 0
 comptApparitionSnake = 90
 comptApparitionShooter = 100
 comptApparitionAleatoire = 70
-comptApparitionObstacles = 80
+comptApparitionObstacles = 60
 distanceTemp = 0
 distance = 2
 perdu = False
@@ -326,8 +325,7 @@ while 1:
                 nbShoot = (monVaisseau.charge/33)+1
                 for m in range(nbShoot):
                     if(monVaisseau.chaleur+33<(monVaisseau.chaleurMax)):
-                        monMissile=Shot.shotShip()
-                        monMissile.setPos(monVaisseau.rect.left, monVaisseau.rect.top-(nbShoot*30)+(60*m))
+                        monMissile=Shot.shotShip(monVaisseau.rect.left+40, monVaisseau.rect.top-(nbShoot*30)+(60*m)+40)
                         missiles.add(monMissile)
                         if(monVaisseau.chaleur+33<monVaisseau.chaleurMax):
                             monVaisseau.chaleur+=33

@@ -73,9 +73,10 @@ class Shooter(ennemy):
         ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy1/enemy1_1.png")  
         self.image =  pygame.transform.scale(self.image, (80, 100))         
     
-    def update(self, current_time, ship, ennemy):
+    def update(self, current_time, ship, ennemy, missilesShooter):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
+            self.tir(missilesShooter)
             self.rect.left -= 2      
             (_, shipPosY) = ship.getPos()
             if self.rect.top < shipPosY-10 and self.rect.top+3 < 600:
@@ -97,7 +98,7 @@ class Shooter(ennemy):
     def tir(self, missilesShooter):
             self.compteurTir += 1
             if self.compteurTir%30 == 0:
-                missilesShooter.append(Shot.shotShooterEnnemy(self.rect.left,self.rect.top+20))         
+                missilesShooter.add(Shot.shotShooterEnnemy(self.rect.left,self.rect.top+20))         
                           
    
 '''

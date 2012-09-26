@@ -57,7 +57,6 @@ class ship(pygame.sprite.Sprite):
                 if self.rect.top-2 >= 0:
                     self.rect.top+=self.speed
                     self.speed-=accel
-                    self.position = self.getPos()
                 else:
                     self.speed = 0
                 #animation    
@@ -72,7 +71,6 @@ class ship(pygame.sprite.Sprite):
                 if self.rect.top <= height-40:
                     self.rect.top+=self.speed
                     self.speed+=accel
-                    self.position = self.getPos()
                 else:
                     self.speed = 0
                 
