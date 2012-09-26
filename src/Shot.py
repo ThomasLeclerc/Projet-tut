@@ -41,7 +41,7 @@ class shotShooterEnnemy (shot):
     def update(self, current_time, missilesShooter):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
-            self.rect.left-=10
+            self.rect.left-=15
             if self.rect.left<-20:
                 missilesShooter.remove(self)
         self.next_update_time = current_time + 10

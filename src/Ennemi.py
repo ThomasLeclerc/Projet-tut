@@ -41,7 +41,7 @@ class Snake(ennemy):
     def update(self, current_time, snakes, width, height):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
-            self.rect.left -= 5
+            self.rect.left -= 6
             
             # DEPLACEMENT EN COURBE SINUSALE
             if self.deplacement==1:
@@ -66,7 +66,6 @@ class Snake(ennemy):
             #DEPLACEMENT EN ESCADRON
             elif self.deplacement==3:
                 self.image = pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy2/enemy2_2.png") , (60, 60))
-                self.rect.left -= 3
         self.next_update_time = current_time + 10
 
 
@@ -82,7 +81,7 @@ class Shooter(ennemy):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
             self.tir(missilesShooter)
-            self.rect.left -= 2      
+            self.rect.left -= 8     
             (_, shipPosY) = ship.getPos()
             if self.rect.top < shipPosY-10 and self.rect.top+3 < 600:
                 self.rect.top += 4
@@ -119,7 +118,7 @@ class Aleatoire(ennemy):
     def update(self, current_time, ennemy, height):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:    
-            self.rect.left -= 8
+            self.rect.left -= 12
             if (self.rect.left)%25 == 0:
                 self.sens = random.randint(0,1)   
             

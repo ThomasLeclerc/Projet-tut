@@ -154,6 +154,7 @@ def Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, o
                 animObj.play()
                 animObj.blit(screen, (x,y))
     
+    
     #test des missiles du joueur contre obstacles
     for monMissile in missiles:
         for obsTemp in obstacles:
@@ -166,6 +167,34 @@ def Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, o
             if obsTemp.estTouche(monMissile):
                 missilesShooter.remove(monMissile)
                 
+    #test des snakes contre obstacle
+    for snakeTemp in snakes:
+        for obsTemp in obstacles:
+            if obsTemp.estTouche(snakeTemp):
+                (x,y) = snakeTemp.getPos()
+                snakes.remove(snakeTemp)
+                animObj.play()
+                animObj.blit(screen, (x,y)) 
+     
+    #test des shooters contre obstacle
+    for shooterTemp in shooters:
+        for obsTemp in obstacles:
+            if obsTemp.estTouche(shooterTemp):
+                (x,y) = shooterTemp.getPos()
+                shooters.remove(shooterTemp)
+                animObj.play()
+                animObj.blit(screen, (x,y))  
+    
+    #test des shooters contre obstacle
+    for aleaTemp in aleatoires:
+        for obsTemp in obstacles:
+            if obsTemp.estTouche(aleaTemp):
+                (x,y) = aleaTemp.getPos()
+                aleatoires.remove(aleaTemp)
+                animObj.play()
+                animObj.blit(screen, (x,y))             
+                
+                                     
     #test du ship contre les ennemis
     for obsTemp in obstacles:
         if monVaisseau.estTouche(obsTemp):
