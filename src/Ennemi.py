@@ -28,9 +28,9 @@ class ennemy(pygame.sprite.Sprite):
 
 
 class Snake(ennemy):
-    def __init__(self,x,y, positionChaine, typeDeplacement , a=0, b=0):
-        self.positionChaine=positionChaine
+    def __init__(self,x,y, typeDeplacement ,positionChaine=0, a=0, b=0):
         self.deplacement = typeDeplacement
+        self.positionChaine = positionChaine
         if typeDeplacement == 2:
             self.a = a
             self.b = b
@@ -63,7 +63,12 @@ class Snake(ennemy):
                 self.image = pygame.transform.rotate(self.image,-angle)
                 if self.rect.left<0:
                     snakes.remove(self) 
+            #DEPLACEMENT EN ESCADRON
+            elif self.deplacement==3:
+                self.image = pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy2/enemy2_2.png") , (60, 60))
+                self.rect.left -= 3
         self.next_update_time = current_time + 10
+
 
 class Shooter(ennemy):
     vie = 2

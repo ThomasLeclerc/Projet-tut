@@ -27,30 +27,36 @@ from pygame.locals import *
 '' le type de deplacement est tire aleatoirement
 '' ainsi que les coefiscients pour un deplacement en droite
 '''
-def creerSnakes(nombre):
+def creerSnakes(nombre=0):
     positionChaine = random.randint(100,height-180)
     deplacement = random.randint(1,3)
-    if deplacement == 2:
+    if deplacement == 1:
+        while(nombre!=0):
+            snakes.add(Ennemi.Snake(width+(nombre*30), 0, 1, positionChaine))
+            nombre -= 1 
+    elif deplacement == 2:
         a = random.uniform(-0.8,0.8)
         if a < 0:
             b = random.uniform(height/2,height-10)
         else:
             b = random.uniform(10,height-height/2)
         while nombre!=0:
-            snakes.add(Ennemi.Snake(width+(nombre*40), 0, positionChaine, deplacement, a, b))
+            snakes.add(Ennemi.Snake(width+(nombre*40), positionChaine, deplacement, positionChaine, a, b))
             nombre -= 1
-    elif deplacement == 1:
-        while(nombre!=0):
-            snakes.add(Ennemi.Snake(width+(nombre*30), 0, positionChaine, 1))
-            nombre -= 1 
+    else:
+        snakes.add(Ennemi.Snake(width+80, positionChaine-80, 3))
+        snakes.add(Ennemi.Snake(width+50, positionChaine-40, 3))
+        snakes.add(Ennemi.Snake(width+20, positionChaine, 3))
+        snakes.add(Ennemi.Snake(width+50, positionChaine+40, 3))
+        snakes.add(Ennemi.Snake(width+80, positionChaine+80, 3))
+            
+    
 
 def creerShooters():
-    if len(shooters) < 2:
-        shooters.add(Ennemi.Shooter(width, height/2-20))
+    shooters.add(Ennemi.Shooter(width, height/2-20))
         
 def creerAleatoires():
-    if len(aleatoires) < 4:
-        aleatoires.add(Ennemi.Aleatoire(width, height/2))
+    aleatoires.add(Ennemi.Aleatoire(width, height/2))
         
 '''
 '' Fonction qui gere l'apparition aleatoire des ennemis
@@ -71,7 +77,7 @@ def creerEnnemi(compApparitionSnake, compApparitionShooter, compApparitionAleato
 '''
 def creerObstacle(comptApparitionObstacle, width):
     r = random.randint(0,100)
-    y = random.randint(10, height-54)
+    y = random.randint(10, height)
     if distance%comptApparitionObstacle==0:
         comptApparitionObstacle -= 0
         typeObstacle = random.randint(1,5)
