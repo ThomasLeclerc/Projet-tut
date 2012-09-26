@@ -159,12 +159,16 @@ def Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, o
     for monMissile in missiles:
         for obsTemp in obstacles:
             if obsTemp.estTouche(monMissile):
+                monMissile.setImg("images/ingame/impact.png")
+                screen.blit(monMissile.image, monMissile.rect)
                 missiles.remove(monMissile)
                 
     #test des missiles de shooters contre obstacle
     for monMissile in missilesShooter:
         for obsTemp in obstacles:
             if obsTemp.estTouche(monMissile):
+                monMissile.setImg("images/ingame/impact.png")
+                screen.blit(monMissile.image, monMissile.rect)
                 missilesShooter.remove(monMissile)
                 
     #test des snakes contre obstacle

@@ -11,6 +11,7 @@ class ennemy(pygame.sprite.Sprite):
         self.rect.left = x
         self.rect.top = y
         self.next_update_time = 0 # update() hasn't been called yet.
+        self.radius = self.image.get_width()/2
         
 
     def getPos(self):

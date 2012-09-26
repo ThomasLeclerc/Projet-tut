@@ -9,6 +9,7 @@ class obstacle(pygame.sprite.Sprite):
         self.setImg(image)
         self.rect.left = x
         self.rect.top = y
+        self.radius=self.image.get_width()/2 - 5
         self.next_update_time = 0 # update() hasn't been called yet.
 
     def getPos(self):

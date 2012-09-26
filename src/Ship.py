@@ -13,7 +13,6 @@ class ship(pygame.sprite.Sprite):
     inCharge=False
     enVie = True
     record = 0
-    radius = 0.8
     
     def __init__(self, position_initiale):
         pygame.sprite.Sprite.__init__(self)
@@ -22,6 +21,7 @@ class ship(pygame.sprite.Sprite):
         self.setImg("images/vaisseaux/orange_ship/orange_ship_0.png")
         self.rect = self.image.get_rect()
         self.rect.topleft = self.position
+        self.radius = self.image.get_height()/2 - 5
         
     def enregistrerRecord(self,record):
         file1 = open('saves/sav.txt','w')
