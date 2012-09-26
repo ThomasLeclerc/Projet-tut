@@ -78,8 +78,8 @@ class ship(pygame.sprite.Sprite):
             if self.rect.top < 0:
                 self.rect.top = 0
                 self.speed = 0
-            elif self.rect.top > height-40:
-                self.rect.top = height-40
+            elif self.rect.top > height-100:
+                self.rect.top = height-100
                 self.speed = 0
     
             

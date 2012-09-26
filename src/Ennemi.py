@@ -78,15 +78,14 @@ class Shooter(ennemy):
         ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy1/enemy1_1.png")  
         self.image =  pygame.transform.scale(self.image, (80, 100))         
     
-    def update(self, current_time, ship, ennemy, missilesShooter):
+    def update(self, current_time, ship, ennemy, missilesShooter, height):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
             self.tir(missilesShooter)
-            self.rect.left -= 8     
-            (_, shipPosY) = ship.getPos()
-            if self.rect.top < shipPosY-10 and self.rect.top+3 < 600:
+            self.rect.left -= 8   
+            if self.rect.top < ship.rect.top-10 and self.rect.top < height-100:
                 self.rect.top += 4
-            elif shipPosY+10 < self.rect.top and self.rect.top-3 > 0:
+            elif ship.rect.top+10 < self.rect.top and self.rect.top-3 > 0:
                 self.rect.top -= 4
             if self.rect.left<-100:
                 ennemy.remove(self)  
