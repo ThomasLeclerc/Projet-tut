@@ -18,7 +18,8 @@ class ship(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.next_update_time = 0 # update() hasn't been called yet.
         self.position = position_initiale
-        self.setImg("images/vaisseaux/orange_ship/orange_ship_0.png", self.position)
+        self.setImg("images/vaisseaux/orange_ship/orange_ship_0.png")
+        self.rect = self.image.get_rect()
         self.rect.topleft = self.position
         
     def enregistrerRecord(self,record):
@@ -34,9 +35,9 @@ class ship(pygame.sprite.Sprite):
     def getPos(self):
         return [self.rect.left,self.rect.top]
     
-    def setImg(self, image, position):
+    def setImg(self, image):
         self.image =  pygame.image.load(image)
-        self.rect = self.image.get_rect()
+        
         
         
 
@@ -50,7 +51,7 @@ class ship(pygame.sprite.Sprite):
         if self.next_update_time < current_time:
             file0 = "images/vaisseaux/orange_ship/orange_ship_1.png"
             file1 = "images/vaisseaux/orange_ship/orange_ship_2.png"
-            accel=1.5
+            accel=1.6
             if self.monte == True:
                 if self.rect.top-2 >= 0:
                     self.rect.top+=self.speed
@@ -60,24 +61,26 @@ class ship(pygame.sprite.Sprite):
                     self.speed = 0
                 #animation    
                 if self.switch == 0:
-                    self.setImg(file0, self.position)
+                    self.setImg(file0)
                     self.switch=1
                 elif self.switch == 1:
-                    self.setImg(file1, self.position)
+                    self.setImg(file1)
                     self.switch=0
             else:
-                self.setImg("images/vaisseaux/orange_ship/orange_ship_0.png", self.position)
+                self.setImg("images/vaisseaux/orange_ship/orange_ship_0.png")
                 if self.rect.top <= height-40:
                     self.rect.top+=self.speed
-                    self.speed+=8*accel
+                    self.speed+=accel
                     self.position = self.getPos()
                 else:
                     self.speed = 0
                 
             #blockage du vaisseau dans la fenetre
             if self.rect.top < 0:
+                self.rect.top = 0
                 self.speed = 0
             elif self.rect.top > height-40:
+                self.rect.top = height-40
                 self.speed = 0
     
             
