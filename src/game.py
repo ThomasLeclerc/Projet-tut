@@ -299,6 +299,7 @@ play = 0
 ##### MENU COMMENCER #####
 menuStartOn=True
 
+
 '''################################################################## ''
 ''   BOUCLE DE JEU                                                    ''
 ''      (img par img)                                                 ''
@@ -381,8 +382,6 @@ while 1:
     Mouvements(width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles)
 
     perdu = Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles)
-    if perdu:
-        break
        
     Blits(width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles)
     
@@ -398,13 +397,15 @@ while 1:
     creerEnnemi(comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire)
     creerObstacle(comptApparitionObstacles)
     
-    ''' PTITE ZIK '''
-    '''
+    ''' PTITE ZIK 
+    
     if play == 0:
         musique.play()
-        play = 1'''
-    
+        play = 1
+    '''
+    if (monVaisseau.enVie == False):    
+        gameOver(monVaisseau.getPos(), screen)
+                    
     pygame.display.flip()
     
-if (monVaisseau.enVie == False):    
-    gameOver(monVaisseau.getPos(), screen)
+
