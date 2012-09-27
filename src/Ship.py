@@ -52,7 +52,7 @@ class ship(pygame.sprite.Sprite):
         if self.next_update_time < current_time:
             file0 = "images/vaisseaux/orange_ship/orange_ship_1.png"
             file1 = "images/vaisseaux/orange_ship/orange_ship_2.png"
-            accel=1.6
+            accel=3
             if self.monte == True:
                 if self.rect.top-2 >= 0:
                     self.rect.top+=self.speed
@@ -89,8 +89,8 @@ class ship(pygame.sprite.Sprite):
                 
             #charge des tirs
             if(self.inCharge):
-                if self.charge+3<(self.chaleurMax-self.chaleur):
-                        self.charge+=3
+                if self.charge+7<(self.chaleurMax-self.chaleur):
+                        self.charge+=7
                         
             self.next_update_time = current_time + 10
             self.position = self.getPos()

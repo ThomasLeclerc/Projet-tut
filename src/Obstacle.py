@@ -27,7 +27,7 @@ class obstacle(pygame.sprite.Sprite):
     def update(self, current_time):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
-            self.rect.left-=8
+            self.rect.left-=6
         self.next_update_time = current_time + 10
         
     def estTouche(self, spr):
