@@ -11,6 +11,8 @@ class ship(pygame.sprite.Sprite):
     chaleur=0
     charge=0
     inCharge=False
+    inBoost=False
+    inBreak=False
     enVie = True
     record = 0
     
@@ -52,8 +54,9 @@ class ship(pygame.sprite.Sprite):
         if self.next_update_time < current_time:
             file0 = "images/vaisseaux/orange_ship/orange_ship_1.png"
             file1 = "images/vaisseaux/orange_ship/orange_ship_2.png"
-            accel=3
-            if self.monte == True:
+            accel=2.3
+            #mouvement vertical
+            if self.monte:
                 if self.rect.top-2 >= 0:
                     self.rect.top+=self.speed
                     self.speed-=accel
@@ -73,6 +76,19 @@ class ship(pygame.sprite.Sprite):
                     self.speed+=accel
                 else:
                     self.speed = 0
+            #mouvement horizontal (boost)
+            if self.inBoost:
+                if self.rect.left < 800:
+                    if self.chaleur+2<self.chaleurMax:
+                        self.rect.left += 10
+                        self.chaleur+=2
+                
+            else:
+                if self.inBreak:
+                    if self.rect.left-10 > 0:
+                        self.rect.left -= 10
+                if self.rect.left-6 > 0:
+                    self.rect.left -= 6
                 
             #blockage du vaisseau dans la fenetre
             if self.rect.top < 0:

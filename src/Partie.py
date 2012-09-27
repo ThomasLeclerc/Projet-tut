@@ -92,6 +92,10 @@ class Partie:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         sys.exit()
+                    elif event.key == pygame.K_RETURN:
+                        p = Partie()
+                        p.jouer()
+                        break
                         
             background = pygame.image.load("images/background.jpg")
             screen.blit(background, (0,0))
@@ -99,7 +103,12 @@ class Partie:
             policeTitre = pygame.font.Font(None, 120)
             titre = policeTitre.render("GAME OVER",1,(254,0,0))
             screen.blit(titre,(200,100)) 
-            
+
+            #blit Recommencer    
+            policeTitre = pygame.font.Font(None, 20)
+            titre = policeTitre.render("ENTRER POUR RECOMMENCER",1,(50,254,50))
+            screen.blit(titre,(800,700)) 
+                        
             #blit disctance parcourue
             policeDistance = pygame.font.Font(None, 80)
             titre = policeDistance.render("distance : "+str(distance)+" m",1,(254,0,0))
@@ -362,6 +371,12 @@ class Partie:
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
                         monVaisseau.inCharge=True
+                    # RIGHT
+                    elif event.key == pygame.K_RIGHT:
+                        monVaisseau.inBoost=True
+                    # LEFT
+                    elif event.key == pygame.K_LEFT:
+                        monVaisseau.inBreak=True
                     # ECHAPE
                     elif event.key == pygame.K_ESCAPE:
                         sys.exit()
@@ -383,6 +398,12 @@ class Partie:
                                 else:
                                     monVaisseau.chaleur=monVaisseau.chaleurMax
                         monVaisseau.charge=0
+                    # RIGHT
+                    elif event.key == pygame.K_RIGHT:
+                        monVaisseau.inBoost=False
+                    # LEFT
+                    elif event.key == pygame.K_LEFT:
+                        monVaisseau.inBreak=False
             ##### BACKGROUND #####
             screen.blit(background, (-i,0)) 
             screen.blit(background, (3576-i,0))            
