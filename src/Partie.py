@@ -16,8 +16,7 @@ import Ship
 import Player
 import Obstacle
 import random
-from time import sleep
-from pygame.locals import *
+
 
     
 class Partie:  
@@ -74,7 +73,6 @@ class Partie:
     '' Apparition aleatoire des asteroides
     '''
     def creerObstacle(self, comptApparitionObstacle, width, height, distance, obstacles):
-        r = random.randint(0,100)
         y = random.randint(10, height)
         if distance%comptApparitionObstacle==0:
             comptApparitionObstacle -= 0
@@ -280,7 +278,6 @@ class Partie:
         screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
         
         ##### COMPTEURS #####
-        probaObstacles = 0
         comptApparitionSnake = 90
         comptApparitionShooter = 100
         comptApparitionAleatoire = 70
@@ -299,7 +296,7 @@ class Partie:
         bgCouche1 = pygame.image.load("images/background_couche1.png")
         bgCouche2 = pygame.image.load("images/background_couche2.png")
         bgCouche3 = pygame.image.load("images/background_couche3.png")
-        i=j=k=l=t=0
+        i=j=k=l=0
         
         ##### JOUEUR #####
         monPlayer = Player.player('Jean')
@@ -320,8 +317,8 @@ class Partie:
         
         
         ##### MUSIQUE #####
-        musique = pygame.mixer.Sound("sounds/BB078.WAV")
-        play = 0
+        '''musique = pygame.mixer.Sound("sounds/BB078.WAV")
+        play = 0'''
         
         
         ##### MENU COMMENCER #####
@@ -426,10 +423,7 @@ class Partie:
                 distance += 1
             self.creerEnnemi(width, height, comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau)
             self.creerObstacle(comptApparitionObstacles, width, height, distance, obstacles)
-            
-        
-            play = 1
-            
+                       
             if (monVaisseau.enVie == False):    
                 self.gameOver(monVaisseau.getPos(), screen, distance, height, monVaisseau)
                             

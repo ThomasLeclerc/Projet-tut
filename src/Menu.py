@@ -33,7 +33,7 @@ class Menu:
     ''' affiche le menu '''
     def afficher(self):
         ##### PARAMETRES DE LA FENETRE #####
-        size = width, height = 1024,768
+        size = 1024,768
         screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
         while 1:
             ''' COMMANDES CLAVIER '''
