@@ -7,6 +7,7 @@ class ship(pygame.sprite.Sprite):
     desc = False
     speed=0
     switch=0
+    chaleurMissile=33
     chaleurMax=200
     chaleur=0
     charge=0
@@ -15,6 +16,7 @@ class ship(pygame.sprite.Sprite):
     inBreak=False
     enVie = True
     record = 0
+    isBonusAmmo = False
     
     def __init__(self, position_initiale):
         pygame.sprite.Sprite.__init__(self)
@@ -79,8 +81,7 @@ class ship(pygame.sprite.Sprite):
                     self.switch=1
                 elif self.switch == 1:
                     self.setImg(file1)
-                    self.switch=0
-                
+                    self.switch=0   
             else:
                 if self.inBreak:
                     if self.rect.left-10 > 0:

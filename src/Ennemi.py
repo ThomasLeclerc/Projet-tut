@@ -3,7 +3,7 @@ import math
 import Shot
 import random
 
-class ennemy(pygame.sprite.Sprite):
+class Ennemy(pygame.sprite.Sprite):
     
     def __init__(self,x,y,image):
         pygame.sprite.Sprite.__init__(self)
@@ -28,14 +28,14 @@ class ennemy(pygame.sprite.Sprite):
         return (pygame.sprite.collide_circle(self, spr))
    
   
-class Snake(ennemy):
+class Snake(Ennemy):
     def __init__(self,x,y, typeDeplacement ,positionChaine=0, a=0, b=0):
         self.deplacement = typeDeplacement
         self.positionChaine = positionChaine
         if typeDeplacement == 2:
             self.a = a
             self.b = b
-        ennemy.__init__(self,x,y, "images/chasseur1.png")
+        Ennemy.__init__(self,x,y, "images/chasseur1.png")
         self.image = pygame.transform.rotate(self.image,-75)
     
     
@@ -70,12 +70,12 @@ class Snake(ennemy):
         self.next_update_time = current_time + 10
 
 
-class Shooter(ennemy):
+class Shooter(Ennemy):
     vie = 2
     compteurTir = 0
     switch = 0
     def __init__(self,x,y):
-        ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy1/enemy1_1.png")  
+        Ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy1/enemy1_1.png")  
         self.image =  pygame.transform.scale(self.image, (80, 100))         
     
     def update(self, current_time, ship, ennemy, missilesShooter, height):
@@ -108,11 +108,11 @@ class Shooter(ennemy):
 '''
 '' Ennemi qui se deplace aleatoirement
 '''             
-class Aleatoire(ennemy):
+class Aleatoire(Ennemy):
     sens = 1
     switch = 0
     def __init__(self,x,y):
-        ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy2/enemy2_1.png")   
+        Ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy2/enemy2_1.png")   
         self.image =  pygame.transform.scale(self.image, (50, 50))        
     
     def update(self, current_time, ennemy, height):

@@ -16,6 +16,7 @@ import Ship
 import Player
 import Obstacle
 import random
+import Bonus
 
 
     
@@ -55,7 +56,9 @@ class Partie:
             
     def creerAleatoires(self, width, height, aleatoires):
         aleatoires.add(Ennemi.Aleatoire(width, height/2))
-            
+        
+    def creerBonus(self,width, height, bonus,ship):
+        bonus.add(Bonus.BonusAmmo(width,height/2,ship))
     '''
     '' Fonction qui gere l'apparition aleatoire de tous les ennemis
     '''
@@ -125,7 +128,7 @@ class Partie:
     '''
     '    Fonction qui gere les collisions
     '''
-    def Collisions(self, monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen):
+    def Collisions(self, monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus):
         #test des missiles contre snakes
         for monMissile in missiles:
             for snakeTemp in snakes:
@@ -225,11 +228,15 @@ class Partie:
         for missileShooterTemp in missilesShooter:
             if monVaisseau.estTouche(missileShooterTemp):
                 monVaisseau.enVie = False
+
+        for bonusTemp in bonus:
+            if monVaisseau.estTouche(bonusTemp):
+                bonusTemp.action()
     
     '''
     '    Fonction qui gere les mouvements de tous les objets
     '''
-    def Mouvements(self, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter):
+    def Mouvements(self, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus):
         ##### MOUVEMENT JOUEUR #####
         monVaisseau.update(pygame.time.get_ticks(), height)
         ##### MOUVEMENT DES SNAKE #####
@@ -244,6 +251,9 @@ class Partie:
         ##### MOUVEMENT DES OBSTACLES #####
         obstacles.update(pygame.time.get_ticks())
         
+        ##### MOUVEMENT DES BONUS #####
+        bonus.update(pygame.time.get_ticks())
+        
         ##### MOUVEMENT MISSILES #####
         missiles.update(pygame.time.get_ticks(), width, missiles)
         
@@ -252,7 +262,7 @@ class Partie:
     '''
     '    Fonction qui gere les blits de tous les objets
     '''
-    def Blits(self, width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter):
+    def Blits(self, width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus):
              
 
         #jauge tir
@@ -267,6 +277,7 @@ class Partie:
         for o in obstacles.sprites(): screen.blit(o.image, o.rect)
         for m in missiles.sprites(): screen.blit(m.image, m.rect)
         for m in missilesShooter.sprites(): screen.blit(m.image, m.rect)
+        for b in bonus.sprites(): screen.blit(b.image,b.rect)
         
         #blits score
         police = pygame.font.Font(None, 60)
@@ -274,7 +285,7 @@ class Partie:
         screen.blit(texte, (width - 200, height - 70))
         #blits jauge chaleur
         image = pygame.image.load("images/rocket.png")
-        for l in range(((monVaisseau.chaleurMax / 33) - 1) - ((monVaisseau.chaleur) / 33)):
+        for l in range(((monVaisseau.chaleurMax / monVaisseau.chaleurMissile) - 1) - ((monVaisseau.chaleur) / monVaisseau.chaleurMissile)):
             screen.blit(image, (10 * (l + 1), 10))
         
         if (monVaisseau.chaleur == 0):
@@ -319,9 +330,11 @@ class Partie:
         aleatoires = pygame.sprite.Group()
         obstacles = pygame.sprite.Group()
         missilesShooter = pygame.sprite.Group()
+        bonus = pygame.sprite.Group()
         ''''''
         self.creerEnnemi(width, height, comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau)
         self.creerObstacle(comptApparitionObstacles, width, height, distance, obstacles)
+        self.creerBonus(width, height, bonus,monVaisseau)
         ''''''
         
         
@@ -388,15 +401,17 @@ class Partie:
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
                         monVaisseau.inCharge=False
-                        nbShoot = (monVaisseau.charge/33)+1
+                        nbShoot = (monVaisseau.charge/monVaisseau.chaleurMissile)+1
                         for m in range(nbShoot):
-                            if(monVaisseau.chaleur+33<(monVaisseau.chaleurMax)):
+                            if(monVaisseau.chaleur+monVaisseau.chaleurMissile<(monVaisseau.chaleurMax)):
                                 monMissile=Shot.shotShip(monVaisseau.rect.left+40, monVaisseau.rect.top-(nbShoot*30)+(60*m)+40)
                                 missiles.add(monMissile)
-                                if(monVaisseau.chaleur+33<monVaisseau.chaleurMax):
-                                    monVaisseau.chaleur+=33
+                                if(monVaisseau.chaleur+monVaisseau.chaleurMissile<monVaisseau.chaleurMax):
+                                    monVaisseau.chaleur+=monVaisseau.chaleurMissile
                                 else:
                                     monVaisseau.chaleur=monVaisseau.chaleurMax
+                                if(monVaisseau.isBonusAmmo):
+                                    monVaisseau.chaleur-=monVaisseau.chaleurMissile
                         monVaisseau.charge=0
                     # RIGHT
                     elif event.key == pygame.K_RIGHT:
@@ -427,11 +442,11 @@ class Partie:
                 
         
             
-            self.Mouvements(width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter)
+            self.Mouvements(width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus)
         
-            self.Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen)
+            self.Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus)
                
-            self.Blits(width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter)
+            self.Blits(width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus)
             
             
             
