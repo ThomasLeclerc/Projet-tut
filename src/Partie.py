@@ -395,7 +395,7 @@ class Partie:
             j+=2
             k+=4
             l+=6
-            if i > width:
+            if i > 3575:
                 i=0
             if j > width:
                 j=0
