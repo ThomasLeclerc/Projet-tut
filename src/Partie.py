@@ -20,7 +20,7 @@ from time import sleep
 from pygame.locals import *
 
     
-class Partie():  
+class Partie:  
     ##### DEFINITION DES FONCTIONS #####
     
     '''

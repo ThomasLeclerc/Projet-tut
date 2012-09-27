@@ -1,9 +1,8 @@
 #import Menu
-import Curseur
 import pygame
 import sys
   
-class EcranQuitter():    
+class EcranQuitter:    
     pygame.init()
     
     ##### PARAMETRES DE LA FENETRE #####
@@ -28,11 +27,7 @@ class EcranQuitter():
     ##### CURSEUR #####
     pas = posX2 - posX1
     curseurStore = Curseur.curseur(posX1, pas)
-    
-    ##### SON #####
-    sonExplosion = pygame.mixer.Sound("sounds/cliclic.WAV")
-    
-    
+        
     
     
     screen.blit(imgQuitTxt, (posX,posY))            

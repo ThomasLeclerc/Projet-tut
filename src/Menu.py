@@ -24,8 +24,6 @@ class Menu:
         screen.blit(self.image,(0,0))
         for bouton in self.boutons:
             if bouton.isSelected:
-                screen.blit(bouton.imageAlt,bouton.rect)
-            else:
                 screen.blit(bouton.image,bouton.rect)
         pygame.display.update()
     
@@ -46,17 +44,24 @@ class Menu:
                     # HAUT
                     if event.key == pygame.K_UP:
                         if self.idSelectedButton == 0:
+                            self.boutons[self.idSelectedButton].setSelected(False)
                             self.idSelectedButton = len(self.boutons)-1
                         else:
+                            self.boutons[self.idSelectedButton].setSelected(False)
                             self.idSelectedButton -= 1
                     # BAS
                     elif event.key == pygame.K_DOWN:
                         if self.idSelectedButton == len(self.boutons)-1:
+                            self.boutons[self.idSelectedButton].setSelected(False)
                             self.idSelectedButton = 0
                         else:
+                            self.boutons[self.idSelectedButton].setSelected(False)
                             self.idSelectedButton += 1
                     # ENTRER
                     elif event.key == pygame.K_RETURN:
                         self.boutons[self.idSelectedButton].action()
+                    elif event.key == pygame.K_ESCAPE:
+                            sys.exit()
+                    self.boutons[self.idSelectedButton].setSelected(True)
             self.blits(screen)
             pygame.display.update()
