@@ -1,12 +1,11 @@
-'''
-'  game.py
-'    Moteur de jeu
+'''#####################
+#''                   '#
+#'  Classe Partie     '#
+#'    Moteur de jeu   '#
+#'                   ''#
+#####################'''
 
-
-
-'''
-
-##### IMPORTS #####
+''' IMPORTS '''
 import pygame
 import pyganim
 import sys
@@ -18,32 +17,32 @@ import Obstacle
 import random
 import Bonus
 
-
-    
+''' CLASSE '''
 class Partie:  
-    ##### DEFINITION DES FONCTIONS #####
-    
-    '''
-    '' FONCTION QUI INSTANCIE nombre DE SNAKE
-    '' le type de deplacement est tire aleatoirement
-    '' ainsi que les coefiscients pour un deplacement en droite
-    '''
+
+    ''' FONCTION QUI INSTANCIE nombre DE SNAKE
+    ''  le type de deplacement est tire aleatoirement
+    ''  ainsi que les coefiscients pour un deplacement en droite '''
     def creerSnakes(self,width, height, snakes, nombre=0):
         positionChaine = random.randint(100,height-180)
-        deplacement = random.randint(1,3)
-        if deplacement == 1:
+        #on tire le type de deplacement au hasard
+        typeDeplacement = random.randint(1,3)
+        #type snake
+        if typeDeplacement == 1:
             while(nombre!=0):
                 snakes.add(Ennemi.Snake(width+(nombre*30), 0, 1, positionChaine))
                 nombre -= 1 
-        elif deplacement == 2:
+        #type ligne
+        elif typeDeplacement == 2:
             a = random.uniform(-0.8,0.8)
             if a < 0:
                 b = random.uniform(height/2,height-10)
             else:
                 b = random.uniform(10,height-height/2)
             while nombre!=0:
-                snakes.add(Ennemi.Snake(width+(nombre*40), positionChaine, deplacement, positionChaine, a, b))
+                snakes.add(Ennemi.Snake(width+(nombre*40), positionChaine, typeDeplacement, positionChaine, a, b))
                 nombre -= 1
+        #type escadron
         else:
             snakes.add(Ennemi.Snake(width+80, positionChaine-80, 3))
             snakes.add(Ennemi.Snake(width+50, positionChaine-40, 3))

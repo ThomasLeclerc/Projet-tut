@@ -1,7 +1,9 @@
 import Bouton
 import Menu
 
-
+''' classe EcranAccueil
+    herite de la classe Menu
+'''
 class EcranAccueil(Menu.Menu):    
     
     def __init__(self,filename):

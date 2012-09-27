@@ -5,6 +5,9 @@ import sys
 
 class Menu:
     
+    ''' Constructeur de Menu
+        prend le nom du fichier image en parametre
+    '''
     def __init__(self,filename):
         self.boutons = []
         self.setBgImage(filename)

@@ -5,13 +5,17 @@ import sys
 
 class Bouton(pygame.sprite.Sprite):
     
-    def __init__(self,image, x, y, isSelected):
+    ''' constructeur de la classe Bouton
+        prend en parametre le nom du fichier image,
+        les coordonees x et y, et un booleen isSelected
+    '''
+    def __init__(self,imageFileName, x, y, isSelected):
         pygame.sprite.Sprite.__init__(self)
-        self.setImg(image, x, y)
+        self.setImg(imageFileName, x, y)
         self.isSelected=isSelected
         
-    def setImg(self, image, x, y):
-        self.image = pygame.image.load(image)
+    def setImg(self, imageFileName, x, y):
+        self.image = pygame.image.load(imageFileName)
         self.rect = self.image.get_rect()
         self.rect.left = x
         self.rect.top = y
@@ -24,7 +28,6 @@ class BoutonStartGame(Bouton):
     def __init__(self, image, x, y, isSelected=False):
         Bouton.__init__(self, image, x, y, isSelected)
     
-    '''prend une instance de la classe Partie en param'''
     def action(self):
         p = Partie.Partie()
         p.jouer()
