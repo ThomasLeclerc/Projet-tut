@@ -25,7 +25,7 @@ class ennemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
     def estTouche(self,spr):
-       return (pygame.sprite.collide_circle(self, spr))
+        return (pygame.sprite.collide_circle(self, spr))
    
   
 class Snake(ennemy):

@@ -1,4 +1,4 @@
-import Partie
+import EcranAccueil
 
-partie = Partie.Partie()
-partie.jouer()
+ecranAccueil = EcranAccueil.EcranAccueil("images/menu/menu.jpg")
+ecranAccueil.afficher()

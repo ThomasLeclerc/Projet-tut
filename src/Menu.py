@@ -1,46 +1,62 @@
 import pygame
-import Curseur
+import sys
 
-"""
-Un Menu est defini par :
-- un identifiant determinant le type du menu
-- un titre pour informer au joueur dans quel menu il se situe
-- un curseur permettant de naviguer et d'interagir avec le menu
-"""
-class menu:
-    idMenu = None
-    titre = ''
-    curseur = Curseur.curseur(0,0)
-    
-    ''' Instancie un nouveau menu dont le titre correspond au fichier image du meme nom '''
-    def __init__(self, idMenu, titre, curseur):
-        
-        self.idMenu = idMenu
-        self.titre  = titre
-        self.curseur = curseur
 
-    ''' Recupere le fichier image du titre du menu '''    
-    def getTitre(self):
-        return pygame.image.load("images/"+ self.titre +".png")
-    
-    
-    ''' Retourne l'identifiant du menu '''
-    ### Utile pour les structures conditionnelles/naviguer d'un menu a l'autre
-    def getIdentifiant(self):
-        return self.idMenu
-    
-    ''' Ajoute une nouvelle option dans le menu '''   
-    def ajoutOption(self, img):
-        return pygame.image.load("images/"+img)
-        
 
-class menuStartGame(menu):
-    def __init__(self):
-        self.idMenu=1
-        self.titre='Start Menu'
-        self.curseur=Curseur.curseur(0,0) 
-        
-    def entrerPourJouer(self):
-        policeTitre = pygame.font.Font(None, 120)
-        titre = policeTitre.render("APPUYER SUR ENTRER",1,(254,0,0))
-        return titre
+class Menu:
+    
+    def __init__(self,filename):
+        self.boutons = []
+        self.setBgImage(filename)
+        self.idSelectedButton=0
+
+    def setBgImage(self, filename):
+        self.image=pygame.image.load(filename)
+
+    ''' parcours la liste de bouton du menu
+        et retourne le bouton selectionne '''
+    def selectedButton(self):
+        for bouton in self.boutons:
+            if bouton.isSelected():
+                return bouton
+            
+    def blits(self, screen):
+        screen.blit(self.image,(0,0))
+        for bouton in self.boutons:
+            if bouton.isSelected:
+                screen.blit(bouton.imageAlt,bouton.rect)
+            else:
+                screen.blit(bouton.image,bouton.rect)
+        pygame.display.update()
+    
+    def addButton(self,bouton):
+        self.boutons.append(bouton)
+
+    ''' affiche le menu '''
+    def afficher(self):
+        ##### PARAMETRES DE LA FENETRE #####
+        size = width, height = 1024,768
+        screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+        while 1:
+            ''' COMMANDES CLAVIER '''
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT: sys.exit()
+                ##### APPUI SUR TOUCHE #####
+                elif event.type == pygame.KEYDOWN:
+                    # HAUT
+                    if event.key == pygame.K_UP:
+                        if self.idSelectedButton == 0:
+                            self.idSelectedButton = len(self.boutons)-1
+                        else:
+                            self.idSelectedButton -= 1
+                    # BAS
+                    elif event.key == pygame.K_DOWN:
+                        if self.idSelectedButton == len(self.boutons)-1:
+                            self.idSelectedButton = 0
+                        else:
+                            self.idSelectedButton += 1
+                    # ENTRER
+                    elif event.key == pygame.K_RETURN:
+                        self.boutons[self.idSelectedButton].action()
+            self.blits(screen)
+            pygame.display.update()
