@@ -62,13 +62,6 @@ class ship(pygame.sprite.Sprite):
                     self.speed-=accel
                 else:
                     self.speed = 0
-                #animation    
-                if self.switch == 0:
-                    self.setImg(file0)
-                    self.switch=1
-                elif self.switch == 1:
-                    self.setImg(file1)
-                    self.switch=0
             else:
                 self.setImg("images/vaisseaux/orange_ship/orange_ship_0.png")
                 if self.rect.top <= height-40:
@@ -79,9 +72,14 @@ class ship(pygame.sprite.Sprite):
             #mouvement horizontal (boost)
             if self.inBoost:
                 if self.rect.left < 800:
-                    if self.chaleur+2<self.chaleurMax:
-                        self.rect.left += 10
-                        self.chaleur+=2
+                    self.rect.left += 10
+                #animation    
+                if self.switch == 0:
+                    self.setImg(file0)
+                    self.switch=1
+                elif self.switch == 1:
+                    self.setImg(file1)
+                    self.switch=0
                 
             else:
                 if self.inBreak:
