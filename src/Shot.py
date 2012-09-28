@@ -5,7 +5,7 @@ class shot(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.setImg(image)
         self.rect = self.image.get_rect()
-        self.rect.topleft = [x,y]
+        self.rect.topleft = [x+20,y+20]
         self.next_update_time = 0 # update() hasn't been called yet.
     
     def getPos(self):
