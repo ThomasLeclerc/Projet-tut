@@ -120,16 +120,13 @@ class Partie:
             screen.blit(titreRec,(200,(height/2)+60))
             explosion.blit(screen, (x,y))
             pygame.display.update()
-<<<<<<< HEAD
-    '''Fonction qui gere les collisions'''
-    def Collisions(self, monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus):
-=======
+
                         
     '''
     '    Fonction qui gere les collisions
     '''
     def Collisions(self, monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins):
->>>>>>> 4059f23035ce113f7503194df0a072c71f2fcdea
+
         #test des missiles contre snakes
         for monMissile in missiles:
             for snakeTemp in snakes:
@@ -235,7 +232,6 @@ class Partie:
 
         for bonusTemp in bonus:
             if monVaisseau.estTouche(bonusTemp):
-<<<<<<< HEAD
                 bonusTemp.startTime=pygame.time.get_ticks()
                 bonusTemp.stopTime=pygame.time.get_ticks()+8000               
                 bonusTemp.isActive=True
@@ -243,10 +239,7 @@ class Partie:
                 bonusTemp.action(bonus,pygame.time.get_ticks())
             else:
                 bonusTemp.action(bonus,pygame.time.get_ticks())
-=======
-                bonusTemp.action()
-<<<<<<< HEAD
-        
+       
         for coinTemp in coins:
             if monVaisseau.estTouche(coinTemp):
                 monVaisseau.money += 1
@@ -257,13 +250,7 @@ class Partie:
     '    Fonction qui gere les mouvements de tous les objets
     '''
     def Mouvements(self, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
-=======
-                bonus.remove(bonusTemp)
-    
->>>>>>> 4059f23035ce113f7503194df0a072c71f2fcdea
-    '''Fonction qui gere les mouvements de tous les objets'''
-    def Mouvements(self, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus):
->>>>>>> f64fbaa593e8b8e31e1c8290bbaa4f1872d892a5
+
         ##### MOUVEMENT JOUEUR #####
         monVaisseau.update(pygame.time.get_ticks(), height)
         ##### MOUVEMENT DES SNAKE #####
@@ -281,7 +268,6 @@ class Partie:
         ##### MOUVEMENT MISSILES ENNEMY #####        
         missilesShooter.update(pygame.time.get_ticks(), missilesShooter)
         
-<<<<<<< HEAD
         ##### MOUVEMENT DES PIECES DE MONNAIE #####
         coins.update(pygame.time.get_ticks())
         
@@ -289,12 +275,7 @@ class Partie:
     '    Fonction qui gere les blits de tous les objets
     '''
     def Blits(self, width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
-             
 
-=======
-    '''Fonction qui gere les blits de tous les objets'''
-    def Blits(self, width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus):
->>>>>>> f64fbaa593e8b8e31e1c8290bbaa4f1872d892a5
         #jauge tir
         pygame.draw.rect(screen, (255, 0, 0), (1, 1, monVaisseau.chaleurMax + 3, 10), 1)
         if (monVaisseau.inCharge):
@@ -311,24 +292,17 @@ class Partie:
         for o in obstacles.sprites(): screen.blit(o.image, o.rect)
         for m in missiles.sprites(): screen.blit(m.image, m.rect)
         for m in missilesShooter.sprites(): screen.blit(m.image, m.rect)
-<<<<<<< HEAD
         for b in bonus.sprites():
             if b.isVisible:
                 screen.blit(b.image,b.rect)
-=======
-        for b in bonus.sprites(): screen.blit(b.image,b.rect)
-<<<<<<< HEAD
+
         for c in coins.sprites(): screen.blit(c.image,c.rect)
-        
-        
-=======
->>>>>>> f64fbaa593e8b8e31e1c8290bbaa4f1872d892a5
+
         #blits score
         screen.blit(pygame.image.load("images/ingame/Coin.png"), (width-200, height-100))
         police = pygame.font.Font(None, 60)
         texte = police.render(str(monVaisseau.money), 1, (210, 210, 1))
         screen.blit(texte, (width - 160, height - 110))
->>>>>>> 4059f23035ce113f7503194df0a072c71f2fcdea
         #blits score
         police = pygame.font.Font(None, 60)
         texte = police.render(str(distance) + " m", 1, (254, 0, 0))
