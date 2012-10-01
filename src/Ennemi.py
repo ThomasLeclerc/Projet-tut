@@ -2,6 +2,7 @@ import pygame
 import math
 import Shot
 import random
+import Coin
 
 class Ennemy(pygame.sprite.Sprite):
     def __init__(self,x,y,image):
@@ -17,7 +18,12 @@ class Ennemy(pygame.sprite.Sprite):
         return (self.image.get_width(), self.image.get_height()) 
     def setImg(self, image):
         self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        
+    def creerCoin(self, coins):
+        coins.add(Coin.Coin(self.rect.left, self.rect.top))
         self.rect = self.image.get_rect()       
+
     def estTouche(self,spr):
         return (pygame.sprite.collide_circle(self, spr))
 
