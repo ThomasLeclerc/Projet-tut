@@ -110,6 +110,7 @@ class ship(pygame.sprite.Sprite):
                         
             self.next_update_time = current_time + 10
             self.position = self.getPos()
+            
     #fin fonction bouge()
     
     def estTouche(self, obs):

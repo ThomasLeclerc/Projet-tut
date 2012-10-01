@@ -58,9 +58,7 @@ class Partie:
         
     def creerBonus(self,width, height, bonus,ship):
         bonus.add(Bonus.BonusAmmo(width,height/2,ship))
-    '''
-    '' Fonction qui gere l'apparition aleatoire de tous les ennemis
-    '''
+    '''Fonction qui gere l'apparition aleatoire de tous les ennemis'''
     def creerEnnemi(self, width, height, compApparitionSnake, compApparitionShooter, compApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau):
         if distance%compApparitionSnake == 0:
             compApparitionSnake -= 1
@@ -71,16 +69,14 @@ class Partie:
         if distance%compApparitionAleatoire == 0:
             compApparitionAleatoire -= 1
             self.creerAleatoires(width, height, aleatoires)
-    '''
-    '' Apparition aleatoire des asteroides
-    '''
+    '''Apparition aleatoire des asteroides'''
     def creerObstacle(self, comptApparitionObstacle, width, height, distance, obstacles):
         y = random.randint(10, height)
         if distance%comptApparitionObstacle==0:
             comptApparitionObstacle -= 0
             typeObstacle = random.randint(1,5)
             obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
-    
+
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
         
         imagesTemp = [(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), 0.1) for compt in range(1,9)]
@@ -123,10 +119,7 @@ class Partie:
             screen.blit(titreRec,(200,(height/2)+60))
             explosion.blit(screen, (x,y))
             pygame.display.update()
-                        
-    '''
-    '    Fonction qui gere les collisions
-    '''
+    '''Fonction qui gere les collisions'''
     def Collisions(self, monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus):
         #test des missiles contre snakes
         for monMissile in missiles:
@@ -230,9 +223,13 @@ class Partie:
 
         for bonusTemp in bonus:
             if monVaisseau.estTouche(bonusTemp):
-                bonusTemp.action()
-                bonus.remove(bonusTemp)
-    
+                bonusTemp.startTime=pygame.time.get_ticks()
+                bonusTemp.stopTime=pygame.time.get_ticks()+8000               
+                bonusTemp.isActive=True
+                bonusTemp.isVisible=False
+                bonusTemp.action(bonus,pygame.time.get_ticks())
+            else:
+                bonusTemp.action(bonus,pygame.time.get_ticks())
     '''Fonction qui gere les mouvements de tous les objets'''
     def Mouvements(self, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus):
         ##### MOUVEMENT JOUEUR #####
@@ -270,7 +267,9 @@ class Partie:
         for o in obstacles.sprites(): screen.blit(o.image, o.rect)
         for m in missiles.sprites(): screen.blit(m.image, m.rect)
         for m in missilesShooter.sprites(): screen.blit(m.image, m.rect)
-        for b in bonus.sprites(): screen.blit(b.image,b.rect)
+        for b in bonus.sprites():
+            if b.isVisible:
+                screen.blit(b.image,b.rect)
         #blits score
         police = pygame.font.Font(None, 60)
         texte = police.render(str(distance) + " m", 1, (254, 0, 0))
