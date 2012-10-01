@@ -24,11 +24,14 @@ class Bonus(pygame.sprite.Sprite):
     def estTouche(self,spr):
         return (pygame.sprite.collide_circle(self, spr))
     
-    def update(self, current_time):
+    def update(self, current_time, bonus):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
             self.rect.left-=6
         self.next_update_time = current_time + 10
+        
+        if self.rect.left<-50:
+            bonus.remove(self)  
 
 class BonusAmmo(Bonus):
 

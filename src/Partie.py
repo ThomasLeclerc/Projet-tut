@@ -235,6 +235,7 @@ class Partie:
         for bonusTemp in bonus:
             if monVaisseau.estTouche(bonusTemp):
                 bonusTemp.action()
+<<<<<<< HEAD
         
         for coinTemp in coins:
             if monVaisseau.estTouche(coinTemp):
@@ -246,28 +247,30 @@ class Partie:
     '    Fonction qui gere les mouvements de tous les objets
     '''
     def Mouvements(self, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
+=======
+                bonus.remove(bonusTemp)
+    
+    '''Fonction qui gere les mouvements de tous les objets'''
+    def Mouvements(self, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus):
+>>>>>>> f64fbaa593e8b8e31e1c8290bbaa4f1872d892a5
         ##### MOUVEMENT JOUEUR #####
         monVaisseau.update(pygame.time.get_ticks(), height)
         ##### MOUVEMENT DES SNAKE #####
         snakes.update(pygame.time.get_ticks(), snakes, width, height)
-        
         ##### MOUVEMENT DES SHOOTERS #####
         shooters.update(pygame.time.get_ticks(), monVaisseau, shooters, missilesShooter, height)
-        
         ##### MOUVEMENT DES ALEATOIRES #####
         aleatoires.update(pygame.time.get_ticks(), aleatoires, height)
-        
         ##### MOUVEMENT DES OBSTACLES #####
         obstacles.update(pygame.time.get_ticks())
-        
         ##### MOUVEMENT DES BONUS #####
-        bonus.update(pygame.time.get_ticks())
-        
+        bonus.update(pygame.time.get_ticks(),bonus)
         ##### MOUVEMENT MISSILES #####
         missiles.update(pygame.time.get_ticks(), width, missiles)
-        
+        ##### MOUVEMENT MISSILES ENNEMY #####        
         missilesShooter.update(pygame.time.get_ticks(), missilesShooter)
         
+<<<<<<< HEAD
         ##### MOUVEMENT DES PIECES DE MONNAIE #####
         coins.update(pygame.time.get_ticks())
         
@@ -277,12 +280,20 @@ class Partie:
     def Blits(self, width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
              
 
+=======
+    '''Fonction qui gere les blits de tous les objets'''
+    def Blits(self, width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus):
+>>>>>>> f64fbaa593e8b8e31e1c8290bbaa4f1872d892a5
         #jauge tir
         pygame.draw.rect(screen, (255, 0, 0), (1, 1, monVaisseau.chaleurMax + 3, 10), 1)
         if (monVaisseau.inCharge):
             pygame.draw.rect(screen, (255, 0, 0), (4, 4, monVaisseau.charge, 7))
-
         screen.blit(monVaisseau.image, monVaisseau.rect)
+        #blits logo bonus
+        if monVaisseau.isBonusAmmo:
+            logoBonus =  pygame.transform.scale(pygame.image.load("images/bonus/ammo.png"),(25,25))
+            screen.blit(logoBonus,(10,50))
+        #blits ennemies et missiles
         for s in snakes.sprites(): screen.blit(s.image, s.rect)
         for s in shooters.sprites(): screen.blit(s.image, s.rect)
         for a in aleatoires.sprites(): screen.blit(a.image, a.rect)
@@ -290,9 +301,12 @@ class Partie:
         for m in missiles.sprites(): screen.blit(m.image, m.rect)
         for m in missilesShooter.sprites(): screen.blit(m.image, m.rect)
         for b in bonus.sprites(): screen.blit(b.image,b.rect)
+<<<<<<< HEAD
         for c in coins.sprites(): screen.blit(c.image,c.rect)
         
         
+=======
+>>>>>>> f64fbaa593e8b8e31e1c8290bbaa4f1872d892a5
         #blits score
         screen.blit(pygame.image.load("images/ingame/Coin.png"), (width-200, height-100))
         police = pygame.font.Font(None, 60)
@@ -306,10 +320,8 @@ class Partie:
         image = pygame.image.load("images/rocket.png")
         for l in range(((monVaisseau.chaleurMax / monVaisseau.chaleurMissile) - 1) - ((monVaisseau.chaleur) / monVaisseau.chaleurMissile)):
             screen.blit(image, (10 * (l + 1), 10))
-        
         if (monVaisseau.chaleur == 0):
             screen.blit(image, (10 * (l + 2), 10))
-    
     def jouer(self):
         pygame.init()       
         ##### PARAMETRES DE LA FENETRE #####
@@ -420,19 +432,7 @@ class Partie:
                         monVaisseau.monte=False
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
-                        monVaisseau.inCharge=False
-                        nbShoot = (monVaisseau.charge/monVaisseau.chaleurMissile)+1
-                        for m in range(nbShoot):
-                            if(monVaisseau.chaleur+monVaisseau.chaleurMissile<(monVaisseau.chaleurMax)):
-                                monMissile=Shot.shotShip(monVaisseau.rect.left+40, monVaisseau.rect.top-(nbShoot*30)+(60*m)+40)
-                                missiles.add(monMissile)
-                                if(monVaisseau.chaleur+monVaisseau.chaleurMissile<monVaisseau.chaleurMax):
-                                    monVaisseau.chaleur+=monVaisseau.chaleurMissile
-                                else:
-                                    monVaisseau.chaleur=monVaisseau.chaleurMax
-                                if(monVaisseau.isBonusAmmo):
-                                    monVaisseau.chaleur-=monVaisseau.chaleurMissile
-                        monVaisseau.charge=0
+                        monVaisseau.tir(missiles);
                     # RIGHT
                     elif event.key == pygame.K_RIGHT:
                         monVaisseau.inBoost=False
@@ -451,7 +451,7 @@ class Partie:
             j+=2
             k+=4
             l+=6
-            if i > 3575:
+            if i > 3576:
                 i=0
             if j > width:
                 j=0
