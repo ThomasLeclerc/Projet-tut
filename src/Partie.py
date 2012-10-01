@@ -231,6 +231,7 @@ class Partie:
         for bonusTemp in bonus:
             if monVaisseau.estTouche(bonusTemp):
                 bonusTemp.action()
+                bonus.remove(bonusTemp)
     
     '''
     '    Fonction qui gere les mouvements de tous les objets
@@ -240,22 +241,17 @@ class Partie:
         monVaisseau.update(pygame.time.get_ticks(), height)
         ##### MOUVEMENT DES SNAKE #####
         snakes.update(pygame.time.get_ticks(), snakes, width, height)
-        
         ##### MOUVEMENT DES SHOOTERS #####
         shooters.update(pygame.time.get_ticks(), monVaisseau, shooters, missilesShooter, height)
-        
         ##### MOUVEMENT DES ALEATOIRES #####
         aleatoires.update(pygame.time.get_ticks(), aleatoires, height)
-        
         ##### MOUVEMENT DES OBSTACLES #####
         obstacles.update(pygame.time.get_ticks())
-        
         ##### MOUVEMENT DES BONUS #####
-        bonus.update(pygame.time.get_ticks())
-        
+        bonus.update(pygame.time.get_ticks(),bonus)
         ##### MOUVEMENT MISSILES #####
         missiles.update(pygame.time.get_ticks(), width, missiles)
-        
+        ##### MOUVEMENT MISSILES ENNEMY #####        
         missilesShooter.update(pygame.time.get_ticks(), missilesShooter)
         
     '''
@@ -430,7 +426,7 @@ class Partie:
             j+=2
             k+=4
             l+=6
-            if i > 3575:
+            if i > 3576:
                 i=0
             if j > width:
                 j=0
