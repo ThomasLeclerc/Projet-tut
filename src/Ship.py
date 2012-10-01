@@ -16,6 +16,7 @@ class ship(pygame.sprite.Sprite):
     inBreak=False
     enVie = True
     record = 0
+    money = 0
     isBonusAmmo = False
     
     def __init__(self, position_initiale):
