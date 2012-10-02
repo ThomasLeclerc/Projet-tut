@@ -57,11 +57,13 @@ class Partie:
         aleatoires.add(Ennemi.Aleatoire(width, height/2))
         
     def creerBonus(self, bonus,ship, width, height):
-        r = random.randint(1,2)
+        r = random.randint(1,3)
         if r == 1:
             bonus.add(Bonus.BonusAmmo(width,height,ship))
         elif r == 2:
             bonus.add(Bonus.BonusShield(width,height,ship))
+        elif r == 3:
+            bonus.add(Bonus.BonusGunV2(width,height,ship))
     
     '''Fonction qui gere l'apparition aleatoire de tous les ennemis'''
     def creerEnnemi(self, width, height, compApparitionSnake, compApparitionShooter, compApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau):
@@ -244,7 +246,7 @@ class Partie:
         for bonusTemp in bonus:
             if monVaisseau.estTouche(bonusTemp):
                 bonusTemp.startTime=pygame.time.get_ticks()
-                bonusTemp.stopTime=pygame.time.get_ticks()+8000               
+                bonusTemp.stopTime=pygame.time.get_ticks()+10000               
                 bonusTemp.isActive=True
                 bonusTemp.isVisible=False
                 bonusTemp.action(bonus,pygame.time.get_ticks())
@@ -263,10 +265,10 @@ class Partie:
     '''
     '    Fonction qui gere les mouvements de tous les objets
     '''
-    def Mouvements(self, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
+    def Mouvements(self, screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
 
         ##### MOUVEMENT JOUEUR #####
-        monVaisseau.update(pygame.time.get_ticks(), height)
+        monVaisseau.update(pygame.time.get_ticks(), height, screen)
         ##### MOUVEMENT DES SNAKE #####
         snakes.update(pygame.time.get_ticks(), snakes, width, height)
         ##### MOUVEMENT DES SHOOTERS #####
@@ -375,11 +377,11 @@ class Partie:
         missilesShooter = pygame.sprite.Group()
         bonus = pygame.sprite.Group()
         coins = pygame.sprite.Group()
-        ''''''
+        '''
         self.creerEnnemi(width, height, comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau)
         self.creerObstacle(comptApparitionObstacles, width, height, distance, obstacles)
         
-        ''''''
+        '''
         
         
         ##### MUSIQUE #####
@@ -474,7 +476,7 @@ class Partie:
                 
         
             
-            self.Mouvements(width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
+            self.Mouvements(screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
         
             self.Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins)
                
