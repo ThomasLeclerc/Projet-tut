@@ -1,6 +1,6 @@
 import pygame
 import Shot
-
+import pyganim
 
 
 class ship(pygame.sprite.Sprite):
@@ -8,6 +8,7 @@ class ship(pygame.sprite.Sprite):
     desc = False
     speed=0
     switch=0
+    animSwitch=2
     chaleurMissile=33
     chaleurMax=200
     chaleur=0
@@ -25,7 +26,7 @@ class ship(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.next_update_time = 0 # update() hasn't been called yet.
         self.position = position_initiale
-        self.setImg("images/vaisseaux/orange_ship/orange_ship_0.png")
+        self.setImg("images/vaisseaux/orange_ship/orange_ship_1.png")
         self.rect = self.image.get_rect()
         self.rect.topleft = self.position
         self.radius = self.image.get_height()/2 - 5
@@ -49,11 +50,14 @@ class ship(pygame.sprite.Sprite):
     # deplace le vaisseau,   
     # prend en param les 2 fichiers reacteurs alumes, et la largeur
     # de la	fenetre
-    def update(self, current_time, height):
+    def update(self, current_time, height,screen):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
             file0 = "images/vaisseaux/orange_ship/orange_ship_1.png"
             file1 = "images/vaisseaux/orange_ship/orange_ship_2.png"
+            file2 = "images/vaisseaux/orange_ship/orange_ship_3.png"
+            file3 = "images/vaisseaux/orange_ship/orange_ship_4.png"
+            file4 = "images/vaisseaux/orange_ship/orange_ship_5.png"
             accel=2.3
             #mouvement vertical
             if self.monte:
@@ -62,24 +66,33 @@ class ship(pygame.sprite.Sprite):
                     self.speed-=accel
                 else:
                     self.speed = 0
+                #animation    
+                if self.animSwitch == 2:
+                    self.setImg(file2)
+                    self.animSwitch=3
+                elif self.animSwitch == 3:
+                    self.setImg(file3)
+                    self.animSwitch=4
+                elif self.animSwitch == 4:
+                    self.setImg(file4)
+                    self.animSwitch=2                                       
             else:
-                self.setImg("images/vaisseaux/orange_ship/orange_ship_0.png")
                 if self.rect.top <= height-40:
                     self.rect.top+=self.speed
                     self.speed+=accel
                 else:
                     self.speed = 0
-            #mouvement horizontal (boost)
-            if self.inBoost:
-                if self.rect.left < 800:
-                    self.rect.left += 10
                 #animation    
                 if self.switch == 0:
                     self.setImg(file0)
                     self.switch=1
                 elif self.switch == 1:
                     self.setImg(file1)
-                    self.switch=0   
+                    self.switch=0 
+            #mouvement horizontal (boost)
+            if self.inBoost:
+                if self.rect.left < 800:
+                    self.rect.left += 10
             else:
                 if self.inBreak:
                     if self.rect.left-10 > 0:

@@ -263,10 +263,10 @@ class Partie:
     '''
     '    Fonction qui gere les mouvements de tous les objets
     '''
-    def Mouvements(self, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
+    def Mouvements(self, screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
 
         ##### MOUVEMENT JOUEUR #####
-        monVaisseau.update(pygame.time.get_ticks(), height)
+        monVaisseau.update(pygame.time.get_ticks(), height, screen)
         ##### MOUVEMENT DES SNAKE #####
         snakes.update(pygame.time.get_ticks(), snakes, width, height)
         ##### MOUVEMENT DES SHOOTERS #####
@@ -474,7 +474,7 @@ class Partie:
                 
         
             
-            self.Mouvements(width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
+            self.Mouvements(screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
         
             self.Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins)
                
