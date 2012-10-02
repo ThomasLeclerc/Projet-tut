@@ -10,7 +10,6 @@ import pygame
 import pyganim
 import sys
 import Ennemi
-import Shot
 import Ship
 import Player
 import Obstacle
@@ -57,8 +56,13 @@ class Partie:
     def creerAleatoires(self, width, height, aleatoires):
         aleatoires.add(Ennemi.Aleatoire(width, height/2))
         
-    def creerBonus(self,width, height, bonus,ship):
-        bonus.add(Bonus.BonusAmmo(width,height/2,ship))
+    def creerBonus(self, bonus,ship, width, height):
+        r = random.randint(1,2)
+        if r == 1:
+            bonus.add(Bonus.BonusAmmo(width,height,ship))
+        elif r == 2:
+            bonus.add(Bonus.BonusShield(width,height,ship))
+    
     '''Fonction qui gere l'apparition aleatoire de tous les ennemis'''
     def creerEnnemi(self, width, height, compApparitionSnake, compApparitionShooter, compApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau):
         if distance%compApparitionSnake == 0:
@@ -140,16 +144,22 @@ class Partie:
                     animObj.blit(screen, (x,y))
         
         #test des missiles contre shooters
+        #on tire un random pour l'apparition d'un bonus
         for monMissile in missiles:
             for shooterTemp in shooters:
                 if shooterTemp.estTouche(monMissile):
                     missiles.remove(monMissile)
                     (x,y) = shooterTemp.getPos()
+                    r = random.randint(0,100)
+                    if 100-r < 40:
+                        self.creerBonus(bonus,monVaisseau, x, y)
                     shooterTemp.creerCoin(coins)
                     shooters.remove(shooterTemp)
                     monPlayer.raiseScore(2)
                     animObj.play()
                     animObj.blit(screen, (x,y))
+                    
+                    
         
         #test des missiles contre aleatoires
         for monMissile in missiles:
@@ -207,29 +217,30 @@ class Partie:
                     animObj.play()
                     animObj.blit(screen, (x,y))             
                     
-                                         
-        #test du ship contre les ennemis
-        for obsTemp in obstacles:
-            if monVaisseau.estTouche(obsTemp):
-                monVaisseau.enVie = False
+        if monVaisseau.isBonusShield != True:                                 
+            #test du ship contre les ennemis
+            for obsTemp in obstacles:
+                if monVaisseau.estTouche(obsTemp):
+                    monVaisseau.enVie = False
+            
+            for snakeTemp in snakes:
+                if monVaisseau.estTouche(snakeTemp):
+                    monVaisseau.enVie = False
+            
+            for shooterTemp in shooters:
+                if monVaisseau.estTouche(shooterTemp):
         
-        for snakeTemp in snakes:
-            if monVaisseau.estTouche(snakeTemp):
-                monVaisseau.enVie = False
-        
-        for shooterTemp in shooters:
-            if monVaisseau.estTouche(shooterTemp):
+                    monVaisseau.enVie = False
+            
+            for aleaTemp in aleatoires:
+                if monVaisseau.estTouche(aleaTemp):
+                    monVaisseau.enVie = False
+            
+            for missileShooterTemp in missilesShooter:
+                if monVaisseau.estTouche(missileShooterTemp):
+                    monVaisseau.enVie = False
     
-                monVaisseau.enVie = False
-        
-        for aleaTemp in aleatoires:
-            if monVaisseau.estTouche(aleaTemp):
-                monVaisseau.enVie = False
-        
-        for missileShooterTemp in missilesShooter:
-            if monVaisseau.estTouche(missileShooterTemp):
-                monVaisseau.enVie = False
-
+        #test vaisseau contre bonus
         for bonusTemp in bonus:
             if monVaisseau.estTouche(bonusTemp):
                 bonusTemp.startTime=pygame.time.get_ticks()
@@ -239,7 +250,10 @@ class Partie:
                 bonusTemp.action(bonus,pygame.time.get_ticks())
             else:
                 bonusTemp.action(bonus,pygame.time.get_ticks())
-       
+                    
+                
+           
+        #test vaisseau contre pieces de monnaie
         for coinTemp in coins:
             if monVaisseau.estTouche(coinTemp):
                 monVaisseau.money += 1
@@ -285,6 +299,9 @@ class Partie:
         if monVaisseau.isBonusAmmo:
             logoBonus =  pygame.transform.scale(pygame.image.load("images/bonus/ammo.png"),(25,25))
             screen.blit(logoBonus,(10,50))
+        if monVaisseau.isBonusShield:
+            logoBonus =  pygame.transform.scale(pygame.image.load("images/bonus/shield.png"),(25,25))
+            screen.blit(logoBonus,(40,50))
         #blits ennemies et missiles
         for s in snakes.sprites(): screen.blit(s.image, s.rect)
         for s in shooters.sprites(): screen.blit(s.image, s.rect)
@@ -313,6 +330,10 @@ class Partie:
             screen.blit(image, (10 * (l + 1), 10))
         if (monVaisseau.chaleur == 0):
             screen.blit(image, (10 * (l + 2), 10))
+        if monVaisseau.isBonusShield:
+            imgShield = pygame.image.load("images/bonus/Shield.png")
+            (x,y) = monVaisseau.getPos()
+            screen.blit(imgShield, (x,y-10))
     def jouer(self):
         pygame.init()       
         ##### PARAMETRES DE LA FENETRE #####
@@ -320,10 +341,10 @@ class Partie:
         screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
         
         ##### COMPTEURS #####
-        comptApparitionSnake = 90
-        comptApparitionShooter = 100
-        comptApparitionAleatoire = 70
-        comptApparitionObstacles = 60
+        comptApparitionSnake = 50
+        comptApparitionShooter = 40
+        comptApparitionAleatoire = 50
+        comptApparitionObstacles = 40
         distanceTemp = 0
         distance = 2
         
@@ -357,7 +378,7 @@ class Partie:
         ''''''
         self.creerEnnemi(width, height, comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau)
         self.creerObstacle(comptApparitionObstacles, width, height, distance, obstacles)
-        self.creerBonus(width, height, bonus,monVaisseau)
+        
         ''''''
         
         

@@ -53,3 +53,20 @@ class BonusAmmo(Bonus):
                 self.ship.isBonusAmmo=False
                 bonus.remove(self)
 
+class BonusShield(Bonus):
+
+    def __init__(self,x,y,ship):
+        Bonus.__init__(self, x, y,"images/bonus/shield.png",ship)
+    def estTouche(self,spr,current_time):
+        return (pygame.sprite.collide_circle(self, spr))                
+    def action(self,bonus,current_time):
+        print "current : "+str(current_time)+"\nstop : "+str(self.stopTime)
+        if self.isActive == True:
+            if self.ship.isBonusShield==False:
+                self.ship.isBonusShield=True
+            elif current_time > self.stopTime:
+                self.isActive=False
+                self.ship.isBonusShield=False
+                bonus.remove(self)
+        
+

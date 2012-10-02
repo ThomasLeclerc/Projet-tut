@@ -19,6 +19,7 @@ class ship(pygame.sprite.Sprite):
     record = 0
     money = 0
     isBonusAmmo = False
+    isBonusShield = False
     
     def __init__(self, position_initiale):
         pygame.sprite.Sprite.__init__(self)
@@ -45,14 +46,9 @@ class ship(pygame.sprite.Sprite):
     def setImg(self, image):
         self.image =  pygame.image.load(image)
         
-        
-        
-
-    #
     # deplace le vaisseau,   
     # prend en param les 2 fichiers reacteurs alumes, et la largeur
     # de la	fenetre
-    #
     def update(self, current_time, height):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
@@ -110,12 +106,12 @@ class ship(pygame.sprite.Sprite):
                         self.charge+=7
                         
             self.next_update_time = current_time + 10
-            self.position = self.getPos()
-            
+            self.position = self.getPos()         
     #fin fonction bouge()
     
     def estTouche(self, obs):
         return (pygame.sprite.collide_circle(self, obs))
+        
 
     def tir(self,missiles):
         self.inCharge=False
