@@ -57,4 +57,18 @@ class BonusShield(Bonus):
                 self.ship.isBonusShield=False
                 bonus.remove(self)
         
-
+class BonusGunV2(Bonus):
+    def __init__(self,x,y,ship):
+        if ship.versionCanon==1:
+            Bonus.__init__(self, x, y,"images/bonus/gun2.png",ship)
+        else:
+            Bonus.__init__(self, x, y,"images/bonus/gun2.png",ship)
+    def estTouche(self,spr,current_time):
+        return (pygame.sprite.collide_circle(self, spr))                
+    def action(self,bonus,current_time):
+        if self.isActive == True:
+            if self.ship.versionCanon==1:
+                self.ship.versionCanon=2
+            else:
+                self.ship.versionCanon=1
+            bonus.remove(self)

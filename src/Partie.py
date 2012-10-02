@@ -57,11 +57,13 @@ class Partie:
         aleatoires.add(Ennemi.Aleatoire(width, height/2))
         
     def creerBonus(self, bonus,ship, width, height):
-        r = random.randint(1,2)
+        r = random.randint(1,3)
         if r == 1:
             bonus.add(Bonus.BonusAmmo(width,height,ship))
         elif r == 2:
             bonus.add(Bonus.BonusShield(width,height,ship))
+        elif r == 3:
+            bonus.add(Bonus.BonusGunV2(width,height,ship))
     
     '''Fonction qui gere l'apparition aleatoire de tous les ennemis'''
     def creerEnnemi(self, width, height, compApparitionSnake, compApparitionShooter, compApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau):
@@ -244,7 +246,7 @@ class Partie:
         for bonusTemp in bonus:
             if monVaisseau.estTouche(bonusTemp):
                 bonusTemp.startTime=pygame.time.get_ticks()
-                bonusTemp.stopTime=pygame.time.get_ticks()+8000               
+                bonusTemp.stopTime=pygame.time.get_ticks()+10000               
                 bonusTemp.isActive=True
                 bonusTemp.isVisible=False
                 bonusTemp.action(bonus,pygame.time.get_ticks())

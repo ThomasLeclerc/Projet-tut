@@ -20,12 +20,14 @@ class shot(pygame.sprite.Sprite):
 #fin classe shot
     
 class shotShip(shot):
-    def __init__(self, x, y,isBonusAmmo):
-        if isBonusAmmo:
-            shot.__init__(self,x, y, "images/vaisseaux/orange_ship/orange_ship_bullet_blue.png")
+    def __init__(self,versionCanon, x, y,isBonusAmmo):
+        if versionCanon==1:
+            if isBonusAmmo:
+                shot.__init__(self,x, y, "images/vaisseaux/orange_ship/orange_ship_bullet_blue.png")
+            else:
+                shot.__init__(self,x, y, "images/vaisseaux/orange_ship/orange_ship_bullet.png")
         else:
-            shot.__init__(self,x, y, "images/vaisseaux/orange_ship/orange_ship_bullet.png")
-        
+            shot.__init__(self,x, y, "images/vaisseaux/orange_ship/orange_ship_bullet_green.png") 
         
     def update(self, current_time, width, missiles):
         # Update every 10 milliseconds = 1/100th of a second.

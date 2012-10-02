@@ -19,6 +19,7 @@ class ship(pygame.sprite.Sprite):
     money = 0
     isBonusAmmo = False
     isBonusShield = False
+    versionCanon = 1
     
     def __init__(self, position_initiale):
         pygame.sprite.Sprite.__init__(self)
@@ -44,6 +45,9 @@ class ship(pygame.sprite.Sprite):
     
     def setImg(self, imageFile):
         self.image =  pygame.image.load(imageFile)
+        
+    def setVersionCanon(self,version):
+        self.versionCanon = version
         
     # deplace le vaisseau,   
     # prend en param les 2 fichiers reacteurs alumes, et la largeur
@@ -129,7 +133,7 @@ class ship(pygame.sprite.Sprite):
         nbShoot = (self.charge/self.chaleurMissile)+1
         for m in range(nbShoot):
             if(self.chaleur+self.chaleurMissile<(self.chaleurMax)):
-                monMissile=Shot.shotShip(self.rect.left+40, self.rect.top-(nbShoot*30)+(60*m)+40, self.isBonusAmmo)
+                monMissile=Shot.shotShip(self.versionCanon,self.rect.left+40, self.rect.top-(nbShoot*30)+(60*m)+40, self.isBonusAmmo)
                 missiles.add(monMissile)
                 if(self.chaleur+self.chaleurMissile<self.chaleurMax):
                     self.chaleur+=self.chaleurMissile
