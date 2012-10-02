@@ -1,5 +1,6 @@
 import pygame
 import Partie
+import Menu
 import sys
 
 
@@ -28,7 +29,8 @@ class BoutonStartGame(Bouton):
     def __init__(self, image, x, y, isSelected=False):
         Bouton.__init__(self, image, x, y, isSelected)
     
-    def action(self, p):
+    def action(self):
+        p = Partie.Partie()
         p.jouer()
 
 class BoutonRecord(Bouton):
@@ -46,8 +48,8 @@ class BoutonOption(Bouton):
         Bouton.__init__(self, image, x, y, isSelected)
     
     def action(self):
-        #TODO
-        print " "
+        ecranOption = Menu.Menu("/images/menu/menu/bgMenu.jpg")
+        #ecranOption.addButton()
         
 class BoutonCredits(Bouton):
     
