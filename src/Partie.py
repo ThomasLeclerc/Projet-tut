@@ -375,11 +375,11 @@ class Partie:
         missilesShooter = pygame.sprite.Group()
         bonus = pygame.sprite.Group()
         coins = pygame.sprite.Group()
-        ''''''
+        '''
         self.creerEnnemi(width, height, comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau)
         self.creerObstacle(comptApparitionObstacles, width, height, distance, obstacles)
         
-        ''''''
+        '''
         
         
         ##### MUSIQUE #####

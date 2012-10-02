@@ -1,7 +1,5 @@
 import pygame
 import Shot
-import pyganim
-
 
 class ship(pygame.sprite.Sprite):
     monte = False
