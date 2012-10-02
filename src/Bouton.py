@@ -28,8 +28,7 @@ class BoutonStartGame(Bouton):
     def __init__(self, image, x, y, isSelected=False):
         Bouton.__init__(self, image, x, y, isSelected)
     
-    def action(self):
-        p = Partie.Partie()
+    def action(self, p):
         p.jouer()
 
 class BoutonRecord(Bouton):
