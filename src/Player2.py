@@ -1,6 +1,6 @@
 import pickle
 
-class player:
+class Player:
     def __init__(self):
         self.record = 0
         #ameliorations possedees
@@ -13,7 +13,7 @@ class player:
         self.advancedGunEvolution2 = False
         #parametres generaux du jeu
         self.sound = True
-        self.mucis = True
+        self.music = True
         self.name = "Player"
     
     def setName(self, name):

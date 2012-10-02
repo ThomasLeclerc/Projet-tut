@@ -68,3 +68,20 @@ class Menu:
                     self.boutons[self.idSelectedButton].setSelected(True)
             self.blits(screen)
             pygame.display.update()
+            
+class menuOption(Menu):
+    def __init__(self, filename, player):
+        Menu.__init__(self, filename)
+        self.player = player
+    def blits(self, screen):
+        screen.blit(self.image,(0,0))
+        for bouton in self.boutons:
+            if bouton.isSelected:
+                screen.blit(bouton.image,bouton.rect)
+            if self.player.sound:
+                img = pygame.image.load("images/menu/menu/titles/checked.png")
+                screen.blit(img, (0, 270))
+            if self.player.music:
+                img = pygame.image.load("images/menu/menu/titles/checked.png")
+                screen.blit(img, (0, 340))
+        pygame.display.update()

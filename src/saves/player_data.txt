@@ -1,5 +1,5 @@
 (iPlayer2
-player
+Player
 p0
 (dp1
 S'sound'
@@ -22,8 +22,8 @@ p7
 I00
 sS'record'
 p8
-I52
-sS'mucis'
+I0
+sS'music'
 p9
 I01
 sS'propulseurHorizontal'
