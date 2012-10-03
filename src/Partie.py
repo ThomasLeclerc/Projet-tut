@@ -171,11 +171,12 @@ class Partie:
 
                     
         for obsTemp in obstacles:
-            for monMissile in missiles:
+            for monMissile in missilesShooter:
                 if obsTemp.estTouche(monMissile):
                     monMissile.setImg("images/ingame/impact.png")
                     screen.blit(monMissile.image, monMissile.rect)
                     missilesShooter.remove(monMissile)
+            for monMissile in missiles:
                 if obsTemp.estTouche(monMissile):
                     monMissile.setImg("images/ingame/impact.png")
                     screen.blit(monMissile.image, monMissile.rect)
@@ -245,7 +246,9 @@ class Partie:
         
         for missileShooterTemp in missilesShooter:
             if monVaisseau.estTouche(missileShooterTemp):
-                monVaisseau.enVie = False
+                if not monVaisseau.isBonusShield:
+                    monVaisseau.enVie = False
+                missilesShooter.remove(missileShooterTemp)
 
         #test vaisseau contre bonus
         for bonusTemp in bonus:
