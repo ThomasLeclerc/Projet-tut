@@ -144,10 +144,7 @@ class Partie:
                     snakes.remove(snakeTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
-        
-        #test des missiles contre shooters
-        #on tire un random pour l'apparition d'un bonus
-        for monMissile in missiles:
+                    break
             for shooterTemp in shooters:
                 if shooterTemp.estTouche(monMissile):
                     missiles.remove(monMissile)
@@ -160,11 +157,7 @@ class Partie:
                     monPlayer.raiseScore(2)
                     animObj.play()
                     animObj.blit(screen, (x,y))
-                    
-                    
-        
-        #test des missiles contre aleatoires
-        for monMissile in missiles:
+                    break
             for aleaTemp in aleatoires:
                 if aleaTemp.estTouche(monMissile):
                     (x,y) = aleaTemp.getPos()
@@ -174,74 +167,86 @@ class Partie:
                     aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
-        
-        
-        #test des missiles du joueur contre obstacles
-        for monMissile in missiles:
-            for obsTemp in obstacles:
-                if obsTemp.estTouche(monMissile):
-                    monMissile.setImg("images/ingame/impact.png")
-                    screen.blit(monMissile.image, monMissile.rect)
-                    missiles.remove(monMissile)
+                    break
+
                     
-        #test des missiles de shooters contre obstacle
-        for monMissile in missilesShooter:
-            for obsTemp in obstacles:
+        for obsTemp in obstacles:
+            for monMissile in missiles:
                 if obsTemp.estTouche(monMissile):
                     monMissile.setImg("images/ingame/impact.png")
                     screen.blit(monMissile.image, monMissile.rect)
                     missilesShooter.remove(monMissile)
-                    
-        #test des snakes contre obstacle
-        for snakeTemp in snakes:
-            for obsTemp in obstacles:
+                if obsTemp.estTouche(monMissile):
+                    monMissile.setImg("images/ingame/impact.png")
+                    screen.blit(monMissile.image, monMissile.rect)
+                    missiles.remove(monMissile)
+            #test des snakes contre obstacle
+            for snakeTemp in snakes:
                 if obsTemp.estTouche(snakeTemp):
                     (x,y) = snakeTemp.getPos()
                     snakes.remove(snakeTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y)) 
-         
-        #test des shooters contre obstacle
-        for shooterTemp in shooters:
-            for obsTemp in obstacles:
+            #test des shooters contre obstacle
+            for shooterTemp in shooters:
                 if obsTemp.estTouche(shooterTemp):
                     (x,y) = shooterTemp.getPos()
                     shooters.remove(shooterTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))  
-        
-        #test des shooters contre obstacle
-        for aleaTemp in aleatoires:
-            for obsTemp in obstacles:
+            #test des shooters contre obstacle
+            for aleaTemp in aleatoires:
                 if obsTemp.estTouche(aleaTemp):
                     (x,y) = aleaTemp.getPos()
                     aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))             
                     
-        if monVaisseau.isBonusShield != True:                                 
+            if monVaisseau.isBonusShield != True:                                 
             #test du ship contre les ennemis
-            for obsTemp in obstacles:
                 if monVaisseau.estTouche(obsTemp):
                     monVaisseau.enVie = False
             
-            for snakeTemp in snakes:
-                if monVaisseau.estTouche(snakeTemp):
+        for snakeTemp in snakes:
+            if monVaisseau.estTouche(snakeTemp):
+                monPlayer.raiseScore(1)
+                (x,y) = snakeTemp.getPos()
+                snakeTemp.creerCoin(coins)
+                snakes.remove(snakeTemp)
+                animObj.play()
+                animObj.blit(screen, (x,y))
+                if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
-            
-            for shooterTemp in shooters:
-                if monVaisseau.estTouche(shooterTemp):
         
+        for shooterTemp in shooters:
+            if monVaisseau.estTouche(shooterTemp):
+                (x,y) = shooterTemp.getPos()
+                r = random.randint(0,100)
+                if 100-r < 40:
+                    self.creerBonus(bonus,monVaisseau, x, y)
+                shooterTemp.creerCoin(coins)
+                shooters.remove(shooterTemp)
+                monPlayer.raiseScore(2)
+                animObj.play()
+                animObj.blit(screen, (x,y))
+                if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
-            
-            for aleaTemp in aleatoires:
-                if monVaisseau.estTouche(aleaTemp):
+        
+        for aleaTemp in aleatoires:
+            if monVaisseau.estTouche(aleaTemp):
+                (x,y) = aleaTemp.getPos()
+                aleaTemp.creerCoin(coins)
+                monPlayer.raiseScore(1)
+                aleatoires.remove(aleaTemp)
+                animObj.play()
+                animObj.blit(screen, (x,y))
+                if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
-            
-            for missileShooterTemp in missilesShooter:
-                if monVaisseau.estTouche(missileShooterTemp):
-                    monVaisseau.enVie = False
-    
+        
+        for missileShooterTemp in missilesShooter:
+            if monVaisseau.estTouche(missileShooterTemp):
+                monVaisseau.enVie = False
+
         #test vaisseau contre bonus
         for bonusTemp in bonus:
             if monVaisseau.estTouche(bonusTemp):
@@ -398,10 +403,9 @@ class Partie:
         ''      (img par img)                                                 ''
         '' ##################################################################'''
         while 1:
-            print 
             ''' VITESSE D'AFFICHAGE '''    
             clock = pygame.time.Clock()
-            FRAMES_PER_SECOND = 100
+            FRAMES_PER_SECOND = 20
             deltat = clock.tick(FRAMES_PER_SECOND)
             
             '''APPUYER SUR ENTRER POUR COMMENCER'''
@@ -456,23 +460,23 @@ class Partie:
             ##### BACKGROUND #####
             screen.blit(background, (-i,0)) 
             screen.blit(background, (3576-i,0))            
-            screen.blit(bgCouche1, (width-j,j))
-            screen.blit(bgCouche2, (-k,0))
-            screen.blit(bgCouche2, (width-k,0))
-            screen.blit(bgCouche3, (-l,0))
-            screen.blit(bgCouche3, (width-l,0))
+            #screen.blit(bgCouche1, (width-j,j))
+            #screen.blit(bgCouche2, (-k,0))
+            #screen.blit(bgCouche2, (width-k,0))
+            #screen.blit(bgCouche3, (-l,0))
+            #screen.blit(bgCouche3, (width-l,0))
             i+=1
-            j+=2
-            k+=4
-            l+=6
+            #j+=2
+            #k+=4
+            #l+=6
             if i > 3576:
                 i=0
-            if j > width:
-                j=0
-            if k > width:
-                k=0
-            if l > width:
-                l=0
+            #if j > width:
+            #    j=0
+            #if k > width:
+            #    k=0
+            #if l > width:
+            #    l=0
                 
         
             
