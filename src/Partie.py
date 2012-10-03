@@ -130,6 +130,7 @@ class Partie:
                     (x,y) = snakeTemp.getPos()
                     snakeTemp.creerCoin(coins)
                     missiles.remove(monMissile)
+                    snakeTemp.son.play()
                     snakes.remove(snakeTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
@@ -142,6 +143,7 @@ class Partie:
                     if 100-r < 40:
                         self.creerBonus(bonus,monVaisseau, x, y)
                     shooterTemp.creerCoin(coins)
+                    shooterTemp.son.play()
                     shooters.remove(shooterTemp)
                     monPlayer.raiseScore(2)
                     animObj.play()
@@ -153,6 +155,7 @@ class Partie:
                     aleaTemp.creerCoin(coins)
                     monPlayer.raiseScore(1)
                     missiles.remove(monMissile)
+                    aleaTemp.son.play()
                     aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
@@ -395,6 +398,7 @@ class Partie:
                     # HAUT
                     if event.key == pygame.K_UP:
                         monVaisseau.monte=True
+                        monVaisseau.son2.play(-1)
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
                         monVaisseau.inCharge=True
@@ -412,6 +416,7 @@ class Partie:
                     # HAUT
                     if event.key == pygame.K_UP:
                         monVaisseau.monte=False
+                        monVaisseau.son2.stop()
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
                         monVaisseau.tir(missiles);
