@@ -1,6 +1,6 @@
 import pygame
 import sys
-
+import Bouton
 
 
 class Menu:
@@ -15,6 +15,7 @@ class Menu:
 
     def setBgImage(self, filename):
         self.image=pygame.image.load(filename)
+        pygame.transform.scale(pygame.image.load(filename), (1024, 768))
 
     ''' parcours la liste de bouton du menu
         et retourne le bouton selectionne '''
@@ -33,6 +34,8 @@ class Menu:
     def addButton(self,bouton):
         self.boutons.append(bouton)
 
+    def whenEscape(self):
+        sys.exit()
     ''' affiche le menu '''
     def afficher(self):
         ##### PARAMETRES DE LA FENETRE #####
@@ -64,7 +67,7 @@ class Menu:
                     elif event.key == pygame.K_RETURN:
                         self.boutons[self.idSelectedButton].action()
                     elif event.key == pygame.K_ESCAPE:
-                            sys.exit()
+                            self.whenEscape()
                     self.boutons[self.idSelectedButton].setSelected(True)
             self.blits(screen)
             pygame.display.update()
@@ -75,13 +78,26 @@ class menuOption(Menu):
         self.player = player
     def blits(self, screen):
         screen.blit(self.image,(0,0))
-        for bouton in self.boutons:
-            if bouton.isSelected:
-                screen.blit(bouton.image,bouton.rect)
+        if self.boutons[0].isSelected:
             if self.player.sound:
-                img = pygame.image.load("images/menu/menu/titles/checked.png")
-                screen.blit(img, (0, 270))
+                screen.blit(self.boutons[0].image, self.boutons[0].rect)
+            else:
+                screen.blit(self.boutons[0].imageNon, (self.boutons[0].rect.left+100,self.boutons[0].rect.top))
+        elif self.boutons[1].isSelected:
             if self.player.music:
-                img = pygame.image.load("images/menu/menu/titles/checked.png")
-                screen.blit(img, (0, 340))
+                screen.blit(self.boutons[1].image, self.boutons[1].rect)
+            else:
+                screen.blit(self.boutons[1].imageNon, (self.boutons[1].rect.left+100,self.boutons[1].rect.top))  
+        elif self.boutons[2].isSelected:
+            screen.blit(self.boutons[2].image, self.boutons[2].rect)
+        elif self.boutons[3].isSelected:
+            screen.blit(self.boutons[3].image, self.boutons[3].rect)       
         pygame.display.update()
+        
+    def whenEscape(self):
+        ecranAccueil = Menu("images/menu/menu.jpg")
+        ecranAccueil.addButton(Bouton.BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, True))
+        ecranAccueil.addButton(Bouton.BoutonOption("images/menu/menu_principal/titles/option.png",0, 340, self.player))
+        ecranAccueil.addButton(Bouton.BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
+        ecranAccueil.addButton(Bouton.BoutonQuit("images/menu/menu_principal/titles/quit.png",0, 485))
+        ecranAccueil.afficher()
