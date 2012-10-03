@@ -102,3 +102,4 @@ class menuOption(Menu):
         ecranAccueil.addButton(Bouton.BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
         ecranAccueil.addButton(Bouton.BoutonQuit("images/menu/menu_principal/titles/quit.png",0, 485))
         ecranAccueil.afficher()
+    
