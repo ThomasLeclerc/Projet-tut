@@ -361,7 +361,6 @@ class Partie:
         ##### MUSIQUE #####
         '''musique = pygame.mixer.Sound("sounds/BB078.WAV")
         play = 0'''
-        missileSound = pygame.mixer.Sound("sounds/rocket.wav")
         ##### MENU COMMENCER #####
         menuStartOn=True
         '''################################################################## ''
@@ -414,7 +413,7 @@ class Partie:
                         monVaisseau.monte=False
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
-                        monVaisseau.tir(missiles,missileSound);
+                        monVaisseau.tir(missiles);
                     # RIGHT
                     elif event.key == pygame.K_RIGHT:
                         monVaisseau.inBoost=False

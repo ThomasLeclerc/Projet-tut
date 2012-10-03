@@ -128,13 +128,17 @@ class ship(pygame.sprite.Sprite):
         return (pygame.sprite.collide_circle(self, obs))
         
 
-    def tir(self,missiles,sound):
+    def tir(self,missiles):
         self.inCharge=False
         nbShoot = (self.charge/self.chaleurMissile)+1
         for m in range(nbShoot):
             if(self.chaleur+self.chaleurMissile<(self.chaleurMax)):
                 monMissile=Shot.shotShip(self.versionCanon,self.rect.left+40, self.rect.top-(nbShoot*30)+(60*m)+40, self.isBonusAmmo)
                 missiles.add(monMissile)
+                if self.versionCanon==1:
+                    sound = pygame.mixer.Sound("sounds/rocket.wav")
+                else:
+                    sound = pygame.mixer.Sound("sounds/laser.wav")
                 sound.play()                
                 if(self.chaleur+self.chaleurMissile<self.chaleurMax):
                     self.chaleur+=self.chaleurMissile
