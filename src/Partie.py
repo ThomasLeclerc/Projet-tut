@@ -11,7 +11,6 @@ import pyganim
 import sys
 import Ennemi
 import Ship
-import Player
 import Obstacle
 import random
 import Bonus
@@ -22,6 +21,8 @@ class Partie:
     ''' FONCTION QUI INSTANCIE nombre DE SNAKE
     ''  le type de deplacement est tire aleatoirement
     ''  ainsi que les coefiscients pour un deplacement en droite '''
+    def __init__(self, player):
+        self.player = player
     def creerSnakes(self,width, height, snakes, nombre=0):
         positionChaine = random.randint(100,height-180)
         #on tire le type de deplacement au hasard
@@ -64,23 +65,20 @@ class Partie:
         elif r == 3:
             bonus.add(Bonus.BonusGunV2(width,height,ship))
     '''Fonction qui gere l'apparition aleatoire de tous les ennemis'''
-    def creerEnnemi(self, width, height, compApparitionSnake, compApparitionShooter, compApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau):
-        if distance%compApparitionSnake == 0:
-            compApparitionSnake -= 1
+    def creerEnnemi(self, width, height, level, snakes, shooters, aleatoires, monVaisseau):
+        if random.randint(0, level) > 2+level/4:
             self.creerSnakes(width, height, snakes, int(monVaisseau.chaleurMax/60))
-        if distance%compApparitionShooter == 0:
-            compApparitionShooter -= 1
+        if random.randint(0, level) > 4+level/4:
             self.creerShooters(width, height, shooters)
-        if distance%compApparitionAleatoire == 0:
-            compApparitionAleatoire -= 1
+        if random.randint(0, level) > 2+level/4:
             self.creerAleatoires(width, height, aleatoires)
     '''Apparition aleatoire des asteroides'''
-    def creerObstacle(self, comptApparitionObstacle, width, height, distance, obstacles):
+    def creerObstacle(self, width, height, level, obstacles):
         y = random.randint(10, height)
-        if distance%comptApparitionObstacle==0:
-            comptApparitionObstacle -= 0
+        if random.randint(0, level) > 2+int(level/6):
             typeObstacle = random.randint(1,5)
             obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
+
 
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
         monVaisseau.son.stop()
@@ -94,7 +92,7 @@ class Partie:
                     if event.key == pygame.K_ESCAPE:
                         sys.exit()
                     elif event.key == pygame.K_RETURN:
-                        p = Partie()
+                        p = Partie(self.player)
                         p.jouer()
                         break
             background = pygame.image.load("images/background.jpg")
@@ -111,22 +109,26 @@ class Partie:
             policeDistance = pygame.font.Font(None, 80)
             titre = policeDistance.render("distance : "+str(distance)+" m",1,(254,0,0))
             screen.blit(titre,(200,height/2))
-            monVaisseau.chargerRecord()
-            if distance > monVaisseau.record :
-                monVaisseau.record=distance
-                monVaisseau.enregistrerRecord(monVaisseau.record)  
-            titreRec = policeDistance.render("record : "+str(monVaisseau.record)+" m",1,(254,0,0))
+            
+            #record
+            if distance > self.player.record :
+                self.player.record=distance 
+            #argent total du joueur
+            self.player.money += monVaisseau.money
+            self.player.save()
+            
+            titreRec = policeDistance.render("record : "+str(self.player.record)+" m",1,(254,0,0))
             screen.blit(titreRec,(200,(height/2)+60))
             explosion.blit(screen, (x,y))
             pygame.display.update()
     '''Fonction qui gere les collisions'''
-    def Collisions(self, monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins):
+    def Collisions(self, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins):
 
         #test des missiles contre snakes
         for monMissile in missiles:
             for snakeTemp in snakes:
                 if snakeTemp.estTouche(monMissile):
-                    monPlayer.raiseScore(1)
+                    monVaisseau.raiseScore(1)
                     (x,y) = snakeTemp.getPos()
                     snakeTemp.creerCoin(coins)
                     missiles.remove(monMissile)
@@ -145,7 +147,7 @@ class Partie:
                     shooterTemp.creerCoin(coins)
                     shooterTemp.son.play()
                     shooters.remove(shooterTemp)
-                    monPlayer.raiseScore(2)
+                    monVaisseau.raiseScore(2)
                     animObj.play()
                     animObj.blit(screen, (x,y))
                     break
@@ -153,7 +155,7 @@ class Partie:
                 if aleaTemp.estTouche(monMissile):
                     (x,y) = aleaTemp.getPos()
                     aleaTemp.creerCoin(coins)
-                    monPlayer.raiseScore(1)
+                    monVaisseau.raiseScore(1)
                     missiles.remove(monMissile)
                     aleaTemp.son.play()
                     aleatoires.remove(aleaTemp)
@@ -205,7 +207,7 @@ class Partie:
             
         for snakeTemp in snakes:
             if monVaisseau.estTouche(snakeTemp):
-                monPlayer.raiseScore(1)
+                monVaisseau.raiseScore(1)
                 (x,y) = snakeTemp.getPos()
                 snakeTemp.creerCoin(coins)
                 snakeTemp.son.play()
@@ -224,7 +226,7 @@ class Partie:
                 shooterTemp.creerCoin(coins)
                 shooterTemp.son.play() 
                 shooters.remove(shooterTemp)
-                monPlayer.raiseScore(2)
+                monVaisseau.raiseScore(2)
                 animObj.play()
                 animObj.blit(screen, (x,y))
                 if not monVaisseau.isBonusShield:
@@ -339,12 +341,10 @@ class Partie:
         size = width, height = 1024,768
         screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
         ##### COMPTEURS #####
-        comptApparitionSnake = 50
-        comptApparitionShooter = 40
-        comptApparitionAleatoire = 50
-        comptApparitionObstacles = 40
         distanceTemp = 0
         distance = 2
+        distanceLevelTemp = 0
+        level = 1
         ##### EXPLOSIONS #####
         imagesTemp = [(pygame.transform.scale(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), (70, 70)), 0.6) for compt in range(2,6)]
         animObj = pyganim.PygAnimation(imagesTemp, loop=False)
@@ -357,7 +357,6 @@ class Partie:
         i=0
         #j=k=l=0
         ##### JOUEUR #####
-        monPlayer = Player.player('Jean')
         monVaisseau = Ship.ship([20, 0])
         ##### GROUPES DE SPRITE #####
         missiles = pygame.sprite.Group()
@@ -379,7 +378,7 @@ class Partie:
         while 1:
             ''' VITESSE D'AFFICHAGE '''    
             clock = pygame.time.Clock()
-            FRAMES_PER_SECOND = 20
+            FRAMES_PER_SECOND = 30
             deltat = clock.tick(FRAMES_PER_SECOND)
             '''APPUYER SUR ENTRER POUR COMMENCER'''
             while menuStartOn:
@@ -457,16 +456,25 @@ class Partie:
             #if l > width:
             #    l=0
             self.Mouvements(screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
-            self.Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins)
+            self.Collisions(monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins)
             self.Blits(width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
             #incrementation du compteur generale de distance et creation d'ennemis et d'obstacles
-            if distanceTemp != 10:
-                distance += 1
+            if distanceTemp != 5:
+                distanceTemp += 1
             else:
                 distanceTemp = 0
                 distance += 1
-            self.creerEnnemi(width, height, comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau)
-            self.creerObstacle(comptApparitionObstacles, width, height, distance, obstacles)
+              
+             
+            if distanceLevelTemp != 60:
+                distanceLevelTemp += 1
+                if distanceLevelTemp == 10:
+                    self.creerEnnemi(width, height, level, snakes, shooters, aleatoires, monVaisseau)
+                    self.creerObstacle(width, height, level, obstacles) 
+            else:
+                distanceLevelTemp = 0
+                level += 1
+            
             if (monVaisseau.enVie == False):    
                 self.gameOver(monVaisseau.getPos(), screen, distance, height, monVaisseau)
             pygame.display.update()

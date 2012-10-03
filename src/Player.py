@@ -1,19 +1,35 @@
-class player:
-    def __init__(self,name):
+import pickle
+
+class Player:
+    def __init__(self):
+        self.record = 0
+        self.money = 0
+        #ameliorations possedees
+        self.propulseurHorizontal = False
+        self.aerofrein = False
+        self.basicGunEvolution1 = False
+        self.basicGunEvolution2 = False
+        self.advancedGun = False
+        self.advancedGunEvolution1 = False
+        self.advancedGunEvolution2 = False
+        #parametres generaux du jeu
+        self.sound = True
+        self.music = True
+        self.name = "Player"
+    
+    def setName(self, name):
         self.name = name
-        self.score = 0
+    
+    def save(self):
+        f = open("saves/player_data.txt", 'wb')
+        pickle.dump(self, f)
+        f.close()
 
-    def raiseScore(self, nombre):
-        self.score += nombre
-
-    #def beatBestScore():
-    #	if score > best_score:
-        # afficher
-
-    def reinitialiserScore(self):
-        self.score=0
-
-    def getScore(self):
-        return self.score
-    #def getBestScore():
-        #TODO
+    # methode static (signalee par le @staticmethod)
+    @staticmethod  
+    def loadDatas():
+        f = open("saves/player_data.txt", 'rb')
+        return pickle.load(f)
+        
+        
+    

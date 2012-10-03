@@ -20,6 +20,7 @@ class ship(pygame.sprite.Sprite):
     isBonusAmmo = False
     isBonusShield = False
     versionCanon = 1
+    score = 0
     
     def __init__(self, position_initiale):
         pygame.sprite.Sprite.__init__(self)
@@ -50,7 +51,15 @@ class ship(pygame.sprite.Sprite):
         
     def setVersionCanon(self,version):
         self.versionCanon = version
+     
+    def raiseScore(self, nombre):
+        self.score += nombre 
         
+    def reinitialiserScore(self):
+        self.score=0
+
+    def getScore(self):
+        return self.score  
     # deplace le vaisseau,   
     # prend en param les 2 fichiers reacteurs alumes, et la largeur
     # de la	fenetre
