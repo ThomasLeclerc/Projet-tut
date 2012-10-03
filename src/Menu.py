@@ -8,10 +8,11 @@ class Menu:
     ''' Constructeur de Menu
         prend le nom du fichier image en parametre
     '''
-    def __init__(self,filename):
+    def __init__(self,filename, player=None):
         self.boutons = []
         self.setBgImage(filename)
         self.idSelectedButton=0
+        self.player = player
 
     def setBgImage(self, filename):
         self.image=pygame.image.load(filename)

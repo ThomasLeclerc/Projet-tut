@@ -2,7 +2,7 @@ import pygame
 import Partie
 import Menu
 import sys
-import Player2
+import Player
 
 
 class Bouton(pygame.sprite.Sprite):
@@ -23,10 +23,11 @@ class Bouton(pygame.sprite.Sprite):
         self.isSelected=isSelected
     
 class BoutonStartGame(Bouton): 
-    def __init__(self, image, x, y, isSelected=False):
+    def __init__(self, image, x, y, player, isSelected=False):
         Bouton.__init__(self, image, x, y, isSelected)
+        self.player = player
     def action(self):
-        p = Partie.Partie()
+        p = Partie.Partie(self.player)
         p.jouer()
 
 class BoutonRecord(Bouton):
@@ -84,7 +85,7 @@ class BoutonReinitialiser(Bouton):
         Bouton.__init__(self, image, x, y, isSelected)
         self.player = player    
     def action(self):
-        self.player = Player2.Player()
+        self.player = Player.Player()
         self.player.save()
         ecranOption = Menu.menuOption("images/menu/menu.jpg", self.player)
         ecranOption.addButton(BoutonSound("images/menu/menu/titles/sound.png", 0, 270, self.player, True))
