@@ -13,7 +13,7 @@ p4
 I00
 sS'money'
 p5
-I1344
+I1519
 sS'advancedGun'
 p6
 I00

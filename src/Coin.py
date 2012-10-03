@@ -7,7 +7,7 @@ class Coin(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = [x,y]
         self.next_update_time = 0 # update() hasn't been called yet.
-    
+        self.son = pygame.mixer.Sound("sounds/coin.wav")
     
     def setImg(self, image):
         self.image = pygame.image.load(image)

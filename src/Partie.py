@@ -267,6 +267,7 @@ class Partie:
         for coinTemp in coins:
             if monVaisseau.estTouche(coinTemp):
                 monVaisseau.money += 1
+                coinTemp.son.play()
                 coins.remove(coinTemp)
     '''Fonction qui gere les mouvements de tous les objets'''
     def Mouvements(self, screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
