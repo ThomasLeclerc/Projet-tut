@@ -83,6 +83,7 @@ class Partie:
             obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
 
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
+        monVaisseau.son.stop()
         imagesTemp = [(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), 0.1) for compt in range(1,9)]
         explosion = pyganim.PygAnimation(imagesTemp, loop=False)
         explosion.play()
@@ -359,8 +360,7 @@ class Partie:
         bonus = pygame.sprite.Group()
         coins = pygame.sprite.Group()
         ##### MUSIQUE #####
-        '''musique = pygame.mixer.Sound("sounds/BB078.WAV")
-        play = 0'''
+
         ##### MENU COMMENCER #####
         menuStartOn=True
         '''################################################################## ''
@@ -384,6 +384,7 @@ class Partie:
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             menuStartOn=False
+                            monVaisseau.son.play(-1)
                         elif event.key == pygame.K_ESCAPE:
                             sys.exit()
             ''' COMMANDES CLAVIER '''

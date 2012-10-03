@@ -29,7 +29,8 @@ class ship(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = self.position
         self.radius = self.image.get_height()/2 - 5
-        
+        self.son = pygame.mixer.Sound("sounds/shipAmbiance.wav")
+
     def enregistrerRecord(self,record):
         file1 = open('saves/sav.txt','w')
         file1.write(str(self.record))
