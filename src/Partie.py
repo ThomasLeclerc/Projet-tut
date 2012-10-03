@@ -16,7 +16,6 @@ import Obstacle
 import random
 import Bonus
 
-
 ''' CLASSE '''
 class Partie:  
 
@@ -49,7 +48,7 @@ class Partie:
             snakes.add(Ennemi.Snake(width+20, positionChaine, 3))
             snakes.add(Ennemi.Snake(width+50, positionChaine+40, 3))
             snakes.add(Ennemi.Snake(width+80, positionChaine+80, 3))   
-                            
+        
     def creerShooters(self, width, height, shooters):
         shooters.add(Ennemi.Shooter(width, height/2-20))
             
@@ -64,7 +63,6 @@ class Partie:
             bonus.add(Bonus.BonusShield(width,height,ship))
         elif r == 3:
             bonus.add(Bonus.BonusGunV2(width,height,ship))
-    
     '''Fonction qui gere l'apparition aleatoire de tous les ennemis'''
     def creerEnnemi(self, width, height, compApparitionSnake, compApparitionShooter, compApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau):
         if distance%compApparitionSnake == 0:
@@ -85,12 +83,9 @@ class Partie:
             obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
 
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
-        
         imagesTemp = [(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), 0.1) for compt in range(1,9)]
         explosion = pyganim.PygAnimation(imagesTemp, loop=False)
         explosion.play()
-        
-        
         while(1):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
@@ -101,19 +96,16 @@ class Partie:
                         p = Partie()
                         p.jouer()
                         break
-                        
             background = pygame.image.load("images/background.jpg")
             screen.blit(background, (0,0))
             #blit GAME OVER    
             policeTitre = pygame.font.Font(None, 120)
             titre = policeTitre.render("GAME OVER",1,(254,0,0))
             screen.blit(titre,(200,100)) 
-
             #blit Recommencer    
             policeTitre = pygame.font.Font(None, 20)
             titre = policeTitre.render("ENTRER POUR RECOMMENCER",1,(50,254,50))
             screen.blit(titre,(800,700)) 
-                        
             #blit disctance parcourue
             policeDistance = pygame.font.Font(None, 80)
             titre = policeDistance.render("distance : "+str(distance)+" m",1,(254,0,0))
@@ -126,11 +118,7 @@ class Partie:
             screen.blit(titreRec,(200,(height/2)+60))
             explosion.blit(screen, (x,y))
             pygame.display.update()
-
-                        
-    '''
-    '    Fonction qui gere les collisions
-    '''
+    '''Fonction qui gere les collisions'''
     def Collisions(self, monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins):
 
         #test des missiles contre snakes
@@ -268,11 +256,7 @@ class Partie:
             if monVaisseau.estTouche(coinTemp):
                 monVaisseau.money += 1
                 coins.remove(coinTemp)
-                
-
-    '''
-    '    Fonction qui gere les mouvements de tous les objets
-    '''
+    '''Fonction qui gere les mouvements de tous les objets'''
     def Mouvements(self, screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
 
         ##### MOUVEMENT JOUEUR #####
@@ -294,12 +278,8 @@ class Partie:
         
         ##### MOUVEMENT DES PIECES DE MONNAIE #####
         coins.update(pygame.time.get_ticks())
-        
-    '''
-    '    Fonction qui gere les blits de tous les objets
-    '''
+    '''Fonction qui gere les blits de tous les objets'''
     def Blits(self, width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
-
         #jauge tir
         pygame.draw.rect(screen, (255, 0, 0), (1, 1, monVaisseau.chaleurMax + 3, 10), 1)
         if (monVaisseau.inCharge):
@@ -322,9 +302,7 @@ class Partie:
         for b in bonus.sprites():
             if b.isVisible:
                 screen.blit(b.image,b.rect)
-
         for c in coins.sprites(): screen.blit(c.image,c.rect)
-
         #blits score
         screen.blit(pygame.image.load("images/ingame/Coin.png"), (width-200, height-100))
         police = pygame.font.Font(None, 60)
@@ -344,12 +322,12 @@ class Partie:
             imgShield = pygame.image.load("images/bonus/Shield.png")
             (x,y) = monVaisseau.getPos()
             screen.blit(imgShield, (x,y-10))
+
     def jouer(self):
         pygame.init()       
         ##### PARAMETRES DE LA FENETRE #####
         size = width, height = 1024,768
         screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
-        
         ##### COMPTEURS #####
         comptApparitionSnake = 50
         comptApparitionShooter = 40
@@ -357,25 +335,20 @@ class Partie:
         comptApparitionObstacles = 40
         distanceTemp = 0
         distance = 2
-        
         ##### EXPLOSIONS #####
         imagesTemp = [(pygame.transform.scale(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), (70, 70)), 0.6) for compt in range(2,6)]
         animObj = pyganim.PygAnimation(imagesTemp, loop=False)
         animObj.play()
-        
-        
         ##### IMAGES DU BACKGROUND #####
         background = pygame.image.load("images/background/background.jpg")
-        bgCouche1 = pygame.image.load("images/background_couche1.png")
-        bgCouche2 = pygame.image.load("images/background_couche2.png")
-        bgCouche3 = pygame.image.load("images/background_couche3.png")
-        i=j=k=l=0
-        
+        #bgCouche1 = pygame.image.load("images/background_couche1.png")
+        #bgCouche2 = pygame.image.load("images/background_couche2.png")
+        #bgCouche3 = pygame.image.load("images/background_couche3.png")
+        i=0
+        #j=k=l=0
         ##### JOUEUR #####
         monPlayer = Player.player('Jean')
         monVaisseau = Ship.ship([20, 0])
-        
-        
         ##### GROUPES DE SPRITE #####
         missiles = pygame.sprite.Group()
         snakes = pygame.sprite.Group()
@@ -385,22 +358,11 @@ class Partie:
         missilesShooter = pygame.sprite.Group()
         bonus = pygame.sprite.Group()
         coins = pygame.sprite.Group()
-        '''
-        self.creerEnnemi(width, height, comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau)
-        self.creerObstacle(comptApparitionObstacles, width, height, distance, obstacles)
-        
-        '''
-        
-        
         ##### MUSIQUE #####
         '''musique = pygame.mixer.Sound("sounds/BB078.WAV")
         play = 0'''
-        
-        
         ##### MENU COMMENCER #####
         menuStartOn=True
-        
-        
         '''################################################################## ''
         ''   BOUCLE DE JEU                                                    ''
         ''      (img par img)                                                 ''
@@ -410,7 +372,6 @@ class Partie:
             clock = pygame.time.Clock()
             FRAMES_PER_SECOND = 20
             deltat = clock.tick(FRAMES_PER_SECOND)
-            
             '''APPUYER SUR ENTRER POUR COMMENCER'''
             while menuStartOn:
                 purisa = pygame.font.match_font('Purisa')
@@ -425,7 +386,6 @@ class Partie:
                             menuStartOn=False
                         elif event.key == pygame.K_ESCAPE:
                             sys.exit()
-                        
             ''' COMMANDES CLAVIER '''
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
@@ -480,18 +440,9 @@ class Partie:
             #    k=0
             #if l > width:
             #    l=0
-                
-        
-            
             self.Mouvements(screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
-        
             self.Collisions(monPlayer, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins)
-               
             self.Blits(width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
-            
-            
-            
-            
             #incrementation du compteur generale de distance et creation d'ennemis et d'obstacles
             if distanceTemp != 10:
                 distance += 1
@@ -500,10 +451,6 @@ class Partie:
                 distance += 1
             self.creerEnnemi(width, height, comptApparitionSnake, comptApparitionShooter, comptApparitionAleatoire, distance, snakes, shooters, aleatoires, monVaisseau)
             self.creerObstacle(comptApparitionObstacles, width, height, distance, obstacles)
-                       
             if (monVaisseau.enVie == False):    
                 self.gameOver(monVaisseau.getPos(), screen, distance, height, monVaisseau)
-                            
             pygame.display.update()
-    
-
