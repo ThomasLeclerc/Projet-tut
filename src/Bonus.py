@@ -32,12 +32,14 @@ class Bonus(pygame.sprite.Sprite):
 class BonusAmmo(Bonus):
     def __init__(self,x,y,ship):
         Bonus.__init__(self, x, y,"images/bonus/ammo.png",ship)
+        self.son = pygame.mixer.Sound("sounds/cliclic.WAV")
     def estTouche(self,spr,current_time):
         return (pygame.sprite.collide_circle(self, spr))                
     def action(self,bonus,current_time):
         if self.isActive == True:
             if self.ship.isBonusAmmo==False:
                 self.ship.isBonusAmmo=True
+                self.son.play() 
             elif current_time > self.stopTime:
                 self.isActive=False
                 self.ship.isBonusAmmo=False

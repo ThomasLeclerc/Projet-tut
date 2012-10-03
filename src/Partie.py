@@ -177,6 +177,7 @@ class Partie:
             for snakeTemp in snakes:
                 if obsTemp.estTouche(snakeTemp):
                     (x,y) = snakeTemp.getPos()
+                    snakeTemp.son.play()
                     snakes.remove(snakeTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y)) 
@@ -184,6 +185,7 @@ class Partie:
             for shooterTemp in shooters:
                 if obsTemp.estTouche(shooterTemp):
                     (x,y) = shooterTemp.getPos()
+                    shooterTemp.son.play()
                     shooters.remove(shooterTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))  
@@ -191,6 +193,7 @@ class Partie:
             for aleaTemp in aleatoires:
                 if obsTemp.estTouche(aleaTemp):
                     (x,y) = aleaTemp.getPos()
+                    aleaTemp.son.play()
                     aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))             
@@ -205,6 +208,7 @@ class Partie:
                 monPlayer.raiseScore(1)
                 (x,y) = snakeTemp.getPos()
                 snakeTemp.creerCoin(coins)
+                snakeTemp.son.play()
                 snakes.remove(snakeTemp)
                 animObj.play()
                 animObj.blit(screen, (x,y))
@@ -218,6 +222,7 @@ class Partie:
                 if 100-r < 40:
                     self.creerBonus(bonus,monVaisseau, x, y)
                 shooterTemp.creerCoin(coins)
+                shooterTemp.son.play() 
                 shooters.remove(shooterTemp)
                 monPlayer.raiseScore(2)
                 animObj.play()
@@ -230,6 +235,7 @@ class Partie:
                 (x,y) = aleaTemp.getPos()
                 aleaTemp.creerCoin(coins)
                 monPlayer.raiseScore(1)
+                aleaTemp.son.play()
                 aleatoires.remove(aleaTemp)
                 animObj.play()
                 animObj.blit(screen, (x,y))
@@ -397,17 +403,21 @@ class Partie:
                 elif event.type == pygame.KEYDOWN:
                     # HAUT
                     if event.key == pygame.K_UP:
-                        monVaisseau.monte=True
-                        monVaisseau.son2.play(-1)
+                        if not monVaisseau.monte:
+                            monVaisseau.monte=True
+                            monVaisseau.son2.play(-1)
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
-                        monVaisseau.inCharge=True
+                        if not monVaisseau.inCharge:
+                            monVaisseau.inCharge=True
                     # RIGHT
                     elif event.key == pygame.K_RIGHT:
-                        monVaisseau.inBoost=True
+                        if not monVaisseau.inBoost:
+                            monVaisseau.inBoost=True
                     # LEFT
                     elif event.key == pygame.K_LEFT:
-                        monVaisseau.inBreak=True
+                        if not monVaisseau.inBreak:
+                            monVaisseau.inBreak=True
                     # ECHAPE
                     elif event.key == pygame.K_ESCAPE:
                         sys.exit()

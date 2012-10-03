@@ -72,7 +72,7 @@ class Shooter(Ennemy):
     def __init__(self,x,y):
         Ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy1/enemy1_1.png")  
         self.image =  pygame.transform.scale(self.image, (80, 100))
-        self.son = pygame.mixer.Sound("sounds/boom.wav")
+        self.son = pygame.mixer.Sound("sounds/boom2.wav")
     def update(self, current_time, ship, ennemy, missilesShooter, height):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
