@@ -79,7 +79,9 @@ class Partie:
             typeObstacle = random.randint(1,5)
             obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
 
-    def gameOver(self, (x, y), screen, distance, height, monVaisseau, money):
+
+    def gameOver(self, (x, y), screen, distance, height, monVaisseau):
+        monVaisseau.son.stop()
         imagesTemp = [(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), 0.1) for compt in range(1,9)]
         explosion = pyganim.PygAnimation(imagesTemp, loop=False)
         explosion.play()
@@ -112,8 +114,9 @@ class Partie:
             if distance > self.player.record :
                 self.player.record=distance 
             #argent total du joueur
-            self.player.money += money
+            self.player.money += monVaisseau.money
             self.player.save()
+            
             titreRec = policeDistance.render("record : "+str(self.player.record)+" m",1,(254,0,0))
             screen.blit(titreRec,(200,(height/2)+60))
             explosion.blit(screen, (x,y))
@@ -129,6 +132,7 @@ class Partie:
                     (x,y) = snakeTemp.getPos()
                     snakeTemp.creerCoin(coins)
                     missiles.remove(monMissile)
+                    snakeTemp.son.play()
                     snakes.remove(snakeTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
@@ -141,6 +145,7 @@ class Partie:
                     if 100-r < 40:
                         self.creerBonus(bonus,monVaisseau, x, y)
                     shooterTemp.creerCoin(coins)
+                    shooterTemp.son.play()
                     shooters.remove(shooterTemp)
                     monVaisseau.raiseScore(2)
                     animObj.play()
@@ -152,6 +157,7 @@ class Partie:
                     aleaTemp.creerCoin(coins)
                     monVaisseau.raiseScore(1)
                     missiles.remove(monMissile)
+                    aleaTemp.son.play()
                     aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
@@ -356,8 +362,7 @@ class Partie:
         bonus = pygame.sprite.Group()
         coins = pygame.sprite.Group()
         ##### MUSIQUE #####
-        '''musique = pygame.mixer.Sound("sounds/BB078.WAV")
-        play = 0'''
+
         ##### MENU COMMENCER #####
         menuStartOn=True
         '''################################################################## ''
@@ -381,6 +386,7 @@ class Partie:
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             menuStartOn=False
+                            monVaisseau.son.play(-1)
                         elif event.key == pygame.K_ESCAPE:
                             sys.exit()
             ''' COMMANDES CLAVIER '''
@@ -391,6 +397,7 @@ class Partie:
                     # HAUT
                     if event.key == pygame.K_UP:
                         monVaisseau.monte=True
+                        monVaisseau.son2.play(-1)
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
                         monVaisseau.inCharge=True
@@ -408,6 +415,7 @@ class Partie:
                     # HAUT
                     if event.key == pygame.K_UP:
                         monVaisseau.monte=False
+                        monVaisseau.son2.stop()
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
                         monVaisseau.tir(missiles);
@@ -458,5 +466,5 @@ class Partie:
                 level += 1
             
             if (monVaisseau.enVie == False):    
-                self.gameOver(monVaisseau.getPos(), screen, distance, height, monVaisseau, monVaisseau.money)
+                self.gameOver(monVaisseau.getPos(), screen, distance, height, monVaisseau)
             pygame.display.update()
