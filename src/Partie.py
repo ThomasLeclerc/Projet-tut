@@ -236,7 +236,7 @@ class Partie:
             if monVaisseau.estTouche(aleaTemp):
                 (x,y) = aleaTemp.getPos()
                 aleaTemp.creerCoin(coins)
-                monPlayer.raiseScore(1)
+                monVaisseau.raiseScore(1)
                 aleaTemp.son.play()
                 aleatoires.remove(aleaTemp)
                 animObj.play()
@@ -369,7 +369,6 @@ class Partie:
         bonus = pygame.sprite.Group()
         coins = pygame.sprite.Group()
         ##### MUSIQUE #####
-
         ##### MENU COMMENCER #####
         menuStartOn=True
         '''################################################################## ''

@@ -13,7 +13,7 @@ p4
 I00
 sS'money'
 p5
-I1519
+I10541
 sS'advancedGun'
 p6
 I00
@@ -25,7 +25,7 @@ p8
 I00
 sS'record'
 p9
-I146
+I295
 sS'music'
 p10
 I01
