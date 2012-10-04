@@ -66,13 +66,14 @@ class Snake(Ennemy):
         self.next_update_time = current_time + 10
 
 class Shooter(Ennemy):
-    vie = 2
+    
     compteurTir = 0
     switch = 0
     def __init__(self,x,y):
         Ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy1/enemy1_1.png")  
         self.image =  pygame.transform.scale(self.image, (80, 100))
         self.son = pygame.mixer.Sound("sounds/boom2.wav")
+        self.vie = 2
     def update(self, current_time, ship, ennemy, missilesShooter, height):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
@@ -86,12 +87,44 @@ class Shooter(Ennemy):
                 ennemy.remove(self)  
             #animation    
             if self.switch == 0:
-                self.image = self.image =  pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_2.png"), (80, 100))
-                self.switch=1
+                if self.vie==2:
+                    self.image = self.image =  pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_2.png"), (80, 100))
+                    self.switch=1
+                elif self.vie==1:
+                    self.image = self.image =  pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_2_damaged.png"), (80, 100))
+                    self.switch=1
             elif self.switch == 1:
-                self.image = pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_1.png"), (80, 100))
-                self.switch=0  
-        self.next_update_time = current_time + 10               
+                if self.vie==2:
+                    self.image = self.image =  pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_1.png"), (80, 100))
+                    self.switch=1
+                elif self.vie==1:
+                    self.image = self.image =  pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy1/enemy1_1_damaged.png"), (80, 100)) 
+        self.next_update_time = current_time + 10  
+        
+    def creerCoin(self, coins):
+        coins.add(Coin.Coin(self.rect.left, self.rect.top-30)) 
+        coins.add(Coin.Coin(self.rect.left-30, self.rect.top)) 
+        coins.add(Coin.Coin(self.rect.left+30, self.rect.top)) 
+        coins.add(Coin.Coin(self.rect.left+60, self.rect.top+30))
+        coins.add(Coin.Coin(self.rect.left-60, self.rect.top+30))
+        coins.add(Coin.Coin(self.rect.left+30, self.rect.top+60)) 
+        coins.add(Coin.Coin(self.rect.left-30, self.rect.top+60))   
+        coins.add(Coin.Coin(self.rect.left, self.rect.top+90))
+        #2eme rangee
+        coins.add(Coin.Coin(self.rect.left, self.rect.top-60)) 
+        coins.add(Coin.Coin(self.rect.left-30, self.rect.top-30)) 
+        coins.add(Coin.Coin(self.rect.left+30, self.rect.top-30))
+        coins.add(Coin.Coin(self.rect.left-60, self.rect.top)) 
+        coins.add(Coin.Coin(self.rect.left+60, self.rect.top))
+        coins.add(Coin.Coin(self.rect.left+90, self.rect.top+30)) 
+        coins.add(Coin.Coin(self.rect.left-90, self.rect.top+30))
+        coins.add(Coin.Coin(self.rect.left-60, self.rect.top+60)) 
+        coins.add(Coin.Coin(self.rect.left+60, self.rect.top+60))
+        coins.add(Coin.Coin(self.rect.left-30, self.rect.top+90)) 
+        coins.add(Coin.Coin(self.rect.left+30, self.rect.top+90))
+        coins.add(Coin.Coin(self.rect.left, self.rect.top+120)) 
+        
+                     
     def tir(self, missilesShooter):
             self.compteurTir += 1
             if self.compteurTir%30 == 0:
@@ -135,9 +168,12 @@ class Aleatoire(Ennemy):
                 self.image = pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy2/enemy2_2.png") , (50, 50))
                 self.switch=0  
         self.next_update_time = current_time + 10
-                
-            
-
+         
+    def creerCoin(self, coins):
+        coins.add(Coin.Coin(self.rect.left, self.rect.top))
+        coins.add(Coin.Coin(self.rect.left+20, self.rect.top+20))
+        coins.add(Coin.Coin(self.rect.left+20, self.rect.top-20))
+        
         
    
      

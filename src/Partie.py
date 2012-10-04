@@ -30,7 +30,7 @@ class Partie:
         #type snake
         if typeDeplacement == 1:
             while(nombre!=0):
-                snakes.add(Ennemi.Snake(width+(nombre*30), 0, 1, positionChaine))
+                snakes.add(Ennemi.Snake(width+(nombre*20), 0, 1, positionChaine))
                 nombre -= 1 
         #type ligne
         elif typeDeplacement == 2:
@@ -75,7 +75,7 @@ class Partie:
     '''Apparition aleatoire des asteroides'''
     def creerObstacle(self, width, height, level, obstacles):
         y = random.randint(10, height)
-        if random.randint(0, level) > 2+int(level/6):
+        if random.randint(0, level) > 1+int(level/4):
             typeObstacle = random.randint(1,5)
             obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
 
@@ -141,16 +141,20 @@ class Partie:
                 if shooterTemp.estTouche(monMissile):
                     missiles.remove(monMissile)
                     (x,y) = shooterTemp.getPos()
-                    r = random.randint(0,100)
-                    if 100-r < 40:
-                        self.creerBonus(bonus,monVaisseau, x, y)
-                    shooterTemp.creerCoin(coins)
-                    shooterTemp.son.play()
-                    shooters.remove(shooterTemp)
-                    monVaisseau.raiseScore(2)
+                    if shooterTemp.vie != 0:
+                        shooterTemp.vie -= 1
+                    elif shooterTemp.vie == 0:   
+                        r = random.randint(0,100)
+                        if 100-r < 40:
+                            self.creerBonus(bonus,monVaisseau, x-10, y+20)
+                        shooterTemp.creerCoin(coins)
+                        shooterTemp.son.play()
+                        shooters.remove(shooterTemp)
+                        monVaisseau.raiseScore(2)
                     animObj.play()
                     animObj.blit(screen, (x,y))
                     break
+                    
             for aleaTemp in aleatoires:
                 if aleaTemp.estTouche(monMissile):
                     (x,y) = aleaTemp.getPos()
@@ -306,16 +310,16 @@ class Partie:
             logoBonus =  pygame.transform.scale(pygame.image.load("images/bonus/shield.png"),(25,25))
             screen.blit(logoBonus,(40,50))
         #blits ennemies et missiles
+        for o in obstacles.sprites(): screen.blit(o.image, o.rect)
+        for c in coins.sprites(): screen.blit(c.image,c.rect)
         for s in snakes.sprites(): screen.blit(s.image, s.rect)
         for s in shooters.sprites(): screen.blit(s.image, s.rect)
         for a in aleatoires.sprites(): screen.blit(a.image, a.rect)
-        for o in obstacles.sprites(): screen.blit(o.image, o.rect)
         for m in missiles.sprites(): screen.blit(m.image, m.rect)
         for m in missilesShooter.sprites(): screen.blit(m.image, m.rect)
         for b in bonus.sprites():
             if b.isVisible:
                 screen.blit(b.image,b.rect)
-        for c in coins.sprites(): screen.blit(c.image,c.rect)
         #blits score
         screen.blit(pygame.image.load("images/ingame/Coin.png"), (width-200, height-100))
         police = pygame.font.Font(None, 60)
@@ -459,7 +463,7 @@ class Partie:
             self.Collisions(monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins)
             self.Blits(width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
             #incrementation du compteur generale de distance et creation d'ennemis et d'obstacles
-            if distanceTemp != 5:
+            if distanceTemp != 4:
                 distanceTemp += 1
             else:
                 distanceTemp = 0
