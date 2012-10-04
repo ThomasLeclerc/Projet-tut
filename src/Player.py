@@ -14,7 +14,7 @@ class Player:
         self.advancedGunEvolution2 = False
         #parametres generaux du jeu
         self.sound = True
-        self.music = True
+        self.musicOn = True
         self.name = "Player"
     
     def setName(self, name):

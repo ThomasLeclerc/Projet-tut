@@ -73,12 +73,14 @@ class Partie:
             self.creerShooters(width, height, shooters)
         if random.randint(0, level) > 2+level/4:
             self.creerAleatoires(width, height, aleatoires)
+        
     '''Apparition aleatoire des asteroides'''
     def creerObstacle(self, width, height, level, obstacles):
         y = random.randint(10, height)
         if random.randint(0, level) > int(level/4):
             typeObstacle = random.randint(1,5)
             obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
+        print len(obstacles)
 
 
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
@@ -156,7 +158,6 @@ class Partie:
                     animObj.play()
                     animObj.blit(screen, (x,y))
                     break
-                    
             for aleaTemp in aleatoires:
                 if aleaTemp.estTouche(monMissile):
                     (x,y) = aleaTemp.getPos()
@@ -277,7 +278,6 @@ class Partie:
                 coins.remove(coinTemp)
     '''Fonction qui gere les mouvements de tous les objets'''
     def Mouvements(self, screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
-
         ##### MOUVEMENT JOUEUR #####
         monVaisseau.update(pygame.time.get_ticks(), height, screen)
         ##### MOUVEMENT DES SNAKE #####
@@ -294,7 +294,6 @@ class Partie:
         missiles.update(pygame.time.get_ticks(), width, missiles)
         ##### MOUVEMENT MISSILES ENNEMY #####        
         missilesShooter.update(pygame.time.get_ticks(), missilesShooter)
-        
         ##### MOUVEMENT DES PIECES DE MONNAIE #####
         coins.update(pygame.time.get_ticks())
     '''Fonction qui gere les blits de tous les objets'''
@@ -375,7 +374,7 @@ class Partie:
         bonus = pygame.sprite.Group()
         coins = pygame.sprite.Group()
         ##### MUSIQUE #####
-        if self.player.music:
+        if self.player.musicOn:
             self.music = pygame.mixer.Sound("sounds/music.wav")
         ##### MENU COMMENCER #####
         menuStartOn=True

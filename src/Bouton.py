@@ -77,8 +77,8 @@ class BoutonMusic(Bouton):
         self.imageNon = pygame.image.load("images/menu/menu_option/off.png")
         self.player = player    
     def action(self):
-        if self.player.music: self.player.music = False
-        else: self.player.music = True
+        if self.player.musicOn: self.player.musicOn = False
+        else: self.player.musicOn = True
 
 class BoutonReinitialiser(Bouton): 
     def __init__(self, image, x, y, player, isSelected=False):
