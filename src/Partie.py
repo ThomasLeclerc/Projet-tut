@@ -23,6 +23,7 @@ class Partie:
     ''  ainsi que les coefiscients pour un deplacement en droite '''
     def __init__(self, player):
         self.player = player
+
     def creerSnakes(self,width, height, snakes, nombre=0):
         positionChaine = random.randint(100,height-180)
         #on tire le type de deplacement au hasard
@@ -85,6 +86,7 @@ class Partie:
         imagesTemp = [(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), 0.1) for compt in range(1,9)]
         explosion = pyganim.PygAnimation(imagesTemp, loop=False)
         explosion.play()
+        self.music.stop()
         while(1):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
@@ -373,6 +375,8 @@ class Partie:
         bonus = pygame.sprite.Group()
         coins = pygame.sprite.Group()
         ##### MUSIQUE #####
+        if self.player.music:
+            self.music = pygame.mixer.Sound("sounds/music.wav")
         ##### MENU COMMENCER #####
         menuStartOn=True
         '''################################################################## ''
@@ -396,9 +400,11 @@ class Partie:
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             menuStartOn=False
-                            monVaisseau.son.play(-1)
+                            self.music.play(-1)
                         elif event.key == pygame.K_ESCAPE:
                             sys.exit()
+                            
+            
             ''' COMMANDES CLAVIER '''
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
@@ -408,7 +414,7 @@ class Partie:
                     if event.key == pygame.K_UP:
                         if not monVaisseau.monte:
                             monVaisseau.monte=True
-                            monVaisseau.son2.play(-1)
+                            monVaisseau.son.play(-1)
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
                         if not monVaisseau.inCharge:
@@ -429,7 +435,7 @@ class Partie:
                     # HAUT
                     if event.key == pygame.K_UP:
                         monVaisseau.monte=False
-                        monVaisseau.son2.stop()
+                        monVaisseau.son.stop()
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
                         monVaisseau.tir(missiles);
