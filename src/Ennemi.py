@@ -34,7 +34,7 @@ class Snake(Ennemy):
         if typeDeplacement == 2:
             self.a = a
             self.b = b
-        Ennemy.__init__(self,x,y, "images/chasseur1.png")
+        Ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy3/enemy3_1.png")
         self.image = pygame.transform.rotate(self.image,-75)
         self.son = pygame.mixer.Sound("sounds/smallBoom.wav")
     def update(self, current_time, snakes, width, height):
@@ -47,7 +47,7 @@ class Snake(Ennemy):
                 # calcul de l'angle et rotation de l'image
                 coefDir = -2.4*math.sin(0.02*self.rect.left)
                 angle = math.degrees(math.atan(coefDir))  
-                self.image = pygame.image.load("images/chasseur1.png")
+                self.image = pygame.image.load("images/vaisseaux/enemies/enemy3/enemy3_1.png")
                 self.image = pygame.transform.rotate(self.image,-angle) 
             
                 if self.rect.left<-200:
@@ -56,7 +56,7 @@ class Snake(Ennemy):
             elif self.deplacement==2:
                 self.rect.top = self.a*self.rect.left + self.b
                 angle = math.degrees(math.atan(self.a))
-                self.image = pygame.image.load("images/chasseur1.png")
+                self.image = pygame.image.load("images/vaisseaux/enemies/enemy3/enemy3_1.png")
                 self.image = pygame.transform.rotate(self.image,-angle)
                 if self.rect.left<0:
                     snakes.remove(self) 
