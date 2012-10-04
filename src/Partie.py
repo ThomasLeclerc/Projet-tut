@@ -76,7 +76,7 @@ class Partie:
     '''Apparition aleatoire des asteroides'''
     def creerObstacle(self, width, height, level, obstacles):
         y = random.randint(10, height)
-        if random.randint(0, level) > 1+int(level/4):
+        if random.randint(0, level) > int(level/4):
             typeObstacle = random.randint(1,5)
             obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
 
@@ -447,7 +447,7 @@ class Partie:
                         monVaisseau.inBreak=False
             ##### BACKGROUND #####
             screen.blit(background, (-i,0)) 
-            screen.blit(background, (3576-i,0))            
+            screen.blit(background, (3575-i,0))            
             #screen.blit(bgCouche1, (width-j,j))
             #screen.blit(bgCouche2, (-k,0))
             #screen.blit(bgCouche2, (width-k,0))
