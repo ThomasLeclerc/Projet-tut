@@ -5,13 +5,14 @@ class Player:
         self.record = 0
         self.money = 0
         #ameliorations possedees
-        self.propulseurHorizontal = False
-        self.aerofrein = False
-        self.basicGunEvolution1 = False
-        self.basicGunEvolution2 = False
-        self.advancedGun = False
-        self.advancedGunEvolution1 = False
-        self.advancedGunEvolution2 = False
+        self.goldShipOn = False
+        self.propulseurHorizontalOn = False
+        self.aerofreinOn = False
+        self.basicGunEvolution1On = False
+        self.basicGunEvolution2On = False
+        self.advancedGunOn = False
+        self.advancedGunEvolution1On = False
+        self.advancedGunEvolution2On = False
         #parametres generaux du jeu
         self.sound = True
         self.musicOn = True

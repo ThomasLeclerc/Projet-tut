@@ -94,12 +94,6 @@ class BoutonReinitialiser(Bouton):
         ecranOption.addButton(BoutonReinitialiser("images/menu/menu/titles/reinitialiser.png",0 , 485, self.player))
         ecranOption.afficher()
 
-class BoutonShop(Bouton): 
-    def __init__(self, image, x, y, isSelected=False):
-        Bouton.__init__(self, image, x, y, isSelected)
-    def action(self):
-        menuShop = Menu.Menu("images/menu/menu_shop/exemple_shop.jpg")
-        menuShop.afficher()
         
 class BoutonBack(Bouton): 
     def __init__(self, image, x, y, player, isSelected=False):
@@ -112,3 +106,19 @@ class BoutonBack(Bouton):
         ecranAccueil.addButton(BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
         ecranAccueil.addButton(BoutonQuit("images/menu/menu_principal/titles/quit.png",0, 485))
         ecranAccueil.afficher()
+        
+class BoutonShop(Bouton): 
+    def __init__(self, image, x, y, isSelected=False):
+        Bouton.__init__(self, image, x, y, isSelected)
+    def action(self):
+        menuShop = Menu.Menu("images/menu/menu_shop/background_menu_shop.jpg")
+        menuShop.addButton(BoutonGoldShip("images/menu/menu_shop/item1_gold_skin_selected.jpg", "images/menu/menu_shop/item1_gold_skin_unselected.jpg", 20, 150, True))
+        menuShop.afficher()
+        
+class BoutonGoldShip(Bouton): 
+    def __init__(self, image, imageAlt, x, y, isSelected=False):
+        Bouton.__init__(self, image, x, y, isSelected)
+        self.imageAlt = pygame.image.load(imageAlt)
+    def action(self):
+        print " "
+
