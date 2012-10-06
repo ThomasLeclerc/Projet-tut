@@ -43,10 +43,11 @@ class BoutonOption(Bouton):
         self.player = player
     def action(self):
         ecranOption = Menu.menuOption("images/menu/menu_option/background_menu_option.jpg", self.player)
-        ecranOption.addButton(BoutonSound("images/menu/menu_option/on.png", 500, 250, self.player, True))
-        ecranOption.addButton(BoutonMusic("images/menu/menu_option/on.png", 500, 290, self.player))
-        ecranOption.addButton(BoutonShop("images/menu/menu_option/shop.png",400 , 380, self.player))
-        ecranOption.addButton(BoutonBack("images/menu/menu_option/back.png",450 , 460, self.player, self.player))
+        ecranOption.addButton(BoutonSound("images/menu/menu_option/on.png", 530, 255, self.player, True))
+        ecranOption.addButton(BoutonMusic("images/menu/menu_option/on.png", 530, 325, self.player))
+        ecranOption.addButton(BoutonReinitialiser("images/menu/menu_option/reset_profile.png",344 , 388, self.player))
+        ecranOption.addButton(BoutonShop("images/menu/menu_option/shop.png",414 , 455, self.player))
+        ecranOption.addButton(BoutonBack("images/menu/menu_option/back.png",460 , 543, self.player))
         ecranOption.afficher()
         
 class BoutonCredits(Bouton):   
@@ -69,7 +70,9 @@ class BoutonSound(Bouton):
         self.player = player      
     def action(self):
         if self.player.sound: self.player.sound = False
-        else: self.player.sound = True
+        else: 
+            self.player.sound = True
+            self.player.save()
         
 class BoutonMusic(Bouton): 
     def __init__(self, image, x, y, player, isSelected=False):
@@ -78,7 +81,9 @@ class BoutonMusic(Bouton):
         self.player = player    
     def action(self):
         if self.player.musicOn: self.player.musicOn = False
-        else: self.player.musicOn = True
+        else: 
+            self.player.musicOn = True
+            self.player.save()
 
 class BoutonReinitialiser(Bouton): 
     def __init__(self, image, x, y, player, isSelected=False):
@@ -87,12 +92,14 @@ class BoutonReinitialiser(Bouton):
     def action(self):
         self.player = Player.Player()
         self.player.save()
-        ecranOption = Menu.menuOption("images/menu/menu.jpg", self.player)
-        ecranOption.addButton(BoutonSound("images/menu/menu/titles/sound.png", 0, 270, self.player, True))
-        ecranOption.addButton(BoutonMusic("images/menu/menu/titles/music.png", 0, 340, self.player))
-        #ecranOption.addButton(BoutonChangeName("images/menu/menu/titles/modifierNom.png"), 200, 400)
-        ecranOption.addButton(BoutonReinitialiser("images/menu/menu/titles/reinitialiser.png",0 , 485, self.player))
+        ecranOption = Menu.menuOption("images/menu/menu_option/background_menu_option.jpg", self.player)
+        ecranOption.addButton(BoutonSound("images/menu/menu_option/on.png", 530, 255, self.player, True))
+        ecranOption.addButton(BoutonMusic("images/menu/menu_option/on.png", 530, 325, self.player))
+        ecranOption.addButton(BoutonReinitialiser("images/menu/menu_option/reset_profile.png",344 , 388, self.player))
+        ecranOption.addButton(BoutonShop("images/menu/menu_option/shop.png",414 , 455, self.player))
+        ecranOption.addButton(BoutonBack("images/menu/menu_option/back.png",460 , 543, self.player))
         ecranOption.afficher()
+        
 
         
 class BoutonBack(Bouton): 
@@ -101,7 +108,7 @@ class BoutonBack(Bouton):
         self.player = player
     def action(self):
         ecranAccueil = Menu.Menu("images/menu/menu.jpg")
-        ecranAccueil.addButton(BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, True))
+        ecranAccueil.addButton(BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, self.player, True))
         ecranAccueil.addButton(BoutonOption("images/menu/menu_principal/titles/option.png",0, 340, self.player))
         ecranAccueil.addButton(BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
         ecranAccueil.addButton(BoutonQuit("images/menu/menu_principal/titles/quit.png",0, 485))

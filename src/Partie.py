@@ -14,15 +14,19 @@ import Ship
 import Obstacle
 import random
 import Bonus
+import Menu
+import Bouton
 
 ''' CLASSE '''
 class Partie:  
-
+    
+    pygame.init()  
     ''' FONCTION QUI INSTANCIE nombre DE SNAKE
     ''  le type de deplacement est tire aleatoirement
     ''  ainsi que les coefiscients pour un deplacement en droite '''
     def __init__(self, player):
         self.player = player
+        self.music = pygame.mixer.Sound("sounds/music.wav")
 
     def creerSnakes(self,width, height, snakes, nombre=0):
         positionChaine = random.randint(100,height-180)
@@ -94,7 +98,12 @@ class Partie:
                 if event.type == pygame.QUIT: sys.exit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        sys.exit()
+                        ecranAccueil = Menu.Menu("images/menu/menu.jpg")
+                        ecranAccueil.addButton(Bouton.BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, self.player, True))
+                        ecranAccueil.addButton(Bouton.BoutonOption("images/menu/menu_principal/titles/option.png",0, 340, self.player))
+                        ecranAccueil.addButton(Bouton.BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
+                        ecranAccueil.addButton(Bouton.BoutonQuit("images/menu/menu_principal/titles/quit.png",0, 485))
+                        ecranAccueil.afficher()
                     elif event.key == pygame.K_RETURN:
                         p = Partie(self.player)
                         p.jouer()
@@ -341,8 +350,7 @@ class Partie:
             (x,y) = monVaisseau.getPos()
             screen.blit(imgShield, (x,y-10))
 
-    def jouer(self):
-        pygame.init()       
+    def jouer(self):     
         ##### PARAMETRES DE LA FENETRE #####
         size = width, height = 1024,768
         screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
@@ -374,8 +382,7 @@ class Partie:
         bonus = pygame.sprite.Group()
         coins = pygame.sprite.Group()
         ##### MUSIQUE #####
-        if self.player.musicOn:
-            self.music = pygame.mixer.Sound("sounds/music.wav")
+        
         ##### MENU COMMENCER #####
         menuStartOn=True
         '''################################################################## ''
@@ -399,7 +406,8 @@ class Partie:
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             menuStartOn=False
-                            self.music.play(-1)
+                            if self.player.musicOn:
+                                self.music.play(-1)
                         elif event.key == pygame.K_ESCAPE:
                             sys.exit()
                             

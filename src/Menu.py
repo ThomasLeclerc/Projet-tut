@@ -83,21 +83,23 @@ class menuOption(Menu):
             if self.player.sound:
                 screen.blit(self.boutons[0].image, self.boutons[0].rect)
             else:
-                screen.blit(self.boutons[0].imageNon, (self.boutons[0].rect.left+100,self.boutons[0].rect.top))
+                screen.blit(self.boutons[0].imageNon, (self.boutons[0].rect.left+93,self.boutons[0].rect.top))
         elif self.boutons[1].isSelected:
-            if self.player.music:
+            if self.player.musicOn:
                 screen.blit(self.boutons[1].image, self.boutons[1].rect)
             else:
-                screen.blit(self.boutons[1].imageNon, (self.boutons[1].rect.left+100,self.boutons[1].rect.top))  
+                screen.blit(self.boutons[1].imageNon, (self.boutons[1].rect.left+93,self.boutons[1].rect.top))  
         elif self.boutons[2].isSelected:
             screen.blit(self.boutons[2].image, self.boutons[2].rect)
         elif self.boutons[3].isSelected:
-            screen.blit(self.boutons[3].image, self.boutons[3].rect)       
+            screen.blit(self.boutons[3].image, self.boutons[3].rect)
+        elif self.boutons[4].isSelected:
+            screen.blit(self.boutons[4].image, self.boutons[4].rect)         
         pygame.display.update()
         
     def whenEscape(self):
         ecranAccueil = Menu("images/menu/menu.jpg")
-        ecranAccueil.addButton(Bouton.BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, True))
+        ecranAccueil.addButton(Bouton.BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, self.player, True))
         ecranAccueil.addButton(Bouton.BoutonOption("images/menu/menu_principal/titles/option.png",0, 340, self.player))
         ecranAccueil.addButton(Bouton.BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
         ecranAccueil.addButton(Bouton.BoutonQuit("images/menu/menu_principal/titles/quit.png",0, 485))
