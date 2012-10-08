@@ -303,7 +303,7 @@ class Partie:
         ##### MOUVEMENT DES SHOOTERS #####
         self.shooters.update(pygame.time.get_ticks(), monVaisseau, self.shooters, self.missilesShooter, height)
         ##### MOUVEMENT DES ALEATOIRES #####
-        self.aleatoires.update(pygame.time.get_ticks(), self.aleatoires, height)
+        self.aleatoires.update(pygame.time.get_ticks(), self.obstacles, height)
         ##### MOUVEMENT DES OBSTACLES #####
         self.obstacles.update(pygame.time.get_ticks())
         ##### MOUVEMENT DES BONUS #####
@@ -326,7 +326,7 @@ class Partie:
             logoBonus =  pygame.transform.scale(pygame.image.load("images/bonus/ammo.png"),(25,25))
             screen.blit(logoBonus,(10,50))
         if monVaisseau.isBonusShield:
-            logoBonus =  pygame.transform.scale(pygame.image.load("images/bonus/shield.png"),(25,25))
+            logoBonus =  pygame.transform.scale(pygame.image.load("images/bonus/shield_icon.png"),(25,25))
             screen.blit(logoBonus,(40,50))
         #blits ennemies et self.missiles
         for o in self.obstacles.sprites(): screen.blit(o.image, o.rect)

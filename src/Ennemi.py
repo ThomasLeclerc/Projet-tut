@@ -138,11 +138,11 @@ class Aleatoire(Ennemy):
         Ennemy.__init__(self,x,y, "images/vaisseaux/enemies/enemy2/enemy2_1.png")   
         self.image =  pygame.transform.scale(self.image, (50, 50))        
         self.son = pygame.mixer.Sound("sounds/boom2.wav")
-    def update(self, current_time, ennemy, height):
+    def update(self, current_time,obstacles, height):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:    
             self.rect.left -= 12
-            if (self.rect.left)%25 == 0:
+            if (self.rect.left)%30 == 0:
                 self.sens = random.randint(0,1)
             if self.sens == 0:
                 if self.rect.top > height-20:
@@ -157,9 +157,7 @@ class Aleatoire(Ennemy):
                 else:
                     self.rect.top -= 3
             if self.rect.top > height-20:
-                self.sens = 1
-            if self.rect.left<-50:
-                ennemy.remove(self)   
+                self.sens = 1  
             #animation    
             if self.switch == 0:
                 self.image = pygame.transform.scale(pygame.image.load("images/vaisseaux/enemies/enemy2/enemy2_2.png") , (50, 50))
