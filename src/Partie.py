@@ -95,7 +95,6 @@ class Partie:
             self.obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
         print len(self.obstacles)
 
-
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
         monVaisseau.son.stop()
         imagesTemp = [(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), 0.1) for compt in range(1,9)]
@@ -317,9 +316,10 @@ class Partie:
     '''Fonction qui gere les blits de tous les objets'''
     def Blits(self, width, height, screen, distance, monVaisseau):
         #jauge tir
-        pygame.draw.rect(screen, (255, 0, 0), (1, 1, monVaisseau.chaleurMax + 3, 10), 1)
+        imgJauge = pygame.image.load("images/ingame/gauge.png")
+        screen.blit(imgJauge, (1,10))
         if (monVaisseau.inCharge):
-            pygame.draw.rect(screen, (255, 0, 0), (4, 4, monVaisseau.charge, 7))
+            pygame.draw.rect(screen, (255, 0, 0), (32, 38, monVaisseau.charge*100/140-2, 23))
         screen.blit(monVaisseau.image, monVaisseau.rect)
         #blits logo self.bonus
         if monVaisseau.isBonusAmmo:
@@ -404,11 +404,7 @@ class Partie:
         animObj.play()
         ##### IMAGES DU BACKGROUND #####
         background = pygame.image.load("images/background/background.jpg")
-        #bgCouche1 = pygame.image.load("images/background_couche1.png")
-        #bgCouche2 = pygame.image.load("images/background_couche2.png")
-        #bgCouche3 = pygame.image.load("images/background_couche3.png")
         i=0
-        #j=k=l=0
         ##### JOUEUR #####
         monVaisseau = Ship.ship([20, 0])
         

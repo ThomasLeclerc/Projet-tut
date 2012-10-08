@@ -23,13 +23,13 @@ p8
 I00
 sS'musicOn'
 p9
-I00
+I01
 sS'record'
 p10
 I269
 sS'money'
 p11
-I8217
+I13391
 sS'advancedGunEvolution1On'
 p12
 I00
