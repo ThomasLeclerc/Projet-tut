@@ -12,6 +12,9 @@ class Coin(pygame.sprite.Sprite):
     def setImg(self, image):
         self.image = pygame.image.load(image)
     
+    def getPos(self):
+        return (self.rect.left,self.rect.top) 
+    
     def update(self, current_time):
         if self.next_update_time < current_time:
             self.rect.left -= 6

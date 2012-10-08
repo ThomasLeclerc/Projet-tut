@@ -27,15 +27,24 @@ class Partie:
     def __init__(self, player):
         self.player = player
         self.music = pygame.mixer.Sound("sounds/music.wav")
+        ##### GROUPES DE SPRITE #####
+        self.missiles = pygame.sprite.Group()
+        self.snakes = pygame.sprite.Group()
+        self.shooters = pygame.sprite.Group()
+        self.aleatoires = pygame.sprite.Group()
+        self.obstacles = pygame.sprite.Group()
+        self.missilesShooter = pygame.sprite.Group()
+        self.bonus = pygame.sprite.Group()
+        self.coins = pygame.sprite.Group()
 
-    def creerSnakes(self,width, height, snakes, nombre=0):
+    def creerSnakes(self,width, height, nombre=0):
         positionChaine = random.randint(100,height-180)
         #on tire le type de deplacement au hasard
         typeDeplacement = random.randint(1,3)
         #type snake
         if typeDeplacement == 1:
             while(nombre!=0):
-                snakes.add(Ennemi.Snake(width+(nombre*20), 0, 1, positionChaine))
+                self.snakes.add(Ennemi.Snake(width+(nombre*20), 0, 1, positionChaine))
                 nombre -= 1 
         #type ligne
         elif typeDeplacement == 2:
@@ -45,46 +54,46 @@ class Partie:
             else:
                 b = random.uniform(10,height-height/2)
             while nombre!=0:
-                snakes.add(Ennemi.Snake(width+(nombre*40), positionChaine, typeDeplacement, positionChaine, a, b))
+                self.snakes.add(Ennemi.Snake(width+(nombre*40), positionChaine, typeDeplacement, positionChaine, a, b))
                 nombre -= 1
         #type escadron
         else:
-            snakes.add(Ennemi.Snake(width+80, positionChaine-80, 3))
-            snakes.add(Ennemi.Snake(width+50, positionChaine-40, 3))
-            snakes.add(Ennemi.Snake(width+20, positionChaine, 3))
-            snakes.add(Ennemi.Snake(width+50, positionChaine+40, 3))
-            snakes.add(Ennemi.Snake(width+80, positionChaine+80, 3))   
+            self.snakes.add(Ennemi.Snake(width+80, positionChaine-80, 3))
+            self.snakes.add(Ennemi.Snake(width+50, positionChaine-40, 3))
+            self.snakes.add(Ennemi.Snake(width+20, positionChaine, 3))
+            self.snakes.add(Ennemi.Snake(width+50, positionChaine+40, 3))
+            self.snakes.add(Ennemi.Snake(width+80, positionChaine+80, 3))   
         
-    def creerShooters(self, width, height, shooters):
-        shooters.add(Ennemi.Shooter(width, height/2-20))
+    def creerShooters(self, width, height):
+        self.shooters.add(Ennemi.Shooter(width, height/2-20))
             
-    def creerAleatoires(self, width, height, aleatoires):
-        aleatoires.add(Ennemi.Aleatoire(width, height/2))
+    def creerAleatoires(self, width, height):
+        self.aleatoires.add(Ennemi.Aleatoire(width, height/2))
         
-    def creerBonus(self, bonus,ship, width, height):
+    def creerBonus(self, ship, width, height):
         r = random.randint(1,3)
         if r == 1:
-            bonus.add(Bonus.BonusAmmo(width,height,ship))
+            self.bonus.add(Bonus.BonusAmmo(width,height,ship))
         elif r == 2:
-            bonus.add(Bonus.BonusShield(width,height,ship))
+            self.bonus.add(Bonus.BonusShield(width,height,ship))
         elif r == 3:
-            bonus.add(Bonus.BonusGunV2(width,height,ship))
+            self.bonus.add(Bonus.BonusGunV2(width,height,ship))
     '''Fonction qui gere l'apparition aleatoire de tous les ennemis'''
-    def creerEnnemi(self, width, height, level, snakes, shooters, aleatoires, monVaisseau):
+    def creerEnnemi(self, width, height, level, monVaisseau):
         if random.randint(0, level) > 2+level/4:
-            self.creerSnakes(width, height, snakes, int(monVaisseau.chaleurMax/60))
+            self.creerSnakes(width, height, int(monVaisseau.chaleurMax/60))
         if random.randint(0, level) > 4+level/4:
-            self.creerShooters(width, height, shooters)
+            self.creerShooters(width, height)
         if random.randint(0, level) > 2+level/4:
-            self.creerAleatoires(width, height, aleatoires)
+            self.creerAleatoires(width, height)
         
     '''Apparition aleatoire des asteroides'''
-    def creerObstacle(self, width, height, level, obstacles):
+    def creerObstacle(self, width, height, level):
         y = random.randint(10, height)
         if random.randint(0, level) > int(level/4):
             typeObstacle = random.randint(1,5)
-            obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
-        print len(obstacles)
+            self.obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
+        print len(self.obstacles)
 
 
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
@@ -135,84 +144,84 @@ class Partie:
             explosion.blit(screen, (x,y))
             pygame.display.update()
     '''Fonction qui gere les collisions'''
-    def Collisions(self, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins):
+    def Collisions(self, monVaisseau, animObj, screen):
 
-        #test des missiles contre snakes
-        for monMissile in missiles:
-            for snakeTemp in snakes:
+        #test des self.missiles contre snakes
+        for monMissile in self.missiles:
+            for snakeTemp in self.snakes:
                 if snakeTemp.estTouche(monMissile):
                     monVaisseau.raiseScore(1)
                     (x,y) = snakeTemp.getPos()
-                    snakeTemp.creerCoin(coins)
-                    missiles.remove(monMissile)
+                    snakeTemp.creerCoin(self.coins)
+                    self.missiles.remove(monMissile)
                     snakeTemp.son.play()
-                    snakes.remove(snakeTemp)
+                    self.snakes.remove(snakeTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
                     break
-            for shooterTemp in shooters:
+            for shooterTemp in self.shooters:
                 if shooterTemp.estTouche(monMissile):
-                    missiles.remove(monMissile)
+                    self.missiles.remove(monMissile)
                     (x,y) = shooterTemp.getPos()
                     if shooterTemp.vie != 0:
                         shooterTemp.vie -= 1
                     elif shooterTemp.vie == 0:   
                         r = random.randint(0,100)
                         if 100-r < 40:
-                            self.creerBonus(bonus,monVaisseau, x-10, y+20)
-                        shooterTemp.creerCoin(coins)
+                            self.creerBonus(monVaisseau, x-10, y+20)
+                        shooterTemp.creerCoin(self.coins)
                         shooterTemp.son.play()
-                        shooters.remove(shooterTemp)
+                        self.shooters.remove(shooterTemp)
                         monVaisseau.raiseScore(2)
                     animObj.play()
                     animObj.blit(screen, (x,y))
                     break
-            for aleaTemp in aleatoires:
+            for aleaTemp in self.aleatoires:
                 if aleaTemp.estTouche(monMissile):
                     (x,y) = aleaTemp.getPos()
-                    aleaTemp.creerCoin(coins)
+                    aleaTemp.creerCoin(self.coins)
                     monVaisseau.raiseScore(1)
-                    missiles.remove(monMissile)
+                    self.missiles.remove(monMissile)
                     aleaTemp.son.play()
-                    aleatoires.remove(aleaTemp)
+                    self.aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
                     break
 
                     
-        for obsTemp in obstacles:
-            for monMissile in missilesShooter:
+        for obsTemp in self.obstacles:
+            for monMissile in self.missilesShooter:
                 if obsTemp.estTouche(monMissile):
                     monMissile.setImg("images/ingame/impact.png")
                     screen.blit(monMissile.image, monMissile.rect)
-                    missilesShooter.remove(monMissile)
-            for monMissile in missiles:
+                    self.missilesShooter.remove(monMissile)
+            for monMissile in self.missiles:
                 if obsTemp.estTouche(monMissile):
                     monMissile.setImg("images/ingame/impact.png")
                     screen.blit(monMissile.image, monMissile.rect)
-                    missiles.remove(monMissile)
+                    self.missiles.remove(monMissile)
             #test des snakes contre obstacle
-            for snakeTemp in snakes:
+            for snakeTemp in self.snakes:
                 if obsTemp.estTouche(snakeTemp):
                     (x,y) = snakeTemp.getPos()
                     snakeTemp.son.play()
-                    snakes.remove(snakeTemp)
+                    self.snakes.remove(snakeTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y)) 
-            #test des shooters contre obstacle
-            for shooterTemp in shooters:
+            #test des self.shooters contre obstacle
+            for shooterTemp in self.shooters:
                 if obsTemp.estTouche(shooterTemp):
                     (x,y) = shooterTemp.getPos()
                     shooterTemp.son.play()
-                    shooters.remove(shooterTemp)
+                    self.shooters.remove(shooterTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))  
-            #test des shooters contre obstacle
-            for aleaTemp in aleatoires:
+            #test des self.shooters contre obstacle
+            for aleaTemp in self.aleatoires:
                 if obsTemp.estTouche(aleaTemp):
                     (x,y) = aleaTemp.getPos()
                     aleaTemp.son.play()
-                    aleatoires.remove(aleaTemp)
+                    self.aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))             
                     
@@ -221,113 +230,113 @@ class Partie:
                 if monVaisseau.estTouche(obsTemp):
                     monVaisseau.enVie = False
             
-        for snakeTemp in snakes:
+        for snakeTemp in self.snakes:
             if monVaisseau.estTouche(snakeTemp):
                 monVaisseau.raiseScore(1)
                 (x,y) = snakeTemp.getPos()
-                snakeTemp.creerCoin(coins)
+                snakeTemp.creerCoin(self.coins)
                 snakeTemp.son.play()
-                snakes.remove(snakeTemp)
+                self.snakes.remove(snakeTemp)
                 animObj.play()
                 animObj.blit(screen, (x,y))
                 if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
         
-        for shooterTemp in shooters:
+        for shooterTemp in self.shooters:
             if monVaisseau.estTouche(shooterTemp):
                 (x,y) = shooterTemp.getPos()
                 r = random.randint(0,100)
                 if 100-r < 40:
-                    self.creerBonus(bonus,monVaisseau, x, y)
-                shooterTemp.creerCoin(coins)
+                    self.creerBonus(self.bonus,monVaisseau, x, y)
+                shooterTemp.creerCoin(self.coins)
                 shooterTemp.son.play() 
-                shooters.remove(shooterTemp)
+                self.shooters.remove(shooterTemp)
                 monVaisseau.raiseScore(2)
                 animObj.play()
                 animObj.blit(screen, (x,y))
                 if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
         
-        for aleaTemp in aleatoires:
+        for aleaTemp in self.aleatoires:
             if monVaisseau.estTouche(aleaTemp):
                 (x,y) = aleaTemp.getPos()
-                aleaTemp.creerCoin(coins)
+                aleaTemp.creerCoin(self.coins)
                 monVaisseau.raiseScore(1)
                 aleaTemp.son.play()
-                aleatoires.remove(aleaTemp)
+                self.aleatoires.remove(aleaTemp)
                 animObj.play()
                 animObj.blit(screen, (x,y))
                 if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
         
-        for missileShooterTemp in missilesShooter:
-            if monVaisseau.estTouche(missileShooterTemp):
+        for self.missileshooterTemp in self.missilesShooter:
+            if monVaisseau.estTouche(self.missileshooterTemp):
                 if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
-                missilesShooter.remove(missileShooterTemp)
+                self.missilesShooter.remove(self.missileshooterTemp)
 
-        #test vaisseau contre bonus
-        for bonusTemp in bonus:
-            if monVaisseau.estTouche(bonusTemp):
-                bonusTemp.startTime=pygame.time.get_ticks()
-                bonusTemp.stopTime=pygame.time.get_ticks()+10000               
-                bonusTemp.isActive=True
-                bonusTemp.isVisible=False
-                bonusTemp.action(bonus,pygame.time.get_ticks())
+        #test vaisseau contre self.bonus
+        for self.bonusTemp in self.bonus:
+            if monVaisseau.estTouche(self.bonusTemp):
+                self.bonusTemp.startTime=pygame.time.get_ticks()
+                self.bonusTemp.stopTime=pygame.time.get_ticks()+10000               
+                self.bonusTemp.isActive=True
+                self.bonusTemp.isVisible=False
+                self.bonusTemp.action(self.bonus,pygame.time.get_ticks())
             else:
-                bonusTemp.action(bonus,pygame.time.get_ticks())
+                self.bonusTemp.action(self.bonus,pygame.time.get_ticks())
                     
                 
            
         #test vaisseau contre pieces de monnaie
-        for coinTemp in coins:
+        for coinTemp in self.coins:
             if monVaisseau.estTouche(coinTemp):
                 monVaisseau.money += 1
                 coinTemp.son.play()
-                coins.remove(coinTemp)
+                self.coins.remove(coinTemp)
     '''Fonction qui gere les mouvements de tous les objets'''
-    def Mouvements(self, screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
+    def Mouvements(self, screen, width, height, monVaisseau):
         ##### MOUVEMENT JOUEUR #####
         monVaisseau.update(pygame.time.get_ticks(), height, screen)
         ##### MOUVEMENT DES SNAKE #####
-        snakes.update(pygame.time.get_ticks(), snakes, width, height)
+        self.snakes.update(pygame.time.get_ticks(), self.snakes, width, height)
         ##### MOUVEMENT DES SHOOTERS #####
-        shooters.update(pygame.time.get_ticks(), monVaisseau, shooters, missilesShooter, height)
+        self.shooters.update(pygame.time.get_ticks(), monVaisseau, self.shooters, self.missilesShooter, height)
         ##### MOUVEMENT DES ALEATOIRES #####
-        aleatoires.update(pygame.time.get_ticks(), aleatoires, height)
+        self.aleatoires.update(pygame.time.get_ticks(), self.aleatoires, height)
         ##### MOUVEMENT DES OBSTACLES #####
-        obstacles.update(pygame.time.get_ticks())
+        self.obstacles.update(pygame.time.get_ticks())
         ##### MOUVEMENT DES BONUS #####
-        bonus.update(pygame.time.get_ticks(),bonus)
-        ##### MOUVEMENT MISSILES #####
-        missiles.update(pygame.time.get_ticks(), width, missiles)
-        ##### MOUVEMENT MISSILES ENNEMY #####        
-        missilesShooter.update(pygame.time.get_ticks(), missilesShooter)
+        self.bonus.update(pygame.time.get_ticks(),self.bonus)
+        ##### MOUVEMENT self.missiles #####
+        self.missiles.update(pygame.time.get_ticks(), width, self.missiles)
+        ##### MOUVEMENT self.missiles ENNEMY #####        
+        self.missilesShooter.update(pygame.time.get_ticks(), self.missilesShooter)
         ##### MOUVEMENT DES PIECES DE MONNAIE #####
-        coins.update(pygame.time.get_ticks())
+        self.coins.update(pygame.time.get_ticks())
     '''Fonction qui gere les blits de tous les objets'''
-    def Blits(self, width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins):
+    def Blits(self, width, height, screen, distance, monVaisseau):
         #jauge tir
         pygame.draw.rect(screen, (255, 0, 0), (1, 1, monVaisseau.chaleurMax + 3, 10), 1)
         if (monVaisseau.inCharge):
             pygame.draw.rect(screen, (255, 0, 0), (4, 4, monVaisseau.charge, 7))
         screen.blit(monVaisseau.image, monVaisseau.rect)
-        #blits logo bonus
+        #blits logo self.bonus
         if monVaisseau.isBonusAmmo:
             logoBonus =  pygame.transform.scale(pygame.image.load("images/bonus/ammo.png"),(25,25))
             screen.blit(logoBonus,(10,50))
         if monVaisseau.isBonusShield:
             logoBonus =  pygame.transform.scale(pygame.image.load("images/bonus/shield.png"),(25,25))
             screen.blit(logoBonus,(40,50))
-        #blits ennemies et missiles
-        for o in obstacles.sprites(): screen.blit(o.image, o.rect)
-        for c in coins.sprites(): screen.blit(c.image,c.rect)
-        for s in snakes.sprites(): screen.blit(s.image, s.rect)
-        for s in shooters.sprites(): screen.blit(s.image, s.rect)
-        for a in aleatoires.sprites(): screen.blit(a.image, a.rect)
-        for m in missiles.sprites(): screen.blit(m.image, m.rect)
-        for m in missilesShooter.sprites(): screen.blit(m.image, m.rect)
-        for b in bonus.sprites():
+        #blits ennemies et self.missiles
+        for o in self.obstacles.sprites(): screen.blit(o.image, o.rect)
+        for c in self.coins.sprites(): screen.blit(c.image,c.rect)
+        for s in self.snakes.sprites(): screen.blit(s.image, s.rect)
+        for s in self.shooters.sprites(): screen.blit(s.image, s.rect)
+        for a in self.aleatoires.sprites(): screen.blit(a.image, a.rect)
+        for m in self.missiles.sprites(): screen.blit(m.image, m.rect)
+        for m in self.missilesShooter.sprites(): screen.blit(m.image, m.rect)
+        for b in self.bonus.sprites():
             if b.isVisible:
                 screen.blit(b.image,b.rect)
         #blits score
@@ -350,6 +359,36 @@ class Partie:
             (x,y) = monVaisseau.getPos()
             screen.blit(imgShield, (x,y-10))
 
+    def supprimerObjets(self, width):
+        for snakeTemp in self.snakes:
+            (x, _) = snakeTemp.getPos()
+            if x < -20:
+                self.snakes.remove(snakeTemp)
+        for shooterTemp in self.shooters:
+            (x, _) = shooterTemp.getPos()
+            if x < -50:
+                self.shooters.remove(shooterTemp) 
+        for aleaTemp in self.aleatoires :       
+            (x, _) = aleaTemp.getPos()
+            if x < -40:
+                self.aleatoires.remove(aleaTemp)
+        for obsTemp in self.obstacles :       
+            (x, _) = obsTemp.getPos()
+            if x < -100:
+                self.obstacles.remove(obsTemp) 
+        for self.missileshooterTemp in self.missilesShooter :       
+            (x, _) = self.missileshooterTemp.getPos()
+            if x < -20:
+                self.missilesShooter.remove(self.missileshooterTemp)  
+        for coinTemp in self.coins :       
+            (x, _) = coinTemp.getPos()
+            if x < -20:
+                self.coins.remove(coinTemp) 
+        for missileTemp in self.missiles :       
+            (x, _) = missileTemp.getPos()
+            if x > width+40:
+                self.missiles.remove(missileTemp) 
+                
     def jouer(self):     
         ##### PARAMETRES DE LA FENETRE #####
         size = width, height = 1024,768
@@ -372,15 +411,7 @@ class Partie:
         #j=k=l=0
         ##### JOUEUR #####
         monVaisseau = Ship.ship([20, 0])
-        ##### GROUPES DE SPRITE #####
-        missiles = pygame.sprite.Group()
-        snakes = pygame.sprite.Group()
-        shooters = pygame.sprite.Group()
-        aleatoires = pygame.sprite.Group()
-        obstacles = pygame.sprite.Group()
-        missilesShooter = pygame.sprite.Group()
-        bonus = pygame.sprite.Group()
-        coins = pygame.sprite.Group()
+        
         ##### MUSIQUE #####
         if self.player.musicOn:
             self.music.play(-1)
@@ -449,7 +480,7 @@ class Partie:
                         monVaisseau.son.stop()
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
-                        monVaisseau.tir(missiles);
+                        monVaisseau.tir(self.missiles);
                     # RIGHT
                     elif event.key == pygame.K_RIGHT:
                         monVaisseau.inBoost=False
@@ -476,10 +507,11 @@ class Partie:
             #    k=0
             #if l > width:
             #    l=0
-            self.Mouvements(screen, width, height, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
-            self.Collisions(monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, animObj, screen, bonus, coins)
-            self.Blits(width, height, screen, distance, monVaisseau, missiles, snakes, shooters, aleatoires, obstacles, missilesShooter, bonus, coins)
-            #incrementation du compteur generale de distance et creation d'ennemis et d'obstacles
+            self.Mouvements(screen, width, height, monVaisseau)
+            self.Collisions(monVaisseau, animObj, screen)
+            self.Blits(width, height, screen, distance, monVaisseau)
+            self.supprimerObjets(width)
+            #incrementation du compteur generale de distance et creation d'ennemis et d'self.obstacles
             if distanceTemp != 4:
                 distanceTemp += 1
             else:
@@ -490,8 +522,8 @@ class Partie:
             if distanceLevelTemp != 60:
                 distanceLevelTemp += 1
                 if distanceLevelTemp == 10:
-                    self.creerEnnemi(width, height, level, snakes, shooters, aleatoires, monVaisseau)
-                    self.creerObstacle(width, height, level, obstacles) 
+                    self.creerEnnemi(width, height, level, monVaisseau)
+                    self.creerObstacle(width, height, level) 
             else:
                 distanceLevelTemp = 0
                 level += 1
