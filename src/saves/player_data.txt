@@ -26,10 +26,10 @@ p9
 I00
 sS'record'
 p10
-I217
+I269
 sS'money'
 p11
-I4562
+I8217
 sS'advancedGunEvolution1On'
 p12
 I00
