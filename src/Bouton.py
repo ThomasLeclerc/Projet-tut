@@ -21,7 +21,8 @@ class Bouton(pygame.sprite.Sprite):
         self.rect.top = y    
     def setSelected(self,isSelected):
         self.isSelected=isSelected
-    
+
+##### BOUTONS MENU PRINCIPAL #####    
 class BoutonStartGame(Bouton): 
     def __init__(self, image, x, y, player, isSelected=False):
         Bouton.__init__(self, image, x, y, isSelected)
@@ -47,7 +48,7 @@ class BoutonOption(Bouton):
         ecranOption.addButton(BoutonMusic("images/menu/menu_option/on.png", 530, 325, self.player))
         ecranOption.addButton(BoutonReinitialiser("images/menu/menu_option/reset_profile.png",344 , 388, self.player))
         ecranOption.addButton(BoutonShop("images/menu/menu_option/shop.png",414 , 455, self.player))
-        ecranOption.addButton(BoutonBack("images/menu/menu_option/back.png",460 , 543, self.player))
+        ecranOption.addButton(BoutonMenuPrincipal("images/menu/menu_option/back.png",460 , 543, self.player))
         ecranOption.afficher()
         
 class BoutonCredits(Bouton):   
@@ -62,7 +63,9 @@ class BoutonQuit(Bouton):
         Bouton.__init__(self, image, x, y, isSelected) 
     def action(self):
         sys.exit()
-        
+ 
+ 
+##### BOUTONS MENU OPTION #####       
 class BoutonSound(Bouton): 
     def __init__(self, image, x, y, player, isSelected=False):
         Bouton.__init__(self, image, x, y, isSelected)
@@ -97,12 +100,11 @@ class BoutonReinitialiser(Bouton):
         ecranOption.addButton(BoutonMusic("images/menu/menu_option/on.png", 530, 325, self.player))
         ecranOption.addButton(BoutonReinitialiser("images/menu/menu_option/reset_profile.png",344 , 388, self.player))
         ecranOption.addButton(BoutonShop("images/menu/menu_option/shop.png",414 , 455, self.player))
-        ecranOption.addButton(BoutonBack("images/menu/menu_option/back.png",460 , 543, self.player))
+        ecranOption.addButton(BoutonMenuPrincipal("images/menu/menu_option/back.png",460 , 543, self.player))
         ecranOption.afficher()
         
-
-        
-class BoutonBack(Bouton): 
+#sert a revenir au menu principal. est utilise autre part que dans le menu option      
+class BoutonMenuPrincipal(Bouton): 
     def __init__(self, image, x, y, player, isSelected=False):
         Bouton.__init__(self, image, x, y, isSelected)
         self.player = player
@@ -121,7 +123,9 @@ class BoutonShop(Bouton):
         menuShop = Menu.Menu("images/menu/menu_shop/background_menu_shop.jpg")
         menuShop.addButton(BoutonGoldShip("images/menu/menu_shop/item1_gold_skin_selected.jpg", "images/menu/menu_shop/item1_gold_skin_unselected.jpg", 20, 150, True))
         menuShop.afficher()
-        
+  
+  
+##### BOUTONS SHOP #####    
 class BoutonGoldShip(Bouton): 
     def __init__(self, image, imageAlt, x, y, isSelected=False):
         Bouton.__init__(self, image, x, y, isSelected)
@@ -129,3 +133,9 @@ class BoutonGoldShip(Bouton):
     def action(self):
         print " "
 
+##### BOUTONS MENU PAUSE #####
+class BoutonReprendre(Bouton): 
+    def __init__(self, image, x, y,  isSelected=False):
+        Bouton.__init__(self, image, x, y, isSelected)
+    def action(self):
+        return True

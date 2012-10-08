@@ -382,9 +382,12 @@ class Partie:
         bonus = pygame.sprite.Group()
         coins = pygame.sprite.Group()
         ##### MUSIQUE #####
-        
+        if self.player.musicOn:
+            self.music.play(-1)
         ##### MENU COMMENCER #####
         menuStartOn=True
+        
+        quitterVersMenuPrincipal = False
         '''################################################################## ''
         ''   BOUCLE DE JEU                                                    ''
         ''      (img par img)                                                 ''
@@ -406,8 +409,6 @@ class Partie:
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             menuStartOn=False
-                            if self.player.musicOn:
-                                self.music.play(-1)
                         elif event.key == pygame.K_ESCAPE:
                             sys.exit()
                             
@@ -436,7 +437,10 @@ class Partie:
                             monVaisseau.inBreak=True
                     # ECHAPE
                     elif event.key == pygame.K_ESCAPE:
-                        sys.exit()
+                        menuPause = Menu.menuPause("images/menu/menu_pause/background_menu_pause.png")
+                        menuPause.addButton(Bouton.BoutonReprendre("images/menu/menu_pause/reprendre.png", 133, 176, True))
+                        menuPause.addButton(Bouton.BoutonMenuPrincipal("images/menu/menu_pause/menu_principal.png", 154, 292, self.player))
+                        menuPause.afficher(screen, self)
                 ##### RELACHE TOUCHE #####
                 elif event.type == pygame.KEYUP:
                     # HAUT

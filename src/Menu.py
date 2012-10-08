@@ -104,4 +104,47 @@ class menuOption(Menu):
         ecranAccueil.addButton(Bouton.BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
         ecranAccueil.addButton(Bouton.BoutonQuit("images/menu/menu_principal/titles/quit.png",0, 485))
         ecranAccueil.afficher()
+        
+class menuPause(Menu):
+    def __init__(self, filename):
+        Menu.__init__(self, filename)
+        
+    def afficher(self, screen, partie):
+        ##### PARAMETRES DE LA FENETRE #####
+        repriseOn = False
+        while repriseOn == False:
+            ''' COMMANDES CLAVIER '''
+            for event in pygame.event.get():
+                ##### APPUI SUR TOUCHE #####
+                if event.type == pygame.KEYDOWN:
+                    # HAUT
+                    if event.key == pygame.K_UP:
+                        if self.idSelectedButton == 0:
+                            self.boutons[self.idSelectedButton].setSelected(False)
+                            self.idSelectedButton = len(self.boutons)-1
+                        else:
+                            self.boutons[self.idSelectedButton].setSelected(False)
+                            self.idSelectedButton -= 1
+                    # BAS
+                    elif event.key == pygame.K_DOWN:
+                        if self.idSelectedButton == len(self.boutons)-1:
+                            self.boutons[self.idSelectedButton].setSelected(False)
+                            self.idSelectedButton = 0
+                        else:
+                            self.boutons[self.idSelectedButton].setSelected(False)
+                            self.idSelectedButton += 1
+                    # ENTRER
+                    elif event.key == pygame.K_RETURN:
+                        if self.idSelectedButton == 0:
+                            repriseOn = self.boutons[self.idSelectedButton].action()
+                        elif self.idSelectedButton == 1:
+                            partie.music.stop() 
+                            self.boutons[self.idSelectedButton].action()
+                    elif event.key == pygame.K_ESCAPE:
+                            self.boutons[0].action()
+                    self.boutons[self.idSelectedButton].setSelected(True)
+            self.blits(screen)
+            pygame.display.update()
+        
+
     
