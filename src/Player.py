@@ -1,6 +1,7 @@
 import pickle
 
 class Player:
+    additionalMissiles=0
     def __init__(self):
         self.record = 0
         self.money = 0
@@ -17,7 +18,6 @@ class Player:
         self.sound = True
         self.musicOn = True
         self.name = "Player"
-    
     def setName(self, name):
         self.name = name
     

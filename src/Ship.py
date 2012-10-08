@@ -47,7 +47,9 @@ class ship(pygame.sprite.Sprite):
     
     def setImg(self, imageFile):
         self.image =  pygame.image.load(imageFile)
-        
+    '''prend le nbre de missiles A ajouter'''    
+    def raiseChaleurMax(self, nbMissiles):
+        self.chaleurMax+=(33*nbMissiles)
     def setVersionCanon(self,version):
         self.versionCanon = version
      

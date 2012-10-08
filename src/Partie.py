@@ -319,7 +319,7 @@ class Partie:
         imgJauge = pygame.image.load("images/ingame/gauge.png")
         screen.blit(imgJauge, (1,10))
         if (monVaisseau.inCharge):
-            pygame.draw.rect(screen, (255, 0, 0), (32, 38, monVaisseau.charge*100/140-2, 23))
+            pygame.draw.rect(screen, (255, 0, 0), (32, 38, monVaisseau.charge*139/monVaisseau.chaleurMax, 23))
         screen.blit(monVaisseau.image, monVaisseau.rect)
         #blits logo self.bonus
         if monVaisseau.isBonusAmmo:
@@ -407,6 +407,7 @@ class Partie:
         i=0
         ##### JOUEUR #####
         monVaisseau = Ship.ship([20, 0])
+        monVaisseau.raiseChaleurMax(self.player.additionalMissiles)
         
         ##### MUSIQUE #####
         if self.player.musicOn:
