@@ -47,7 +47,7 @@ class BonusAmmo(Bonus):
 
 class BonusShield(Bonus):
     def __init__(self,x,y,ship):
-        Bonus.__init__(self, x, y,"images/bonus/shield.png",ship)
+        Bonus.__init__(self, x, y,"images/bonus/shield_icon.png",ship)
         self.son = pygame.mixer.Sound("sounds/shield.wav")
     def estTouche(self,spr,current_time):
         return (pygame.sprite.collide_circle(self, spr))                
