@@ -1,7 +1,7 @@
 import pygame
 import sys
 import Bouton
-
+import Article
 
 class Menu:
     
@@ -106,9 +106,9 @@ class menuOption(Menu):
         ecranAccueil.afficher()
         
 class menuPause(Menu):
-    def __init__(self, filename):
+    def __init__(self, filename, player):
         Menu.__init__(self, filename)
-        
+        self.player = player
     def afficher(self, screen, partie):
         ##### PARAMETRES DE LA FENETRE #####
         repriseOn = False
@@ -142,6 +142,61 @@ class menuPause(Menu):
                             self.boutons[self.idSelectedButton].action()
                     elif event.key == pygame.K_ESCAPE:
                             self.boutons[0].action()
+                    self.boutons[self.idSelectedButton].setSelected(True)
+            self.blits(screen)
+            pygame.display.update()
+    
+class menuShop(Menu):
+    def __init__(self, filename):
+        Menu.__init__(self, filename)
+     
+    def blits(self, screen):
+        screen.blit(self.image,(0,0))
+        for bouton in self.boutons:
+            if (bouton.rect.top+140 > 160)and(bouton.rect.top < 710):
+                if bouton.isSelected:
+                    if bouton.isSold:
+                        screen.blit(bouton.image2,bouton.rect)
+                    else:
+                        screen.blit(bouton.image1,bouton.rect)
+                else:
+                    if bouton.isSold:
+                        screen.blit(bouton.image4,bouton.rect)
+                    else:
+                        screen.blit(bouton.image3,bouton.rect)
+        pygame.display.update()
+           
+    def afficher(self):
+        ##### PARAMETRES DE LA FENETRE #####
+        size = 1024,768
+        screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+        while 1:
+            ''' COMMANDES CLAVIER '''
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT: sys.exit()
+                ##### APPUI SUR TOUCHE #####
+                elif event.type == pygame.KEYDOWN:
+                    # HAUT
+                    if event.key == pygame.K_UP:
+                        if self.idSelectedButton != 0:
+                            self.boutons[self.idSelectedButton].setSelected(False)
+                            self.idSelectedButton -= 1
+                            if self.idSelectedButton < 2:
+                                for bouton in self.boutons:
+                                    bouton.rect.top += 140
+                    # BAS
+                    elif event.key == pygame.K_DOWN:
+                        if self.idSelectedButton != len(self.boutons)-1:
+                            self.boutons[self.idSelectedButton].setSelected(False)
+                            self.idSelectedButton += 1
+                            if self.idSelectedButton > 3:
+                                for bouton in self.boutons:
+                                    bouton.rect.top -= 140
+                    # ENTRER
+                    elif event.key == pygame.K_RETURN:
+                        self.boutons[self.idSelectedButton].action()
+                    elif event.key == pygame.K_ESCAPE:
+                            self.whenEscape()
                     self.boutons[self.idSelectedButton].setSelected(True)
             self.blits(screen)
             pygame.display.update()
