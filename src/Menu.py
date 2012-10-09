@@ -98,7 +98,7 @@ class menuOption(Menu):
         pygame.display.update()
         
     def whenEscape(self):
-        ecranAccueil = Menu("images/menu/menu.jpg")
+        ecranAccueil = Menu("images/menu/menu.jpg", self.player)
         ecranAccueil.addButton(Bouton.BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, self.player, True))
         ecranAccueil.addButton(Bouton.BoutonOption("images/menu/menu_principal/titles/option.png",0, 340, self.player))
         ecranAccueil.addButton(Bouton.BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
@@ -210,5 +210,12 @@ class menuShop(Menu):
             self.blits(screen)
             pygame.display.update()
         
-
+    def whenEscape(self):
+        ecranOption = menuOption("images/menu/menu_option/background_menu_option.jpg", self.player)
+        ecranOption.addButton(Bouton.BoutonSound("images/menu/menu_option/on.png", 530, 255, self.player, True))
+        ecranOption.addButton(Bouton.BoutonMusic("images/menu/menu_option/on.png", 530, 325, self.player))
+        ecranOption.addButton(Bouton.BoutonReinitialiser("images/menu/menu_option/reset_profile.png",344 , 388, self.player))
+        ecranOption.addButton(Bouton.BoutonShop("images/menu/menu_option/shop.png",414 , 455, self.player))
+        ecranOption.addButton(Bouton.BoutonMenuPrincipal("images/menu/menu_option/back.png",460 , 543, self.player))
+        ecranOption.afficher()
     

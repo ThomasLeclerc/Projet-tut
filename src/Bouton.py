@@ -110,7 +110,7 @@ class BoutonMenuPrincipal(Bouton):
         Bouton.__init__(self, image, x, y, isSelected)
         self.player = player
     def action(self):
-        ecranAccueil = Menu.Menu("images/menu/menu.jpg")
+        ecranAccueil = Menu.Menu("images/menu/menu.jpg", self.player)
         ecranAccueil.addButton(BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, self.player, True))
         ecranAccueil.addButton(BoutonOption("images/menu/menu_principal/titles/option.png",0, 340, self.player))
         ecranAccueil.addButton(BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
