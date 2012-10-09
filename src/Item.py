@@ -3,8 +3,7 @@ import Player
 class item:
     bought = False
     player = Player.player()
-    
-    
+
     def __init__(self, bought, player):
         self.player = player
         self.bought = bought
