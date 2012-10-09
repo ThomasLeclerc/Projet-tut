@@ -128,7 +128,6 @@ class Partie:
             policeDistance = pygame.font.Font(None, 80)
             titre = policeDistance.render("distance : "+str(distance)+" m",1,(254,0,0))
             screen.blit(titre,(200,height/2))
-            
             #record
             if distance > self.player.record :
                 self.player.record=distance 
