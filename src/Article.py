@@ -12,9 +12,10 @@ class Article(pygame.sprite.Sprite):
             self.isAvailable = True
         elif self.player.shopStateList[self.positionShopStateList] == 1:
             self.isSold = True
+        self.price = price
         self.setImg(imageFileName, x, y)
         self.isSelected=isSelected
-        self.price = price
+        print self.isSold
         
         
     def setImg(self, imageFileName, x, y):
@@ -25,12 +26,39 @@ class Article(pygame.sprite.Sprite):
         self.image5 = pygame.image.load(imageFileName+"_unselected_sold.jpg") 
         
         police = pygame.font.Font(None, 40)
-        texte = police.render(str(self.price), 1, (83,89,7))
-        self.image1.blit(texte, (420, 50)) 
+        self.image1.blit(self.textOutline(police, str(self.price), (210, 210, 1), (38, 33, 4)), (400, 50)) 
            
         self.rect = self.image1.get_rect()
         self.rect.left = x
         self.rect.top = y
+      
+    #fonction pour faire une bordur autour du texte  
+    def textHollow(self, font, message, fontcolor):
+        notcolor = [c^0xFF for c in fontcolor]
+        base = font.render(message, 0, fontcolor, notcolor)
+        size = base.get_width() + 2, base.get_height() + 2
+        img = pygame.Surface(size, 16)
+        img.fill(notcolor)
+        base.set_colorkey(0)
+        img.blit(base, (0, 0))
+        img.blit(base, (2, 0))
+        img.blit(base, (0, 2))
+        img.blit(base, (2, 2))
+        base.set_colorkey(0)
+        base.set_palette_at(1, notcolor)
+        img.blit(base, (1, 1))
+        img.set_colorkey(notcolor)
+        return img
+    
+    def textOutline(self, font, message, fontcolor, outlinecolor):
+        base = font.render(message, 0, fontcolor)
+        outline = self.textHollow(font, message, outlinecolor)
+        img = pygame.Surface(outline.get_size(), 16)
+        img.blit(base, (1, 1))
+        img.blit(outline, (0, 0))
+        img.set_colorkey(0)
+        return img
+
     def setSelected(self,isSelected):
         self.isSelected=isSelected
     

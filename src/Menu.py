@@ -8,11 +8,12 @@ class Menu:
     ''' Constructeur de Menu
         prend le nom du fichier image en parametre
     '''
-    def __init__(self,filename, player=None):
+    def __init__(self,filename, player):
         self.boutons = []
+        self.player = player
         self.setBgImage(filename)
         self.idSelectedButton=0
-        self.player = player
+        
 
     def setBgImage(self, filename):
         self.image=pygame.image.load(filename)
@@ -75,8 +76,7 @@ class Menu:
             
 class menuOption(Menu):
     def __init__(self, filename, player):
-        Menu.__init__(self, filename)
-        self.player = player
+        Menu.__init__(self, filename, player)
     def blits(self, screen):
         screen.blit(self.image,(0,0))
         if self.boutons[0].isSelected:
@@ -107,8 +107,7 @@ class menuOption(Menu):
         
 class menuPause(Menu):
     def __init__(self, filename, player):
-        Menu.__init__(self, filename)
-        self.player = player
+        Menu.__init__(self, filename, player)
     def afficher(self, screen, partie):
         ##### PARAMETRES DE LA FENETRE #####
         repriseOn = False
@@ -147,9 +146,15 @@ class menuPause(Menu):
             pygame.display.update()
     
 class menuShop(Menu):
-    def __init__(self, filename):
-        Menu.__init__(self, filename)
+    def __init__(self, filename, player):
+        Menu.__init__(self, filename, player)
      
+    def setBgImage(self, filename):
+        self.image=pygame.image.load(filename)
+        police = pygame.font.Font(None, 43)
+        texte = police.render("Your money : "+str(self.player.money), 1, (210, 210, 1))
+        self.image.blit(texte, (350, 100))
+        
     def blits(self, screen):
         screen.blit(self.image,(0,0))
         for bouton in self.boutons:
@@ -163,9 +168,9 @@ class menuShop(Menu):
                         screen.blit(bouton.image1,bouton.rect)
                 else:
                     if bouton.isSold:
-                        screen.blit(bouton.image4,bouton.rect)
-                    else:
                         screen.blit(bouton.image5,bouton.rect)
+                    else:
+                        screen.blit(bouton.image4,bouton.rect)
         pygame.display.update()
            
     def afficher(self):

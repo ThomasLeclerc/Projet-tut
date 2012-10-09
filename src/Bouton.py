@@ -122,7 +122,7 @@ class BoutonShop(Bouton):
         Bouton.__init__(self, image, x, y, isSelected)
         self.player = player
     def action(self):
-        menuShop = Menu.menuShop("images/menu/menu_shop/background_menu_shop.jpg")
+        menuShop = Menu.menuShop("images/menu/menu_shop/background_menu_shop.jpg", self.player)
         menuShop.addButton(Article.Article("images/menu/menu_shop/item1_gold_skin", 70, 160, self.player, 0, 10000, True))
         menuShop.addButton(Article.Article("images/menu/menu_shop/item2_basic_weapon_lvl2", 70, 300, self.player, 1, 1000))
         menuShop.addButton(Article.Article("images/menu/menu_shop/item3_xtreme_weapon_lvl1", 70, 440, self.player, 2, 2000))
