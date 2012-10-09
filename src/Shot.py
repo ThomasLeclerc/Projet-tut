@@ -17,11 +17,10 @@ class shot(pygame.sprite.Sprite):
     def setImg(self, image):
         self.image = pygame.image.load(image)
         
-#fin classe shot
-    
+
 class shotShip(shot):
     def __init__(self,versionCanon, x, y,isBonusAmmo):
-        if versionCanon==1:
+        if versionCanon<3:
             if isBonusAmmo:
                 shot.__init__(self,x, y, "images/vaisseaux/orange_ship/orange_ship_bullet_blue.png")
             else:
@@ -36,9 +35,7 @@ class shotShip(shot):
             if self.rect.left>width:
                 missiles.remove(self)
         self.next_update_time = current_time + 10
-            
 
-        
 class shotShooterEnnemy (shot):
     def __init__(self, x, y):
         shot.__init__(self,x, y, "images/vaisseaux/enemies/enemy1/enemy1_bullet.png")

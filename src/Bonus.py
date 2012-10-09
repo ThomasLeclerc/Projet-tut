@@ -72,7 +72,7 @@ class BonusGunV2(Bonus):
     def action(self,bonus,current_time):
         if self.isActive == True:
             if self.ship.versionCanon==1:
-                self.ship.versionCanon=2
+                self.ship.versionCanon=3
             else:
                 self.ship.versionCanon=1
             bonus.remove(self)
