@@ -155,15 +155,17 @@ class menuShop(Menu):
         for bouton in self.boutons:
             if (bouton.rect.top+140 > 160)and(bouton.rect.top < 710):
                 if bouton.isSelected:
-                    if bouton.isSold:
-                        screen.blit(bouton.image2,bouton.rect)
+                    if bouton.isAvailable == False:
+                        screen.blit(bouton.image2, bouton.rect)
+                    elif bouton.isSold:
+                        screen.blit(bouton.image3,bouton.rect)
                     else:
                         screen.blit(bouton.image1,bouton.rect)
                 else:
                     if bouton.isSold:
-                        screen.blit(bouton.image4,bouton.rect)
+                        screen.blit(bouton.image5,bouton.rect)
                     else:
-                        screen.blit(bouton.image3,bouton.rect)
+                        screen.blit(bouton.image4,bouton.rect)
         pygame.display.update()
            
     def afficher(self):
@@ -182,16 +184,18 @@ class menuShop(Menu):
                             self.boutons[self.idSelectedButton].setSelected(False)
                             self.idSelectedButton -= 1
                             if self.idSelectedButton < 2:
-                                for bouton in self.boutons:
-                                    bouton.rect.top += 140
+                                if self.boutons[0].rect.top+140 < 170:
+                                    for bouton in self.boutons:
+                                        bouton.rect.top += 140
                     # BAS
                     elif event.key == pygame.K_DOWN:
                         if self.idSelectedButton != len(self.boutons)-1:
                             self.boutons[self.idSelectedButton].setSelected(False)
                             self.idSelectedButton += 1
                             if self.idSelectedButton > 3:
-                                for bouton in self.boutons:
-                                    bouton.rect.top -= 140
+                                if self.boutons[len(self.boutons)-1].rect.top > 710:
+                                    for bouton in self.boutons:
+                                        bouton.rect.top -= 140
                     # ENTRER
                     elif event.key == pygame.K_RETURN:
                         self.boutons[self.idSelectedButton].action()
