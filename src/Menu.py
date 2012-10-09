@@ -163,9 +163,9 @@ class menuShop(Menu):
                         screen.blit(bouton.image1,bouton.rect)
                 else:
                     if bouton.isSold:
-                        screen.blit(bouton.image5,bouton.rect)
-                    else:
                         screen.blit(bouton.image4,bouton.rect)
+                    else:
+                        screen.blit(bouton.image5,bouton.rect)
         pygame.display.update()
            
     def afficher(self):
