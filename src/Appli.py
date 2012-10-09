@@ -5,6 +5,7 @@ import Bouton
 ##### LISTES DE BOUTONS #####
 
 player = Player.Player.loadDatas()
+
 '''Affichage du menu d'accueil'''
 ecranAccueil = Menu.Menu("images/menu/menu.jpg", player)
 ecranAccueil.addButton(Bouton.BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, player, True))

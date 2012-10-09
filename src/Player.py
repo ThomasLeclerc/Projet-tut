@@ -2,6 +2,17 @@ import pickle
 
 class Player:
     additionalMissiles=0
+    '''contenu de la liste shopStateList:
+    0:goldskin
+    1:basicWeapLvl2
+    2:ExtremWeapLvl1
+    3:ExtremWeapLvl2
+    4:Booster
+    5:Spoiler
+    6:AdditionalMissile
+       etat de larticle :
+    -1 non dispo ; 0 dispo ; 1 achete'''
+    shopStateList=[0,0,-1,-1,0,-1,-1]
     def __init__(self):
         self.record = 0
         self.money = 0
@@ -18,18 +29,7 @@ class Player:
         self.sound = True
         self.musicOn = True
         self.name = "Player"
-        '''contenu de la liste shopStateList:
-        0:goldskin
-        1:basicWeapLvl2
-        2:ExtremWeapLvl1
-        3:ExtremWeapLvl2
-        4:Booster
-        5:Spoiler
-        6:AdditionalMissile
-           etat de larticle :
-        -1 non dispo ; 0 dispo ; 1 achete'''
-        self.shopStateList = [0,0,-1,-1,0,-1,-1]
-        
+       
     def updateShopStateList(self,indice,newState):
         if indice in range(7):
             if newState in range(-1,2):
