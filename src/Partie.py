@@ -36,6 +36,7 @@ class Partie:
         self.missilesShooter = pygame.sprite.Group()
         self.bonus = pygame.sprite.Group()
         self.coins = pygame.sprite.Group()
+        self.isRecordBattu = False
 
     def creerSnakes(self,width, height, nombre=0):
         positionChaine = random.randint(100,height-180)
@@ -88,10 +89,13 @@ class Partie:
             self.creerAleatoires(width, height)
     '''Apparition aleatoire des asteroides'''
     def creerObstacle(self, width, height, level):
-        y = random.randint(10, height)
-        if random.randint(0, level) > int(level/4):
-            typeObstacle = random.randint(1,5)
-            self.obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
+        if level==-1:
+            self.obstacles.add(Obstacle.obstacleRecord(width, random.randint(10,height-200),"images/ingame/record/asteroid_crash_1.png"))
+        else:
+            y = random.randint(10, height)
+            if random.randint(0, level) > int(level/4):
+                typeObstacle = random.randint(1,5)
+                self.obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
 
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
         monVaisseau.son.stop()
@@ -324,6 +328,13 @@ class Partie:
         for b in self.bonus.sprites():
             if b.isVisible:
                 screen.blit(b.image,b.rect)
+        #blits record
+        police = pygame.font.Font(None, 40)
+        if not self.isRecordBattu:
+            texte = police.render("record : "+str(self.player.record), 1, (254,50,100))
+        else:
+            texte = police.render("record : "+str(distance), 1, (100,255,100))
+        screen.blit(texte, (width - 250, height - 150))       
         #blits score
         screen.blit(pygame.image.load("images/ingame/Coin.png"), (width-200, height-100))
         police = pygame.font.Font(None, 60)
@@ -390,6 +401,7 @@ class Partie:
         ##### IMAGES DU BACKGROUND #####
         background = pygame.image.load("images/background/background.jpg")
         i=0
+        isRecordBattu=False
         ##### JOUEUR #####
         monVaisseau = Ship.ship([20, 0])
         monVaisseau.raiseChaleurMax(self.player.additionalMissiles)
@@ -472,23 +484,18 @@ class Partie:
             ##### BACKGROUND #####
             screen.blit(background, (-i,0)) 
             screen.blit(background, (3575-i,0))            
-            #screen.blit(bgCouche1, (width-j,j))
-            #screen.blit(bgCouche2, (-k,0))
-            #screen.blit(bgCouche2, (width-k,0))
-            #screen.blit(bgCouche3, (-l,0))
-            #screen.blit(bgCouche3, (width-l,0))
             i+=1
-            #j+=2
-            #k+=4
-            #l+=6
             if i > 3576:
                 i=0
-            #if j > width:
-            #    j=0
-            #if k > width:
-            #    k=0
-            #if l > width:
-            #    l=0
+            ##### RECORD PRECEDENT #####
+            if not isRecordBattu:
+                if distance+35==self.player.record:
+                    self.creerObstacle(width, height, -1)
+                    isRecordBattu=True
+            if not self.isRecordBattu:
+                if distance>self.player.record:
+                    self.isRecordBattu=True
+            
             self.Mouvements(screen, width, height, monVaisseau)
             self.Collisions(monVaisseau, animObj, screen)
             self.Blits(width, height, screen, distance, monVaisseau)
