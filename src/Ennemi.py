@@ -43,7 +43,7 @@ class Snake(Ennemy):
     def update(self, current_time, snakes, width, height):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
-            self.rect.left -= 6
+            self.rect.left -= 12
             # DEPLACEMENT EN COURBE SINUSALE
             if self.deplacement==1:
                 self.rect.top =  math.cos(self.rect.left*0.02)*120+self.positionChaine

@@ -29,7 +29,7 @@ p10
 I349
 sS'money'
 p11
-I25028
+I95928
 sS'advancedGunEvolution1On'
 p12
 I00

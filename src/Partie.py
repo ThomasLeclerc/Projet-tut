@@ -239,7 +239,7 @@ class Partie:
                 (x,y) = shooterTemp.getPos()
                 r = random.randint(0,100)
                 if 100-r < 40:
-                    self.creerBonus(self.bonus,monVaisseau, x, y)
+                    self.creerBonus(monVaisseau, x, y)
                 shooterTemp.creerCoin(self.coins)
                 shooterTemp.son.play() 
                 self.shooters.remove(shooterTemp)
@@ -349,27 +349,27 @@ class Partie:
     def supprimerObjets(self, width):
         for snakeTemp in self.snakes:
             (x, _) = snakeTemp.getPos()
-            if x < -20:
+            if x < -200:
                 self.snakes.remove(snakeTemp)
         for shooterTemp in self.shooters:
             (x, _) = shooterTemp.getPos()
-            if x < -50:
+            if x < -200:
                 self.shooters.remove(shooterTemp) 
         for aleaTemp in self.aleatoires :       
             (x, _) = aleaTemp.getPos()
-            if x < -40:
+            if x < -200:
                 self.aleatoires.remove(aleaTemp)
         for obsTemp in self.obstacles :       
             (x, _) = obsTemp.getPos()
-            if x < -100:
+            if x < -200:
                 self.obstacles.remove(obsTemp) 
         for self.missileshooterTemp in self.missilesShooter :       
             (x, _) = self.missileshooterTemp.getPos()
-            if x < -20:
+            if x < -200:
                 self.missilesShooter.remove(self.missileshooterTemp)  
         for coinTemp in self.coins :       
             (x, _) = coinTemp.getPos()
-            if x < -20:
+            if x < -200:
                 self.coins.remove(coinTemp) 
         for missileTemp in self.missiles :       
             (x, _) = missileTemp.getPos()
