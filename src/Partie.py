@@ -406,7 +406,7 @@ class Partie:
         monVaisseau = Ship.ship([20, 0])
         monVaisseau.raiseChaleurMax(self.player.additionalMissiles)
         
-        '''self.player.updateShopStateList(3,1)'''
+        '''self.player.updateShopStateList(3,-1)'''
 
         if self.player.shopStateList[3]==1:
             monVaisseau.versionCanon=4
