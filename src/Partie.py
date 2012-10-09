@@ -92,7 +92,6 @@ class Partie:
         if random.randint(0, level) > int(level/4):
             typeObstacle = random.randint(1,5)
             self.obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
-        print len(self.obstacles)
 
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
         monVaisseau.son.stop()
