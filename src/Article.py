@@ -17,9 +17,10 @@ class Article(pygame.sprite.Sprite):
         
     def setImg(self, imageFileName, x, y):
         self.image1 = pygame.image.load(imageFileName+"_selected.jpg")
-        self.image2 = pygame.image.load(imageFileName+"_selected_sold.jpg")
-        self.image3 = pygame.image.load(imageFileName+"_unselected.jpg")
-        self.image4 = pygame.image.load(imageFileName+"_unselected_sold.jpg") 
+        self.image2 = pygame.image.load(imageFileName+"_selected_unavailable.jpg")
+        self.image3 = pygame.image.load(imageFileName+"_selected_sold.jpg")
+        self.image4 = pygame.image.load(imageFileName+"_unselected.jpg")
+        self.image5 = pygame.image.load(imageFileName+"_unselected_sold.jpg") 
         self.rect = self.image1.get_rect()
         self.rect.left = x
         self.rect.top = y
