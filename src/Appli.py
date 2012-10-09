@@ -3,6 +3,7 @@ import Player
 import Bouton
 
 ##### LISTES DE BOUTONS #####
+
 player = Player.Player.loadDatas()
 '''Affichage du menu d'accueil'''
 ecranAccueil = Menu.Menu("images/menu/menu.jpg", player)

@@ -3,6 +3,7 @@ import Partie
 import Menu
 import sys
 import Player
+import Article
 
 
 class Bouton(pygame.sprite.Sprite):
@@ -117,21 +118,21 @@ class BoutonMenuPrincipal(Bouton):
         ecranAccueil.afficher()
         
 class BoutonShop(Bouton): 
-    def __init__(self, image, x, y, isSelected=False):
+    def __init__(self, image, x, y, player, isSelected=False):
         Bouton.__init__(self, image, x, y, isSelected)
+        self.player = player
     def action(self):
-        menuShop = Menu.Menu("images/menu/menu_shop/background_menu_shop.jpg")
-        menuShop.addButton(BoutonGoldShip("images/menu/menu_shop/item1_gold_skin_selected.jpg", "images/menu/menu_shop/item1_gold_skin_unselected.jpg", 20, 150, True))
+        menuShop = Menu.menuShop("images/menu/menu_shop/background_menu_shop.jpg")
+        menuShop.addButton(Article.Article("images/menu/menu_shop/item1_gold_skin", 70, 160, self.player, 0, True))
+        menuShop.addButton(Article.Article("images/menu/menu_shop/item2_basic_weapon_lvl2", 70, 300, self.player, 1))
+        menuShop.addButton(Article.Article("images/menu/menu_shop/item3_xtreme_weapon_lvl1", 70, 440, self.player, 2))
+        menuShop.addButton(Article.Article("images/menu/menu_shop/item4_xtreme_weapon_lvl2", 70, 580, self.player, 3))
+        menuShop.addButton(Article.Article("images/menu/menu_shop/item5_booster", 70, 720, self.player, 3))
+        menuShop.addButton(Article.Article("images/menu/menu_shop/item6_spoiler", 70, 860, self.player, 3))
         menuShop.afficher()
   
   
-##### BOUTONS SHOP #####    
-class BoutonGoldShip(Bouton): 
-    def __init__(self, image, imageAlt, x, y, isSelected=False):
-        Bouton.__init__(self, image, x, y, isSelected)
-        self.imageAlt = pygame.image.load(imageAlt)
-    def action(self):
-        print " "
+
 
 ##### BOUTONS MENU PAUSE #####
 class BoutonReprendre(Bouton): 
