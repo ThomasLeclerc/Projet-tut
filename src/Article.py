@@ -1,7 +1,7 @@
 import pygame
 
 class Article(pygame.sprite.Sprite):
-    def __init__(self,imageFileName, x, y, player, positionShopStateList, isSelected=False):
+    def __init__(self,imageFileName, x, y, player, positionShopStateList, price, isSelected=False):
         pygame.sprite.Sprite.__init__(self)
         self.player=player
         self.positionShopStateList = positionShopStateList
@@ -13,6 +13,7 @@ class Article(pygame.sprite.Sprite):
             self.isSold = True
         self.setImg(imageFileName, x, y)
         self.isSelected=isSelected
+        self.price = price
         
         
     def setImg(self, imageFileName, x, y):

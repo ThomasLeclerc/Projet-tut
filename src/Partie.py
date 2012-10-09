@@ -473,7 +473,7 @@ class Partie:
                             monVaisseau.inBreak=True
                     # ECHAPE
                     elif event.key == pygame.K_ESCAPE:
-                        menuPause = Menu.menuPause("images/menu/menu_pause/background_menu_pause.png")
+                        menuPause = Menu.menuPause("images/menu/menu_pause/background_menu_pause.png", self.player)
                         menuPause.addButton(Bouton.BoutonReprendre("images/menu/menu_pause/reprendre.png", 133, 176, True))
                         menuPause.addButton(Bouton.BoutonMenuPrincipal("images/menu/menu_pause/menu_principal.png", 154, 292, self.player))
                         menuPause.afficher(screen, self)
