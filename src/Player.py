@@ -19,7 +19,13 @@ class Player:
         self.musicOn = True
         self.name = "Player"
         '''contenu de la liste shopStateList:
-        goldskin,basicWeapLvl2,ExtremWeapLvl1,ExtremWeapLvl2,Booster,Spoiler,AdditionalMissile
+        0:goldskin
+        1:basicWeapLvl2
+        2:ExtremWeapLvl1
+        3:ExtremWeapLvl2
+        4:Booster
+        5:Spoiler
+        6:AdditionalMissile
            etat de larticle :
         -1 non dispo ; 0 dispo ; 1 achete'''
         self.shopStateList = [0,0,-1,-1,0,-1,-1]

@@ -406,6 +406,17 @@ class Partie:
         monVaisseau = Ship.ship([20, 0])
         monVaisseau.raiseChaleurMax(self.player.additionalMissiles)
         
+        '''self.player.updateShopStateList(3,1)'''
+
+        if self.player.shopStateList[3]==1:
+            monVaisseau.versionCanon=4
+        elif self.player.shopStateList[2]==1:
+            monVaisseau.versionCanon=3
+        elif self.player.shopStateList[1]==1:
+            monVaisseau.versionCanon=2
+        else:
+            monVaisseau.versionCanon=1
+        
         ##### MUSIQUE #####
         if self.player.musicOn:
             self.music.play(-1)
