@@ -32,3 +32,15 @@ class obstacle(pygame.sprite.Sprite):
         
     def estTouche(self, spr):
         return (pygame.sprite.collide_circle(self, spr))
+
+class obstacleRecord(obstacle):
+    def __init__(self,x , y,image):
+        pygame.sprite.Sprite.__init__(self)
+        self.setImg(image)
+        self.rect.left = x
+        self.rect.top = y
+        self.radius=self.image.get_width()/2 - 5
+        self.next_update_time = 0
+    def setImg(self,image):
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
