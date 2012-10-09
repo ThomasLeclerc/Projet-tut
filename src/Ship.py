@@ -8,7 +8,7 @@ class ship(pygame.sprite.Sprite):
     switch=0
     animSwitch=2
     chaleurMissile=33
-    chaleurMax=200
+    chaleurMax=100
     chaleur=0
     charge=0
     inCharge=False

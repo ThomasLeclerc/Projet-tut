@@ -81,12 +81,11 @@ class Partie:
     '''Fonction qui gere l'apparition aleatoire de tous les ennemis'''
     def creerEnnemi(self, width, height, level, monVaisseau):
         if random.randint(0, level) > 2+level/4:
-            self.creerSnakes(width, height, int(monVaisseau.chaleurMax/60))
+            self.creerSnakes(width, height, random.randint(6,10))
         if random.randint(0, level) > 4+level/4:
             self.creerShooters(width, height)
         if random.randint(0, level) > 2+level/4:
             self.creerAleatoires(width, height)
-        
     '''Apparition aleatoire des asteroides'''
     def creerObstacle(self, width, height, level):
         y = random.randint(10, height)
@@ -144,7 +143,6 @@ class Partie:
             pygame.display.update()
     '''Fonction qui gere les collisions'''
     def Collisions(self, monVaisseau, animObj, screen):
-
         #test des self.missiles contre snakes
         for monMissile in self.missiles:
             for snakeTemp in self.snakes:
@@ -185,9 +183,7 @@ class Partie:
                     self.aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
-                    break
-
-                    
+                    break   
         for obsTemp in self.obstacles:
             for monMissile in self.missilesShooter:
                 if obsTemp.estTouche(monMissile):
@@ -223,12 +219,10 @@ class Partie:
                     self.aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))             
-                    
             if monVaisseau.isBonusShield != True:                                 
             #test du ship contre les ennemis
                 if monVaisseau.estTouche(obsTemp):
                     monVaisseau.enVie = False
-            
         for snakeTemp in self.snakes:
             if monVaisseau.estTouche(snakeTemp):
                 monVaisseau.raiseScore(1)
@@ -240,7 +234,6 @@ class Partie:
                 animObj.blit(screen, (x,y))
                 if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
-        
         for shooterTemp in self.shooters:
             if monVaisseau.estTouche(shooterTemp):
                 (x,y) = shooterTemp.getPos()
@@ -255,7 +248,6 @@ class Partie:
                 animObj.blit(screen, (x,y))
                 if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
-        
         for aleaTemp in self.aleatoires:
             if monVaisseau.estTouche(aleaTemp):
                 (x,y) = aleaTemp.getPos()
@@ -267,13 +259,11 @@ class Partie:
                 animObj.blit(screen, (x,y))
                 if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
-        
         for self.missileshooterTemp in self.missilesShooter:
             if monVaisseau.estTouche(self.missileshooterTemp):
                 if not monVaisseau.isBonusShield:
                     monVaisseau.enVie = False
                 self.missilesShooter.remove(self.missileshooterTemp)
-
         #test vaisseau contre self.bonus
         for self.bonusTemp in self.bonus:
             if monVaisseau.estTouche(self.bonusTemp):
@@ -284,9 +274,6 @@ class Partie:
                 self.bonusTemp.action(self.bonus,pygame.time.get_ticks())
             else:
                 self.bonusTemp.action(self.bonus,pygame.time.get_ticks())
-                    
-                
-           
         #test vaisseau contre pieces de monnaie
         for coinTemp in self.coins:
             if monVaisseau.estTouche(coinTemp):
