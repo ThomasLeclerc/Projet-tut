@@ -11,10 +11,10 @@ S'Player'
 p4
 sS'money'
 p5
-I124
+I3447
 sS'record'
 p6
-I94
+I179
 sS'shopStateList'
 p7
 (lp8

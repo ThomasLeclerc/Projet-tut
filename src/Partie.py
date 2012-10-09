@@ -36,6 +36,7 @@ class Partie:
         self.missilesShooter = pygame.sprite.Group()
         self.bonus = pygame.sprite.Group()
         self.coins = pygame.sprite.Group()
+        self.isRecordBattu = False
 
     def creerSnakes(self,width, height, nombre=0):
         positionChaine = random.randint(100,height-180)
@@ -327,6 +328,13 @@ class Partie:
         for b in self.bonus.sprites():
             if b.isVisible:
                 screen.blit(b.image,b.rect)
+        #blits record
+        police = pygame.font.Font(None, 40)
+        if not self.isRecordBattu:
+            texte = police.render("record : "+str(self.player.record), 1, (254,50,100))
+        else:
+            texte = police.render("record : "+str(distance), 1, (100,255,100))
+        screen.blit(texte, (width - 250, height - 150))       
         #blits score
         screen.blit(pygame.image.load("images/ingame/Coin.png"), (width-200, height-100))
         police = pygame.font.Font(None, 60)
@@ -484,6 +492,9 @@ class Partie:
                 if distance+35==self.player.record:
                     self.creerObstacle(width, height, -1)
                     isRecordBattu=True
+            if not self.isRecordBattu:
+                if distance>self.player.record:
+                    self.isRecordBattu=True
             
             self.Mouvements(screen, width, height, monVaisseau)
             self.Collisions(monVaisseau, animObj, screen)
