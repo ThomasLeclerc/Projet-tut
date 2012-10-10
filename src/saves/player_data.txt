@@ -7,7 +7,7 @@ p2
 I01
 sS'record'
 p3
-I0
+I48
 sS'musicOn'
 p4
 I01
