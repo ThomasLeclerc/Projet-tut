@@ -441,10 +441,7 @@ class Partie:
             deltat = clock.tick(FRAMES_PER_SECOND)
             '''APPUYER SUR ENTRER POUR COMMENCER'''
             while menuStartOn:
-                purisa = pygame.font.match_font('Purisa')
-                policeTitre = pygame.font.Font(purisa, 40)
-                titre = policeTitre.render("APPUYER SUR ENTRER",1,(50,0,200))
-                screen.blit(titre,(100,100))
+                screen.blit(pygame.image.load("images/menu/menu_start_game/background_start_menu.jpeg"),(0,10))
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT: sys.exit()
@@ -452,8 +449,13 @@ class Partie:
                         if event.key == pygame.K_RETURN:
                             menuStartOn=False
                         elif event.key == pygame.K_ESCAPE:
-                            sys.exit()
-                            
+                            ecranAccueil = Menu.Menu("images/menu/menu.jpg", self.player)
+                            ecranAccueil.addButton(Bouton.BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, self.player, True))
+                            ecranAccueil.addButton(Bouton.BoutonOption("images/menu/menu_principal/titles/option.png",0, 340, self.player))
+                            ecranAccueil.addButton(Bouton.BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
+                            ecranAccueil.addButton(Bouton.BoutonQuit("images/menu/menu_principal/titles/quit.png",0, 485))
+                            ecranAccueil.afficher()
+                                
             
             ''' COMMANDES CLAVIER '''
             for event in pygame.event.get():
@@ -480,8 +482,8 @@ class Partie:
                     # ECHAPE
                     elif event.key == pygame.K_ESCAPE:
                         menuPause = Menu.menuPause("images/menu/menu_pause/background_menu_pause.png", self.player)
-                        menuPause.addButton(Bouton.BoutonReprendre("images/menu/menu_pause/reprendre.png", 133, 176, True))
-                        menuPause.addButton(Bouton.BoutonMenuPrincipal("images/menu/menu_pause/menu_principal.png", 154, 292, self.player))
+                        menuPause.addButton(Bouton.BoutonReprendre("images/menu/menu_pause/reprendre.png", 445, 410, True))
+                        menuPause.addButton(Bouton.BoutonMenuPrincipal("images/menu/menu_pause/menu_principal.png", 474, 447, self.player))
                         menuPause.afficher(screen, self)
                 ##### RELACHE TOUCHE #####
                 elif event.type == pygame.KEYUP:

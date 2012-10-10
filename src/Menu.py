@@ -140,7 +140,7 @@ class menuPause(Menu):
                             partie.music.stop() 
                             self.boutons[self.idSelectedButton].action()
                     elif event.key == pygame.K_ESCAPE:
-                            self.boutons[0].action()
+                            repriseOn = True
                     self.boutons[self.idSelectedButton].setSelected(True)
             self.blits(screen)
             pygame.display.update()
