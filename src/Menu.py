@@ -153,7 +153,7 @@ class menuShop(Menu):
         self.image=pygame.image.load(filename)
         police = pygame.font.Font(None, 43)
         texte = police.render("Your money : "+str(self.player.money), 1, (210, 210, 1))
-        self.image.blit(texte, (350, 100))
+        self.image.blit(texte, (370, 100))
         
     def blits(self, screen):
         screen.blit(self.image,(0,0))
@@ -162,10 +162,11 @@ class menuShop(Menu):
                 if bouton.isSelected:
                     if bouton.isAvailable == False:
                         screen.blit(bouton.image2, bouton.rect)
-                    elif bouton.isSold:
-                        screen.blit(bouton.image3,bouton.rect)
                     else:
-                        screen.blit(bouton.image1,bouton.rect)
+                        if bouton.isSold:
+                            screen.blit(bouton.image3,bouton.rect)
+                        else:
+                            screen.blit(bouton.image1,bouton.rect)
                 else:
                     if bouton.isSold:
                         screen.blit(bouton.image5,bouton.rect)
