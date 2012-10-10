@@ -15,7 +15,6 @@ class Article(pygame.sprite.Sprite):
         self.price = price
         self.setImg(imageFileName, x, y)
         self.isSelected=isSelected
-        print self.isSold
         
         
     def setImg(self, imageFileName, x, y):

@@ -103,12 +103,18 @@ class Partie:
         explosion = pyganim.PygAnimation(imagesTemp, loop=False)
         explosion.play()
         self.music.stop()
+        #record
+        if distance > self.player.record :
+            self.player.record=distance 
+        #argent total du joueur
+        self.player.money += monVaisseau.money
+        self.player.save()
         while(1):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        ecranAccueil = Menu.Menu("images/menu/menu.jpg")
+                        ecranAccueil = Menu.Menu("images/menu/menu.jpg", self.player)
                         ecranAccueil.addButton(Bouton.BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, self.player, True))
                         ecranAccueil.addButton(Bouton.BoutonOption("images/menu/menu_principal/titles/option.png",0, 340, self.player))
                         ecranAccueil.addButton(Bouton.BoutonCredits("images/menu/menu_principal/titles/credits.png",0, 415))
@@ -132,12 +138,7 @@ class Partie:
             policeDistance = pygame.font.Font(None, 80)
             titre = policeDistance.render("distance : "+str(distance)+" m",1,(254,0,0))
             screen.blit(titre,(200,height/2))
-            #record
-            if distance > self.player.record :
-                self.player.record=distance 
-            #argent total du joueur
-            self.player.money += monVaisseau.money
-            self.player.save()
+            
             
             titreRec = policeDistance.render("record : "+str(self.player.record)+" m",1,(254,0,0))
             screen.blit(titreRec,(200,(height/2)+60))
