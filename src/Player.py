@@ -12,7 +12,7 @@ class Player:
     6:AdditionalMissile
        etat de larticle :
     -1 non dispo ; 0 dispo ; 1 achete'''
-    shopStateList=[0,0,-1,-1,0,0,-1]
+    shopStateList=[0,0,-1,-1,0,-1,-1]
     def __init__(self):
         self.record = 0
         self.money = 0

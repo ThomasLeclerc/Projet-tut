@@ -64,10 +64,10 @@ class Article(pygame.sprite.Sprite):
         self.isSelected=isSelected
     
     def action(self):
+        print self.player.shopStateList[self.positionShopStateList]
         if self.player.shopStateList[self.positionShopStateList] == 0:
             if self.player.money - self.price >= 0:
                 self.player.updateShopStateList(self.positionShopStateList,1)
-                print "bite"
                 self.player.money -= self.price
                 if self.positionShopStateList < 6 and self.player.shopStateList[self.positionShopStateList + 1]==-1:
                     self.player.updateShopStateList(self.positionShopStateList+1 ,0)

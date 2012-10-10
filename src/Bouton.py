@@ -127,8 +127,8 @@ class BoutonShop(Bouton):
         menuShop.addButton(Article.Article("images/menu/menu_shop/item2_basic_weapon_lvl2", 70, 300, self.player, 1, 1000))
         menuShop.addButton(Article.Article("images/menu/menu_shop/item3_xtreme_weapon_lvl1", 70, 440, self.player, 2, 2000))
         menuShop.addButton(Article.Article("images/menu/menu_shop/item4_xtreme_weapon_lvl2", 70, 580, self.player, 3, 5000))
-        menuShop.addButton(Article.Article("images/menu/menu_shop/item5_booster", 70, 720, self.player, 3, 500))
-        menuShop.addButton(Article.Article("images/menu/menu_shop/item6_spoiler", 70, 860, self.player, 3, 750))
+        menuShop.addButton(Article.Article("images/menu/menu_shop/item5_booster", 70, 720, self.player, 4, 500))
+        menuShop.addButton(Article.Article("images/menu/menu_shop/item6_spoiler", 70, 860, self.player, 5, 750))
         menuShop.afficher()
   
   

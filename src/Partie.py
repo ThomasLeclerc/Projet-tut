@@ -417,6 +417,11 @@ class Partie:
             monVaisseau.versionCanon=2
         else:
             monVaisseau.versionCanon=1
+            
+        if self.player.shopStateList[4]==1:
+            monVaisseau.boosterOn = True
+            if self.player.shopStateList[5]==1:
+                monVaisseau.spoilerOn = True
         
         ##### MUSIQUE #####
         if self.player.musicOn:

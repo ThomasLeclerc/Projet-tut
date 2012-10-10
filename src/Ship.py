@@ -20,6 +20,8 @@ class ship(pygame.sprite.Sprite):
     isBonusAmmo = False
     isBonusShield = False
     versionCanon = 1
+    boosterOn = False
+    spoilerOn = False
     score = 0
     
     def __init__(self, position_initiale):
@@ -47,11 +49,19 @@ class ship(pygame.sprite.Sprite):
     
     def setImg(self, imageFile):
         self.image =  pygame.image.load(imageFile)
+        
     '''prend le nbre de missiles A ajouter'''    
     def raiseChaleurMax(self, nbMissiles):
         self.chaleurMax+=(33*nbMissiles)
+        
     def setVersionCanon(self,version):
         self.versionCanon = version
+        
+    def setBoosterOn(self,valeur):
+        self.boosterOn = valeur
+        
+    def setSpoilerOn(self,valeur):
+        self.spoilerOn = valeur
      
     def raiseScore(self, nombre):
         self.score += nombre 
@@ -104,15 +114,17 @@ class ship(pygame.sprite.Sprite):
                     self.setImg(file1)
                     self.switch=0 
             #mouvement horizontal (boost)
-            if self.inBoost:
-                if self.rect.left < 800:
-                    self.rect.left += 10
-            else:
-                if self.inBreak:
-                    if self.rect.left-10 > 0:
-                        self.rect.left -= 10
-                if self.rect.left-6 > 0:
-                    self.rect.left -= 6
+            if self.boosterOn:
+                if self.inBoost:
+                    if self.rect.left < 800:
+                        self.rect.left += 10
+                else:
+                    if self.spoilerOn:
+                        if self.inBreak:
+                            if self.rect.left-10 > 0:
+                                self.rect.left -= 10
+                        if self.rect.left-6 > 0:
+                            self.rect.left -= 6
                 
             #blockage du vaisseau dans la fenetre
             if self.rect.top < 0:
