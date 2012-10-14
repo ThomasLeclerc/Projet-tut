@@ -7,7 +7,7 @@ p2
 I01
 sS'record'
 p3
-I146
+I479
 sS'musicOn'
 p4
 I01
@@ -17,5 +17,5 @@ S'Player'
 p6
 sS'money'
 p7
-I10
+I376
 sb.

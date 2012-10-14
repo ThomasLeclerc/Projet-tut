@@ -16,6 +16,7 @@ import random
 import Bonus
 import Menu
 import Bouton
+import time
 
 ''' CLASSE '''
 class Partie:  
@@ -26,7 +27,8 @@ class Partie:
     ''  ainsi que les coefiscients pour un deplacement en droite '''
     def __init__(self, player):
         self.player = player
-        self.music = pygame.mixer.Sound("sounds/music.wav")
+        self.music = pygame.mixer.Sound("sounds/music_before_record.wav")
+        self.musicAfterRecord = pygame.mixer.Sound("sounds/music_after_record.wav")
         ##### GROUPES DE SPRITE #####
         self.missiles = pygame.sprite.Group()
         self.snakes = pygame.sprite.Group()
@@ -103,6 +105,7 @@ class Partie:
         explosion = pyganim.PygAnimation(imagesTemp, loop=False)
         explosion.play()
         self.music.stop()
+        self.musicAfterRecord.stop()
         #record
         if distance > self.player.record :
             self.player.record=distance 
@@ -430,6 +433,8 @@ class Partie:
         menuStartOn=True
         
         quitterVersMenuPrincipal = False
+        
+        musicAfterRecord = False
         '''################################################################## ''
         ''   BOUCLE DE JEU                                                    ''
         ''      (img par img)                                                 ''
@@ -514,6 +519,14 @@ class Partie:
             if not self.isRecordBattu:
                 if distance>self.player.record:
                     self.isRecordBattu=True
+            if self.player.musicOn:
+                if distance == self.player.record:
+                    self.music.stop()
+                    if musicAfterRecord == False:
+                        pygame.mixer.Sound("sounds/record_beaten.wav").play()
+                        self.musicAfterRecord.play(-1)
+                        musicAfterRecord = True
+                
             
             self.Mouvements(screen, width, height, monVaisseau)
             self.Collisions(monVaisseau, animObj, screen)
