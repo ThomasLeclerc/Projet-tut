@@ -74,13 +74,11 @@ class Partie:
         self.aleatoires.add(Ennemi.Aleatoire(width, height/2))
         
     def creerBonus(self, ship, width, height):
-        r = random.randint(1,3)
+        r = random.randint(1,2)
         if r == 1:
             self.bonus.add(Bonus.BonusAmmo(width,height,ship))
         elif r == 2:
             self.bonus.add(Bonus.BonusShield(width,height,ship))
-        elif r == 3:
-            self.bonus.add(Bonus.BonusGunV2(width,height,ship))
     '''Fonction qui gere l'apparition aleatoire de tous les ennemis'''
     def creerEnnemi(self, width, height, level, monVaisseau):
         if random.randint(0, level) > 2+level/4:
@@ -101,6 +99,7 @@ class Partie:
 
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
         monVaisseau.son.stop()
+        pygame.mixer.Sound("sounds/shipBoom.wav").play()
         imagesTemp = [(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), 0.1) for compt in range(1,9)]
         explosion = pyganim.PygAnimation(imagesTemp, loop=False)
         explosion.play()
@@ -224,11 +223,15 @@ class Partie:
                     aleaTemp.son.play()
                     self.aleatoires.remove(aleaTemp)
                     animObj.play()
-                    animObj.blit(screen, (x,y))             
+                    animObj.blit(screen, (x,y))
+            #test du ship contre les ennemis             
             if monVaisseau.isBonusShield != True:                                 
-            #test du ship contre les ennemis
                 if monVaisseau.estTouche(obsTemp):
                     monVaisseau.enVie = False
+            #test des pieces contre obstacles
+            for coinTemp in self.coins:
+                if obsTemp.estTouche(coinTemp):
+                    self.coins.remove(coinTemp)
         for snakeTemp in self.snakes:
             if monVaisseau.estTouche(snakeTemp):
                 monVaisseau.raiseScore(1)

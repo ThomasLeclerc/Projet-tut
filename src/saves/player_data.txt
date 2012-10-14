@@ -17,5 +17,5 @@ S'Player'
 p6
 sS'money'
 p7
-I376
+I481
 sb.
