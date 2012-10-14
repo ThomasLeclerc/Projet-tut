@@ -73,10 +73,11 @@ class BoutonSound(Bouton):
         self.imageNon = pygame.image.load("images/menu/menu_option/off.png")
         self.player = player      
     def action(self):
-        if self.player.sound: self.player.sound = False
+        if self.player.soundOn: 
+            self.player.soundOn = False
         else: 
-            self.player.sound = True
-            self.player.save()
+            self.player.soundOn = True
+        self.player.save()
         
 class BoutonMusic(Bouton): 
     def __init__(self, image, x, y, player, isSelected=False):
@@ -87,7 +88,7 @@ class BoutonMusic(Bouton):
         if self.player.musicOn: self.player.musicOn = False
         else: 
             self.player.musicOn = True
-            self.player.save()
+        self.player.save()
 
 class BoutonReinitialiser(Bouton): 
     def __init__(self, image, x, y, player, isSelected=False):

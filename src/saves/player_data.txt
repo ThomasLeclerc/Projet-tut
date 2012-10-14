@@ -2,12 +2,12 @@
 Player
 p0
 (dp1
-S'sound'
+S'record'
 p2
-I01
-sS'record'
+I231
+sS'soundOn'
 p3
-I479
+I01
 sS'musicOn'
 p4
 I01
@@ -17,5 +17,5 @@ S'Player'
 p6
 sS'money'
 p7
-I481
+I87
 sb.

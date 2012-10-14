@@ -26,7 +26,7 @@ class Player:
         #self.advancedGunEvolution1On = False
         #self.advancedGunEvolution2On = False
         #parametres generaux du jeu
-        self.sound = True
+        self.soundOn = True
         self.musicOn = True
         self.name = "Player"
        

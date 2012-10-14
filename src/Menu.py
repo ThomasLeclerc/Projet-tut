@@ -80,7 +80,7 @@ class menuOption(Menu):
     def blits(self, screen):
         screen.blit(self.image,(0,0))
         if self.boutons[0].isSelected:
-            if self.player.sound:
+            if self.player.soundOn:
                 screen.blit(self.boutons[0].image, self.boutons[0].rect)
             else:
                 screen.blit(self.boutons[0].imageNon, (self.boutons[0].rect.left+93,self.boutons[0].rect.top))

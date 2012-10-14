@@ -99,7 +99,8 @@ class Partie:
 
     def gameOver(self, (x, y), screen, distance, height, monVaisseau):
         monVaisseau.son.stop()
-        pygame.mixer.Sound("sounds/shipBoom.wav").play()
+        if self.player.soundOn:
+            pygame.mixer.Sound("sounds/shipBoom.wav").play()
         imagesTemp = [(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), 0.1) for compt in range(1,9)]
         explosion = pyganim.PygAnimation(imagesTemp, loop=False)
         explosion.play()
@@ -156,7 +157,8 @@ class Partie:
                     (x,y) = snakeTemp.getPos()
                     snakeTemp.creerCoin(self.coins)
                     self.missiles.remove(monMissile)
-                    snakeTemp.son.play()
+                    if self.player.soundOn:
+                        snakeTemp.son.play()
                     self.snakes.remove(snakeTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
@@ -172,7 +174,8 @@ class Partie:
                         if 100-r < 40:
                             self.creerBonus(monVaisseau, x-10, y+20)
                         shooterTemp.creerCoin(self.coins)
-                        shooterTemp.son.play()
+                        if self.player.soundOn:
+                            shooterTemp.son.play()
                         self.shooters.remove(shooterTemp)
                         monVaisseau.raiseScore(2)
                     animObj.play()
@@ -184,7 +187,8 @@ class Partie:
                     aleaTemp.creerCoin(self.coins)
                     monVaisseau.raiseScore(1)
                     self.missiles.remove(monMissile)
-                    aleaTemp.son.play()
+                    if self.player.soundOn:
+                        aleaTemp.son.play()
                     self.aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
@@ -204,7 +208,8 @@ class Partie:
             for snakeTemp in self.snakes:
                 if obsTemp.estTouche(snakeTemp):
                     (x,y) = snakeTemp.getPos()
-                    snakeTemp.son.play()
+                    if self.player.soundOn:
+                        snakeTemp.son.play()
                     self.snakes.remove(snakeTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y)) 
@@ -212,7 +217,8 @@ class Partie:
             for shooterTemp in self.shooters:
                 if obsTemp.estTouche(shooterTemp):
                     (x,y) = shooterTemp.getPos()
-                    shooterTemp.son.play()
+                    if self.player.soundOn:
+                        shooterTemp.son.play()
                     self.shooters.remove(shooterTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))  
@@ -220,7 +226,8 @@ class Partie:
             for aleaTemp in self.aleatoires:
                 if obsTemp.estTouche(aleaTemp):
                     (x,y) = aleaTemp.getPos()
-                    aleaTemp.son.play()
+                    if self.player.soundOn:
+                        aleaTemp.son.play()
                     self.aleatoires.remove(aleaTemp)
                     animObj.play()
                     animObj.blit(screen, (x,y))
@@ -237,7 +244,8 @@ class Partie:
                 monVaisseau.raiseScore(1)
                 (x,y) = snakeTemp.getPos()
                 snakeTemp.creerCoin(self.coins)
-                snakeTemp.son.play()
+                if self.player.soundOn:
+                    snakeTemp.son.play()
                 self.snakes.remove(snakeTemp)
                 animObj.play()
                 animObj.blit(screen, (x,y))
@@ -250,7 +258,8 @@ class Partie:
                 if 100-r < 40:
                     self.creerBonus(monVaisseau, x, y)
                 shooterTemp.creerCoin(self.coins)
-                shooterTemp.son.play() 
+                if self.player.soundOn:
+                    shooterTemp.son.play() 
                 self.shooters.remove(shooterTemp)
                 monVaisseau.raiseScore(2)
                 animObj.play()
@@ -262,7 +271,8 @@ class Partie:
                 (x,y) = aleaTemp.getPos()
                 aleaTemp.creerCoin(self.coins)
                 monVaisseau.raiseScore(1)
-                aleaTemp.son.play()
+                if self.player.soundOn:
+                    aleaTemp.son.play()
                 self.aleatoires.remove(aleaTemp)
                 animObj.play()
                 animObj.blit(screen, (x,y))
@@ -287,7 +297,8 @@ class Partie:
         for coinTemp in self.coins:
             if monVaisseau.estTouche(coinTemp):
                 monVaisseau.money += 1
-                coinTemp.son.play()
+                if self.player.soundOn:
+                    coinTemp.son.play()
                 self.coins.remove(coinTemp)
     '''Fonction qui gere les mouvements de tous les objets'''
     def Mouvements(self, screen, width, height, monVaisseau):
@@ -410,7 +421,7 @@ class Partie:
         i=0
         isRecordBattu=False
         ##### JOUEUR #####
-        monVaisseau = Ship.ship([20, 0])
+        monVaisseau = Ship.ship([20, 0], self.player)
         monVaisseau.raiseChaleurMax(self.player.additionalMissiles)
         
         '''self.player.updateShopStateList(3,-1)'''
@@ -474,7 +485,8 @@ class Partie:
                     if event.key == pygame.K_UP:
                         if not monVaisseau.monte:
                             monVaisseau.monte=True
-                            monVaisseau.son.play(-1)
+                            if self.player.soundOn:
+                                monVaisseau.son.play(-1)
                     # ESPACE
                     elif event.key == pygame.K_SPACE:
                         if not monVaisseau.inCharge:

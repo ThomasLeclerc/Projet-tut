@@ -24,7 +24,7 @@ class ship(pygame.sprite.Sprite):
     spoilerOn = False
     score = 0
     
-    def __init__(self, position_initiale):
+    def __init__(self, position_initiale, player):
         pygame.sprite.Sprite.__init__(self)
         self.next_update_time = 0 # update() hasn't been called yet.
         self.position = position_initiale
@@ -33,6 +33,7 @@ class ship(pygame.sprite.Sprite):
         self.rect.topleft = self.position
         self.radius = self.image.get_height()/2 - 5
         self.son = pygame.mixer.Sound("sounds/shipAmbiance.wav")
+        self.player = player
 
     def enregistrerRecord(self,record):
         file1 = open('saves/sav.txt','w')
@@ -162,7 +163,8 @@ class ship(pygame.sprite.Sprite):
                     monMissile=Shot.shotShip(self.versionCanon,self.rect.left+40, self.rect.top-(nbShoot*30)+(60*m)+40, self.isBonusAmmo)
                     missiles.add(monMissile)
                     sound = pygame.mixer.Sound("sounds/rocket.wav")
-                    sound.play()                
+                    if self.player.soundOn:
+                        sound.play()                
                     if(self.chaleur+self.chaleurMissile<self.chaleurMax):
                         self.chaleur+=self.chaleurMissile
                     else:
