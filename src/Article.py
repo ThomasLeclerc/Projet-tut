@@ -64,20 +64,19 @@ class Article(pygame.sprite.Sprite):
         self.isSelected=isSelected
     
     def action(self):
-        print self.player.shopStateList[self.positionShopStateList]
         if self.player.shopStateList[self.positionShopStateList] == 0:
             if self.player.money - self.price >= 0:
-                self.player.updateShopStateList(self.positionShopStateList,1)
+                self.player.updateShopStateList(self.positionShopStateList, 1)
                 self.player.money -= self.price
-                if self.positionShopStateList < 6 and self.player.shopStateList[self.positionShopStateList + 1]==-1:
+                if (self.positionShopStateList < 6) and (self.player.shopStateList[self.positionShopStateList + 1]==-1):
                     self.player.updateShopStateList(self.positionShopStateList+1 ,0)
-                menuShop = Menu.menuShop("images/menu/menu_shop/background_menu_shop.jpg", self.player)
-                menuShop.addButton(Article("images/menu/menu_shop/item1_gold_skin", 70, 160, self.player, 0, 10000, True))
-                menuShop.addButton(Article("images/menu/menu_shop/item2_basic_weapon_lvl2", 70, 300, self.player, 1, 1000))
-                menuShop.addButton(Article("images/menu/menu_shop/item3_xtreme_weapon_lvl1", 70, 440, self.player, 2, 2000))
-                menuShop.addButton(Article("images/menu/menu_shop/item4_xtreme_weapon_lvl2", 70, 580, self.player, 3, 5000))
-                menuShop.addButton(Article("images/menu/menu_shop/item5_booster", 70, 720, self.player, 3, 500))
-                menuShop.addButton(Article("images/menu/menu_shop/item6_spoiler", 70, 860, self.player, 3, 750))
-                menuShop.afficher()
-                self.player.save()
+        menuShop = Menu.menuShop("images/menu/menu_shop/background_menu_shop.jpg", self.player)
+        menuShop.addButton(Article("images/menu/menu_shop/item1_gold_skin", 70, 160, self.player, 0, 10000, True))
+        menuShop.addButton(Article("images/menu/menu_shop/item2_basic_weapon_lvl2", 70, 300, self.player, 1, 1000))
+        menuShop.addButton(Article("images/menu/menu_shop/item3_xtreme_weapon_lvl1", 70, 440, self.player, 2, 2000))
+        menuShop.addButton(Article("images/menu/menu_shop/item4_xtreme_weapon_lvl2", 70, 580, self.player, 3, 5000))
+        menuShop.addButton(Article("images/menu/menu_shop/item5_booster", 70, 720, self.player, 4, 500))
+        menuShop.addButton(Article("images/menu/menu_shop/item6_spoiler", 70, 860, self.player, 5, 750))
+        menuShop.afficher()
+        
               

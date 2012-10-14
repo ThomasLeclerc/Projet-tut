@@ -12,7 +12,6 @@ class Player:
     6:AdditionalMissile
        etat de larticle :
     -1 non dispo ; 0 dispo ; 1 achete'''
-    shopStateList=[0,0,-1,-1,0,-1,-1]
     def __init__(self):
         self.record = 0
         self.money = 0
@@ -28,18 +27,17 @@ class Player:
         #parametres generaux du jeu
         self.soundOn = True
         self.musicOn = True
-        self.name = "Player"
+        self.shopStateList=[0,0,-1,-1,0,-1,0]
        
     def updateShopStateList(self,indice,newState):
         if indice in range(7):
             if newState in range(-1,2):
                 self.shopStateList[indice]=newState
+                self.save()
             else:
                 print "usage : updateShopStateList(indice,nouvelEtat)"
-        print "usage : updateShopStateList(indice,nouvelEtat)"
         
-    def setName(self, name):
-        self.name = name
+
     
     def save(self):
         f = open("saves/player_data.txt", 'wb')
