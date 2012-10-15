@@ -145,7 +145,7 @@ class Aleatoire(Ennemy):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:    
             self.rect.left -= 12
-            if (self.rect.left)%30 == 0:
+            if (self.rect.left)%20 == 0:
                 self.sens = random.randint(0,1)
             if self.sens == 0:
                 if self.rect.top > height-20:
