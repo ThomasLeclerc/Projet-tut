@@ -9,11 +9,11 @@ sS'shopStateList'
 p3
 (lp4
 I0
-aI1
 aI0
 aI-1
-aI1
+aI-1
 aI0
+aI-1
 aI0
 asS'soundOn'
 p5
@@ -23,5 +23,5 @@ p6
 I01
 sS'money'
 p7
-I8500
+I0
 sb.
