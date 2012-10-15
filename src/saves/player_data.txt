@@ -4,7 +4,7 @@ p0
 (dp1
 S'record'
 p2
-I0
+I158
 sS'shopStateList'
 p3
 (lp4
@@ -23,5 +23,5 @@ p6
 I01
 sS'money'
 p7
-I0
+I23
 sb.
