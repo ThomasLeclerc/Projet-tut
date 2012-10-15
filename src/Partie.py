@@ -39,6 +39,8 @@ class Partie:
         self.bonus = pygame.sprite.Group()
         self.coins = pygame.sprite.Group()
         self.isRecordBattu = False
+        #necessaire pour afficher plusieurs fois l'animation ReachedRecord
+        self.afficherReachedRecord = 0
 
     def creerSnakes(self,width, height, nombre=0):
         positionChaine = random.randint(100,height-180)
@@ -321,7 +323,7 @@ class Partie:
         ##### MOUVEMENT DES PIECES DE MONNAIE #####
         self.coins.update(pygame.time.get_ticks())
     '''Fonction qui gere les blits de tous les objets'''
-    def Blits(self, width, height, screen, distance, monVaisseau):
+    def Blits(self, width, height, screen, distance, monVaisseau, anim):
         #jauge tir
         imgJauge = pygame.image.load("images/ingame/gauge.png")
         screen.blit(imgJauge, (1,10))
@@ -372,7 +374,12 @@ class Partie:
             imgShield = pygame.image.load("images/bonus/Shield.png")
             (x,y) = monVaisseau.getPos()
             screen.blit(imgShield, (x,y-10))
-
+        if self.afficherReachedRecord%10:
+            anim.play()
+            anim.blit(screen, (312, 200))
+        if self.afficherReachedRecord != 0:
+            self.afficherReachedRecord -= 1
+    
     def supprimerObjets(self, width):
         for snakeTemp in self.snakes:
             (x, _) = snakeTemp.getPos()
@@ -417,6 +424,8 @@ class Partie:
         imagesTemp = [(pygame.transform.scale(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), (70, 70)), 0.6) for compt in range(2,6)]
         animObj = pyganim.PygAnimation(imagesTemp, loop=False)
         animObj.play()
+        imagesTemp = [(pygame.image.load("images/ingame/reachedRecord3.png"), 0.15), (pygame.image.load("images/ingame/reachedRecord2.png"),0.15), (pygame.image.load("images/ingame/reachedRecord1.png"),0.4)]
+        animReachedRecord = pyganim.PygAnimation(imagesTemp, loop=False)
         ##### IMAGES DU BACKGROUND #####
         background = pygame.image.load("images/background/background.jpg")
         i=0
@@ -537,6 +546,7 @@ class Partie:
                     self.isRecordBattu=True
             if self.player.musicOn:
                 if distance == self.player.record:
+                    self.afficherReachedRecord = 40
                     self.music.stop()
                     if musicAfterRecord == False:
                         pygame.mixer.Sound("sounds/record_beaten.wav").play()
@@ -546,7 +556,7 @@ class Partie:
             
             self.Mouvements(screen, width, height, monVaisseau)
             self.Collisions(monVaisseau, animObj, screen)
-            self.Blits(width, height, screen, distance, monVaisseau)
+            self.Blits(width, height, screen, distance, monVaisseau, animReachedRecord)
             self.supprimerObjets(width)
             #incrementation du compteur generale de distance et creation d'ennemis et d'self.obstacles
             if distanceTemp != 4:

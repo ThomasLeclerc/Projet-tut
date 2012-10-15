@@ -4,7 +4,7 @@ p0
 (dp1
 S'record'
 p2
-I317
+I594
 sS'shopStateList'
 p3
 (lp4
@@ -20,8 +20,8 @@ p5
 I01
 sS'musicOn'
 p6
-I00
+I01
 sS'money'
 p7
-I158
+I286
 sb.
