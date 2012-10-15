@@ -123,7 +123,7 @@ class ship(pygame.sprite.Sprite):
                     if self.inBreak:
                         if self.spoilerOn:
                             if self.rect.left-10 > 0:
-                                self.rect.left -= 10
+                                self.rect.left -= 15
                     else:
                         if self.rect.left-6 > 0:
                             self.rect.left -= 6

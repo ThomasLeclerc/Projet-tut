@@ -95,7 +95,7 @@ class Partie:
             self.obstacles.add(Obstacle.obstacleRecord(width, random.randint(10,height-200),"images/ingame/record/asteroid_crash_1.png"))
         else:
             y = random.randint(10, height)
-            if random.randint(0, level) > int(level/4):
+            if random.randint(0, level) > 2+int(level/2):
                 typeObstacle = random.randint(1,5)
                 self.obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
 
@@ -423,7 +423,6 @@ class Partie:
         ##### EXPLOSIONS #####
         imagesTemp = [(pygame.transform.scale(pygame.image.load("images/ingame/explosion/explosion"+str(compt)+".png"), (70, 70)), 0.6) for compt in range(2,6)]
         animObj = pyganim.PygAnimation(imagesTemp, loop=False)
-        animObj.play()
         imagesTemp = [(pygame.image.load("images/ingame/reachedRecord3.png"), 0.15), (pygame.image.load("images/ingame/reachedRecord2.png"),0.15), (pygame.image.load("images/ingame/reachedRecord1.png"),0.4)]
         animReachedRecord = pyganim.PygAnimation(imagesTemp, loop=False)
         ##### IMAGES DU BACKGROUND #####
@@ -455,8 +454,6 @@ class Partie:
             self.music.play(-1)
         ##### MENU COMMENCER #####
         menuStartOn=True
-        
-        quitterVersMenuPrincipal = False
         
         musicAfterRecord = False
         '''################################################################## ''
