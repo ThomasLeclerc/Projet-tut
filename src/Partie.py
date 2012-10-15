@@ -407,6 +407,7 @@ class Partie:
         ##### PARAMETRES DE LA FENETRE #####
         size = width, height = 1024,768
         screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+        pygame.mouse.set_visible(False)
         ##### COMPTEURS #####
         distanceTemp = 0
         distance = 2
