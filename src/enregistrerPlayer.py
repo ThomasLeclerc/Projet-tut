@@ -6,5 +6,5 @@ Created on 14 oct. 2012
 import Player
 
 player = Player.Player()
-player.money = 5000
+player.money = 100000
 player.save()
