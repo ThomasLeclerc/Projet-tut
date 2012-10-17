@@ -130,6 +130,7 @@ class BoutonShop(Bouton):
         menuShop.addButton(Article.Article("images/menu/menu_shop/item4_xtreme_weapon_lvl2", 70, 580, self.player, 3, 5000))
         menuShop.addButton(Article.Article("images/menu/menu_shop/item5_booster", 70, 720, self.player, 4, 500))
         menuShop.addButton(Article.Article("images/menu/menu_shop/item6_spoiler", 70, 860, self.player, 5, 750))
+        menuShop.addButton(Article.ArticleMissile("images/menu/menu_shop/item7_missile", 70, 1000, self.player, 6, self.player.prixMissile))
         menuShop.afficher()
   
   

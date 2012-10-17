@@ -157,21 +157,29 @@ class menuShop(Menu):
         
     def blits(self, screen):
         screen.blit(self.image,(0,0))
-        for bouton in self.boutons:
-            if (bouton.rect.top+140 > 160)and(bouton.rect.top < 710):
-                if bouton.isSelected:
-                    if bouton.isAvailable == False:
-                        screen.blit(bouton.image2, bouton.rect)
-                    else:
-                        if bouton.isSold:
-                            screen.blit(bouton.image3,bouton.rect)
+        for i in range(len(self.boutons)):
+            if (self.boutons[i].rect.top+140 > 160)and(self.boutons[i].rect.top < 710):
+                if i < len(self.boutons)-1:
+                    if self.boutons[i].isSelected:
+                        if self.boutons[i].isAvailable == False:
+                            screen.blit(self.boutons[i].image2, self.boutons[i].rect)
                         else:
-                            screen.blit(bouton.image1,bouton.rect)
-                else:
-                    if bouton.isSold:
-                        screen.blit(bouton.image5,bouton.rect)
+                            if self.boutons[i].isSold:
+                                screen.blit(self.boutons[i].image3,self.boutons[i].rect)
+                            else:
+                                screen.blit(self.boutons[i].image1,self.boutons[i].rect)
                     else:
-                        screen.blit(bouton.image4,bouton.rect)
+                        if self.boutons[i].isSold:
+                            screen.blit(self.boutons[i].image5,self.boutons[i].rect)
+                        else:
+                            screen.blit(self.boutons[i].image4,self.boutons[i].rect)
+                else:
+                    if self.boutons[i].isSelected:
+                        screen.blit(self.boutons[i].image1,self.boutons[i].rect)
+                    else:
+                        screen.blit(self.boutons[i].image2,self.boutons[i].rect)
+                        
+                
         pygame.display.update()
            
     def afficher(self):

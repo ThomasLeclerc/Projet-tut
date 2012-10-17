@@ -15,19 +15,11 @@ class Player:
     def __init__(self):
         self.record = 0
         self.money = 0
-        #ameliorations possedees
-        #self.goldShipOn = False
-        #self.propulseurHorizontalOn = False
-        #self.aerofreinOn = False
-        #self.basicGunEvolution1On = False
-        #self.basicGunEvolution2On = False
-        #self.advancedGunOn = False
-        #self.advancedGunEvolution1On = False
-        #self.advancedGunEvolution2On = False
         #parametres generaux du jeu
         self.soundOn = True
         self.musicOn = True
         self.shopStateList=[0,0,-1,-1,0,-1,0]
+        self.prixMissile = 300
        
     def updateShopStateList(self,indice,newState):
         if indice in range(7):

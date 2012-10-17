@@ -77,6 +77,34 @@ class Article(pygame.sprite.Sprite):
         menuShop.addButton(Article("images/menu/menu_shop/item4_xtreme_weapon_lvl2", 70, 580, self.player, 3, 5000))
         menuShop.addButton(Article("images/menu/menu_shop/item5_booster", 70, 720, self.player, 4, 500))
         menuShop.addButton(Article("images/menu/menu_shop/item6_spoiler", 70, 860, self.player, 5, 750))
+        menuShop.addButton(ArticleMissile("images/menu/menu_shop/item7_missile", 70, 1000, self.player, 6, self.player.prixMissile))
         menuShop.afficher()
+
+class ArticleMissile(Article):
+    def setImg(self, imageFileName, x, y):
+        self.image1 = pygame.image.load(imageFileName+"_selected.jpg")
+        self.image2 = pygame.image.load(imageFileName+"_unselected.jpg")
         
+        police = pygame.font.Font(None, 40)
+        self.image1.blit(self.textOutline(police, str(self.player.prixMissile), (210, 210, 1), (38, 33, 4)), (400, 50)) 
+           
+        self.rect = self.image1.get_rect()
+        self.rect.left = x
+        self.rect.top = y   
+        
+    def action(self):
+        if self.player.money >= self.player.prixMissile:
+            self.player.money -= self.player.prixMissile
+            self.player.additionalMissiles += 1
+            self.player.prixMissile = self.player.prixMissile*2
+            self.player.save()
+        menuShop = Menu.menuShop("images/menu/menu_shop/background_menu_shop.jpg", self.player)
+        menuShop.addButton(Article("images/menu/menu_shop/item1_gold_skin", 70, 160, self.player, 0, 10000, True))
+        menuShop.addButton(Article("images/menu/menu_shop/item2_basic_weapon_lvl2", 70, 300, self.player, 1, 1000))
+        menuShop.addButton(Article("images/menu/menu_shop/item3_xtreme_weapon_lvl1", 70, 440, self.player, 2, 2000))
+        menuShop.addButton(Article("images/menu/menu_shop/item4_xtreme_weapon_lvl2", 70, 580, self.player, 3, 5000))
+        menuShop.addButton(Article("images/menu/menu_shop/item5_booster", 70, 720, self.player, 4, 500))
+        menuShop.addButton(Article("images/menu/menu_shop/item6_spoiler", 70, 860, self.player, 5, 750))
+        menuShop.addButton(ArticleMissile("images/menu/menu_shop/item7_missile", 70, 1000, self.player, 6, self.player.prixMissile))
+        menuShop.afficher()
               
