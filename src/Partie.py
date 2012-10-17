@@ -70,10 +70,11 @@ class Partie:
             self.snakes.add(Ennemi.Snake(width+80, positionChaine+80, 3))   
         
     def creerShooters(self, width, height):
-        self.shooters.add(Ennemi.Shooter(width, height/2-20))
+        
+        self.shooters.add(Ennemi.Shooter(width, height-random.randint(40, height)))
             
     def creerAleatoires(self, width, height):
-        self.aleatoires.add(Ennemi.Aleatoire(width, height/2))
+        self.aleatoires.add(Ennemi.Aleatoire(width, height-random.randint(40, height)))
         
     def creerBonus(self, ship, width, height):
         r = random.randint(1,2)
@@ -95,7 +96,7 @@ class Partie:
             self.obstacles.add(Obstacle.obstacleRecord(width, random.randint(10,height-200),"images/ingame/record/asteroid_crash_1.png"))
         else:
             y = random.randint(10, height)
-            if random.randint(0, level) > 2+int(level/2):
+            if random.randint(0, level) < level-int(level/4):
                 typeObstacle = random.randint(1,5)
                 self.obstacles.add(Obstacle.obstacle(width, y,"images/ingame/asteroids/asteroid"+str(typeObstacle)+".png"))
 
@@ -463,7 +464,7 @@ class Partie:
         while 1:
             ''' VITESSE D'AFFICHAGE '''    
             clock = pygame.time.Clock()
-            FRAMES_PER_SECOND = 30
+            FRAMES_PER_SECOND = 35
             deltat = clock.tick(FRAMES_PER_SECOND)
             '''APPUYER SUR ENTRER POUR COMMENCER'''
             while menuStartOn:
@@ -475,6 +476,8 @@ class Partie:
                         if event.key == pygame.K_RETURN:
                             menuStartOn=False
                         elif event.key == pygame.K_ESCAPE:
+                            self.music.stop()
+                            self.musicAfterRecord.stop()
                             ecranAccueil = Menu.Menu("images/menu/menu.jpg", self.player)
                             ecranAccueil.addButton(Bouton.BoutonStartGame("images/menu/menu_principal/titles/play.png",0, 270, self.player, True))
                             ecranAccueil.addButton(Bouton.BoutonOption("images/menu/menu_principal/titles/option.png",0, 340, self.player))
@@ -529,9 +532,9 @@ class Partie:
                         monVaisseau.inBreak=False
             ##### BACKGROUND #####
             screen.blit(background, (-i,0)) 
-            screen.blit(background, (3575-i,0))            
+            screen.blit(background, (13262-i,0))            
             i+=1
-            if i > 3576:
+            if i > 13262:
                 i=0
             ##### RECORD PRECEDENT #####
             if not isRecordBattu:
