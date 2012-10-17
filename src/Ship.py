@@ -78,11 +78,18 @@ class ship(pygame.sprite.Sprite):
     def update(self, current_time, height,screen):
         # Update every 10 milliseconds = 1/100th of a second.
         if self.next_update_time < current_time:
-            file0 = "images/vaisseaux/orange_ship/orange_ship_1.png"
-            file1 = "images/vaisseaux/orange_ship/orange_ship_2.png"
-            file2 = "images/vaisseaux/orange_ship/orange_ship_3.png"
-            file3 = "images/vaisseaux/orange_ship/orange_ship_4.png"
-            file4 = "images/vaisseaux/orange_ship/orange_ship_5.png"
+            if self.player.shopStateList[0]<1: 
+                file0 = "images/vaisseaux/orange_ship/orange_ship_1.png"
+                file1 = "images/vaisseaux/orange_ship/orange_ship_2.png"
+                file2 = "images/vaisseaux/orange_ship/orange_ship_3.png"
+                file3 = "images/vaisseaux/orange_ship/orange_ship_4.png"
+                file4 = "images/vaisseaux/orange_ship/orange_ship_5.png"
+            else:
+                file0 = "images/vaisseaux/orange_ship/orange_ship_1_gold.png"
+                file1 = "images/vaisseaux/orange_ship/orange_ship_2_gold.png"
+                file2 = "images/vaisseaux/orange_ship/orange_ship_3_gold.png"
+                file3 = "images/vaisseaux/orange_ship/orange_ship_4_gold.png"
+                file4 = file3
             accel=2.3
             #mouvement vertical
             if self.monte:
@@ -123,11 +130,13 @@ class ship(pygame.sprite.Sprite):
                     if self.inBreak:
                         if self.spoilerOn:
                             if self.rect.left-10 > 0:
-                                self.rect.left -= 15
+                                self.rect.left -= 12
+                        else:
+                            if self.rect.left-6 > 0:
+                                self.rect.left -= 6
                     else:
                         if self.rect.left-6 > 0:
-                            self.rect.left -= 6
-                
+                                self.rect.left -= 6
             #blockage du vaisseau dans la fenetre
             if self.rect.top < 0:
                 self.rect.top = 0
@@ -175,11 +184,9 @@ class ship(pygame.sprite.Sprite):
         #Basic Weapon Lvl 2
         if self.versionCanon==2:
             nbShoot = (self.charge/self.chaleurMissile)+1
-            if nbShoot%2 != 0:
-                nbShoot -= 1
-            for m in range(nbShoot):
+            for m in range(nbShoot*2):
                 if(self.chaleur+self.chaleurMissile/2<(self.chaleurMax)):
-                    if m < nbShoot:
+                    if m == 1:
                         monMissile=Shot.shotShip(self.versionCanon,self.rect.left+40, self.rect.top-(nbShoot*25)+(60*m)+40, self.isBonusAmmo)
                         missiles.add(monMissile)
                         sound = pygame.mixer.Sound("sounds/rocket.wav")
@@ -191,16 +198,28 @@ class ship(pygame.sprite.Sprite):
                         if(self.isBonusAmmo):
                             self.chaleur-=self.chaleurMissile/2
                     else:
-                        monMissile=Shot.shotShip(self.versionCanon,self.rect.left+70, self.rect.top-(nbShoot*25)+60*(m-nbShoot)+40, self.isBonusAmmo)
-                        missiles.add(monMissile)
-                        sound = pygame.mixer.Sound("sounds/rocket.wav")
-                        sound.play()                
-                        if(self.chaleur+self.chaleurMissile/2<self.chaleurMax):
-                            self.chaleur+=self.chaleurMissile/2
+                        if m < nbShoot:
+                            monMissile=Shot.shotShip(self.versionCanon,self.rect.left+40, self.rect.top-(nbShoot*25)+(60*m)+40, self.isBonusAmmo)
+                            missiles.add(monMissile)
+                            sound = pygame.mixer.Sound("sounds/rocket.wav")
+                            sound.play()                
+                            if(self.chaleur+self.chaleurMissile/2<self.chaleurMax):
+                                self.chaleur+=self.chaleurMissile/2
+                            else:
+                                self.chaleur=self.chaleurMax
+                            if(self.isBonusAmmo):
+                                self.chaleur-=self.chaleurMissile/2
                         else:
-                            self.chaleur=self.chaleurMax
-                        if(self.isBonusAmmo):
-                            self.chaleur-=self.chaleurMissile/2
+                            monMissile=Shot.shotShip(self.versionCanon,self.rect.left+70, self.rect.top-(nbShoot*25)+60*(m-nbShoot)+40, self.isBonusAmmo)
+                            missiles.add(monMissile)
+                            sound = pygame.mixer.Sound("sounds/rocket.wav")
+                            sound.play()                
+                            if(self.chaleur+self.chaleurMissile/2<self.chaleurMax):
+                                self.chaleur+=self.chaleurMissile/2
+                            else:
+                                self.chaleur=self.chaleurMax
+                            if(self.isBonusAmmo):
+                                self.chaleur-=self.chaleurMissile/2
 
         #Extrem Weapon Lvl 1
         if self.versionCanon==3:
@@ -219,12 +238,10 @@ class ship(pygame.sprite.Sprite):
                         self.chaleur-=self.chaleurMissile
         #Extrem Weapon Lvl 2
         if self.versionCanon==4:
-            nbShoot = (self.charge/self.chaleurMissile)+2
-            if nbShoot%2 != 0:
-                nbShoot -= 1
+            nbShoot = (self.charge/self.chaleurMissile)+1
             for m in range(nbShoot*2):
                 if(self.chaleur+self.chaleurMissile/2<(self.chaleurMax)):
-                    if m < nbShoot:
+                    if m == 1:
                         monMissile=Shot.shotShip(self.versionCanon,self.rect.left+40, self.rect.top-(nbShoot*25)+(60*m)+40, self.isBonusAmmo)
                         missiles.add(monMissile)
                         sound = pygame.mixer.Sound("sounds/laser.wav")
@@ -236,16 +253,28 @@ class ship(pygame.sprite.Sprite):
                         if(self.isBonusAmmo):
                             self.chaleur-=self.chaleurMissile/2
                     else:
-                        monMissile=Shot.shotShip(self.versionCanon,self.rect.left+70, self.rect.top-(nbShoot*25)+60*(m-nbShoot)+40, self.isBonusAmmo)
-                        missiles.add(monMissile)
-                        sound = pygame.mixer.Sound("sounds/laser.wav")
-                        sound.play()                
-                        if(self.chaleur+self.chaleurMissile/2<self.chaleurMax):
-                            self.chaleur+=self.chaleurMissile/2
+                        if m < nbShoot:
+                            monMissile=Shot.shotShip(self.versionCanon,self.rect.left+40, self.rect.top-(nbShoot*25)+(60*m)+40, self.isBonusAmmo)
+                            missiles.add(monMissile)
+                            sound = pygame.mixer.Sound("sounds/laser.wav")
+                            sound.play()                
+                            if(self.chaleur+self.chaleurMissile/2<self.chaleurMax):
+                                self.chaleur+=self.chaleurMissile/2
+                            else:
+                                self.chaleur=self.chaleurMax
+                            if(self.isBonusAmmo):
+                                self.chaleur-=self.chaleurMissile/2
                         else:
-                            self.chaleur=self.chaleurMax
-                        if(self.isBonusAmmo):
-                            self.chaleur-=self.chaleurMissile/2
+                            monMissile=Shot.shotShip(self.versionCanon,self.rect.left+70, self.rect.top-(nbShoot*25)+60*(m-nbShoot)+40, self.isBonusAmmo)
+                            missiles.add(monMissile)
+                            sound = pygame.mixer.Sound("sounds/laser.wav")
+                            sound.play()                
+                            if(self.chaleur+self.chaleurMissile/2<self.chaleurMax):
+                                self.chaleur+=self.chaleurMissile/2
+                            else:
+                                self.chaleur=self.chaleurMax
+                            if(self.isBonusAmmo):
+                                self.chaleur-=self.chaleurMissile/2
 
         self.charge=0
 
